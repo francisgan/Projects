@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          *{padding:0;margin:0;font-size: 0;}
+          body{background:black;} 
+
+          footer {
+              width: 100% ;
+              height: 55.5px;
+              position:fixed;
+              bottom:0px;
+              z-index: 999;
+              background: none;
+              border-top:rgb(0, 0, 0) 0.5px solid;
+              background-color: white;
+              
+          }
+
+          #mainpage, #msg, #personal{
+            float: left;
+            width: 56px;
+            height: 55.5px;
+            margin-left: calc( 25vw - 45px );
+            border:none;
+          }
+
+          footer img{
+              height: 30px;
+              width: 30px;
+              margin-top: 5px;
+              margin-left: 13px;
+          }
+
+          footer .letter{
+            font-size: 10px;
+            line-height: 10px;
+            margin-top: 5px;
+            color: grey;
+            text-align: center;
+          }
+
+         
+
+      </style>
+
+
+  </head>
+
+  <body>
+      <header id="header"></header>
+
+      <footer id="footer">
+
+        <div id="mainpage" tapmode onclick="fnopenmainframe();"> <img src="../image/mainpage.png" class="icon"/> <div class="letter">首页</div></div>
+        <div id="msg" tapmode onclick="fnopenmsgframe();">  <img src="../image/msg.jpg" class="icon" /> <div class="letter">消息</div></div>
+        <div id="personal" tapmode onclick="fnopenpersonal();"> <img src="../image/personal.png" class="icon"/> <div class="letter">我的</div></div>
+
+    </footer>
+    
+        
+
+  </body>
+
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        var header = $api.byId("header");
+      var headerH = $api.offset(header).h;
+      var rong = $api.getStorage('rong');
+      var myid;
+      var myusername;
+      var myiconurl;
+          
+        var footer = $api.byId('footer');
+        footer.style.height = 56 + api.safeArea.bottom + 'px';
+        api.openFrame({
+          name: 'main_frame',
+          url:'../html/main_frame.html',
+          bgColor: 'rgb(237, 239, 248)',
+          rect: {
+          x: 0,
+          y: 0,
+          w: 'auto',
+          h: api.winHeight - 56 - api.safeArea.bottom ,
+          },
+        })
+
+
+        //判断是否登入, 如否则弹出登入窗口
+if(loginstatus()==false){
+  api.openWin({
+    name: 'login_window',
+    url: '../html/login_window.html',
+    bounces: false
+  });
+}else{
+  api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/getmyinfo',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    useridentifyid: api.getPrefs({sync:true,key:'useridentifyid'})
+                },
+            }
+        }, function(ret, err){
+          if(ret){
+            myid = ret.data.userid;
+            myusername = ret.data.username;
+            myiconurl = ret.data.usericon;
+          }
+            
+        }); //end of ajax
+
+        var random = randomString(6)
+          var timestamp = rongTimeStamp();
+          var signature = 'jdjIqchj6RTm' + random + timestamp;
+          signature = sha1(signature);
+          var rongtext = 'userId='+myid+'&name='+myusername+'&portraitUri='+myiconurl;
+  api.ajax({
+            url:'https://api-cn.ronghub.com/user/getToken.json',
+            method: 'post',
+            headers: {
+                'App-Key': '25wehl3u21o4w',
+                'Nonce': random,
+                'Timestamp': timestamp,
+                'Signature': signature,
+                 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data:{
+                body:rongtext,
+            }
+                
+
+        }, function(ret, err){
+            api.setGlobalData({
+              key: 'rongtoken',
+              value: ret.token
+            })
+            
+            
+        }) //end of ajax
+        var rong = api.require('UIRongCloud');
+        rong.connect({
+    token:"ZV5l+sS3WyYPrzm4rSvYwkIYp64kw9yVYCsyR+awDZE=@0mq3.cn.rongnav.com;0mq3.cn.rongcfg.com" //api.getGlobalData({key:'rongtoken'})
+  },function(ret, err) {
+    if (ret.status == 'success'){
+     alert(ret.result.userId);
+    }
+});
+
+}
+
+
+    }; //end of apiready
+
+    function fnopenmainframe() {
+
+api.bringFrameToFront({
+from: 'main_frame',
+});
+
+api.openFrameGroup({
+      name: 'mainframegroup',
+      scrollEnabled: true,
+      rect:{
+
+          x:0,
+          y:0,
+          w:'auto',
+          h:api.winHeight - 56 - api.safeArea.bottom,
+      },
+      index:0,
+      frames:[
+              {
+                name: 'mainframe1',
+                url: '../html/main_frame1.html',
+             },
+             {
+                name: 'mainframe2',
+                url: '../html/main_frame2.html',
+             }
+          ],
+      preload: 1
+  }, function(ret, err){
+      
+  })
+
+  api.bringFrameToFront({
+          from:'footer_frame'
+      })
+}
+
+
+      function fnopenpersonal() {
+        if(loginstatus()==false){
+          api.openWin({
+            name: 'login_window',
+            url: '../html/login_window.html',
+            bounces: false
+          });
+        }else{
+
+api.openFrame({
+            name: 'personal_window',
+            url: '../html/personal_window.html',
+            rect: {
+            x: 0,
+            y: 0,
+            w: 'auto',
+            h: api.winHeight - api.safeArea.bottom -56,
+            }, 
+        })  
+        api.bringFrameToFront({
+from: 'personal_frame',
+});
+        api.bringFrameToFront({
+          from:'footer_frame'
+      })
+    }//else end
+}
+
+
+
+function fnopenmsgframe() {
+  if(loginstatus()==false){
+    api.openWin({
+      name: 'login_window',
+      url: '../html/login_window.html',
+      bounces: false
+    });
+  }else{
+  
+
+  
+
+api.openFrame({
+    name: 'msg_frame',
+    url: '../html/msg.html',
+    bounces: false,
+    rect: {
+    x: 0,
+    y: 0,
+    w: 'auto',
+    h: api.winHeight - api.safeArea.bottom -56,
+    }, 
+    bgColor:'#FCFCFC',
+})  
+api.bringFrameToFront({
+          from:'footer_frame'
+      })
+    }
+
+    var rong = api.require('UIRongCloud');
+    rong.openConversationList({
+      avatarSize:{
+      width:46,
+      height:46
+    },
+    avatarStyle: 'cycle',
+    isEnteredToCollectionWindow:true,
+    showConnectingStatus:true,
+    title:'会话列表'
+});
+    }//else end
+
+    
+    
+
+   
+        
+   
+      
+  </script>
+  
+  </html>

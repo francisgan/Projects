@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          *{padding:0;margin:0;font-size:0;}
+          body{background: #f1f7f7;padding-bottom: 80vw;}
+
+          header{
+              position: absolute;
+              z-index: 0;
+              width: 100%;
+              height: calc(20vw + 80px );
+              background-color: #AAE1DC;
+          }
+
+          #screen{
+              width: 100%;
+              height: 10%;
+              z-index: -999;
+              position: fixed;
+              background-color: #AAE1DC;
+
+          }
+
+          #curve{
+		    width: 100vw;
+		    height: 100px;
+		    position: absolute;
+            top: calc(20vw + 80px );
+            left: 0;
+		    z-index: 0;
+		    overflow: hidden;
+	      }
+
+	      #curve::after {
+		    content: '';
+		    width: 100vw;
+		    height: 20vw;
+		    position: absolute;
+		    top: 0;
+            left: 0;
+		    z-index: 0;
+		    border-radius: 0 0 60% 60%;
+		    background-color: #AAE1DC;
+	      }
+          #totalearn{
+            position: relative;
+            z-index: 9999;
+          }
+
+          #totalearn #totalearntitle{
+              font-size: 12px;
+              line-height: 30px;
+              color: #3636368f;
+              text-align: center;
+          }
+
+          #totalearn #totalearnamount{
+              font-size: 32px;
+              line-height: 60px;
+              font-weight: bold;
+              color: rgb(255, 255, 255);
+              text-align: center;
+          }
+
+          #data{
+              position: relative;
+              z-index: 9999;
+              margin-left: 5vw;
+              width: 90vw;
+              height: 60px;
+          }
+
+          .datadiv{
+              display: inline-block;
+            width: 30vw;
+            height: 60px;
+          }
+
+          .datatitle{
+              position: relative;
+              height: 28px;
+              font-size: 12px;
+              line-height: 28px;
+              color: #3636368f;
+              text-align: center;
+          }
+
+          .dataquestion{
+              position: absolute;
+              top:3.5px;
+              right:calc(15vw - 45px);
+              width: 20px;
+              height: 20px;
+          }
+
+          .dataamount{
+              height: 32px;
+              font-size: 20px;
+              font-weight: bold;
+              line-height: 32px;
+              color: white;
+              text-align: center;
+          }
+
+          #opt{
+            position: relative;
+            z-index: 9999;
+            display: inline-block;
+            width: 92vw;
+            height: auto;
+            border:none;
+            margin: 8px 4vw;
+            border-radius: 10px;
+            background: white;
+            overflow: hidden;
+            padding-bottom: 20px;
+        }
+
+        .optbtn{
+            z-index: 99;
+          display:inline-block;
+          height: auto;
+          width: 23vw;
+          margin-top:10px;
+          padding:none;
+          border:none;
+          overflow: hidden;
+          text-align: center;
+      }
+
+      .optbtn img{
+          width:8vw;
+          height:8vw;
+          padding:none;
+          border:none;
+          margin-top:15px;
+      }
+
+      #onlinebtn{
+          display: inline-block;
+          width:8vw;
+          height:8vw;
+          padding:none;
+          border:none;
+          margin-top:15px;
+      }
+
+      .optbtn p{
+          font-size: 12px;
+          line-height: 12px;
+          margin-top: 8px;
+      }
+
+      .order{
+          display: inline-block;
+          width: 86vw;
+          height: auto;
+          background-color: white;
+          border-radius: 10px;
+          margin: 10px 7vw;
+          padding: 5px 0;
+      }
+
+      .ordertitle{
+          position: relative;
+          width: 100%;
+          height: 36px;
+          border-bottom: #f1f7f7 solid 1px;
+      }
+
+      .ordername{
+          float: left;
+          font-size: 18px;
+          color: #3a3a3a;
+          font-weight: bold;
+          line-height: 36px;
+          margin-left: 10px;
+      }
+
+      .ordertime{
+          float: right;
+          font-size: 12px;
+          color: #c4c4c4;
+          line-height: 36px;
+          margin-right: 10px;
+      }
+
+      .order_info{
+         float: left;
+          width: calc( 86vw - 80px);
+          height: auto;
+      }
+
+      .order_info_title{
+          float: left;
+          font-size: 16px;
+          color: #c4c4c4;
+          line-height: 24px;
+          margin-left: 10px;
+      }
+
+      .order_info_title{
+          float: left;
+          font-size: 16px;
+          color: #8a8a8a;
+          line-height: 30px;
+          margin-left: 10px;
+      }
+
+      .order_info_content{
+          float: left;
+          font-size: 16px;
+          color: #1f1f1f;
+          line-height: 30px;
+      }
+
+      .order_btn{
+        float: left;
+          width: 80px;
+          height: 100%;
+      }
+
+      .agree{
+          width: 50px;
+          height: 50px;
+          border-radius: 25px;
+          color: white;
+          font-size: 16px;
+          line-height: 50px;
+          background-color: rgb(148, 230, 25);
+          margin: 10px 15px;
+          text-align: center;
+      }
+
+      .done{
+          width: 50px;
+          height: 50px;
+          border-radius: 25px;
+          color: white;
+          font-size: 16px;
+          line-height: 50px;
+          background-color: rgb(65, 165, 247);
+          margin: 10px 15px;
+          text-align: center;
+      }
+
+      .earn{
+          width: 50px;
+          height: 50px;
+          border-radius: 25px;
+          color: white;
+          font-size: 12px;
+          line-height: 50px;
+          background-color: #ffdb0f;
+          margin: 10px 15px;
+          text-align: center;
+      }
+
+      .deny{
+        width: 39px;
+          height: 39px;
+          border-radius: 20px;
+          color: rgb(241, 90, 90);
+          font-size: 12px;
+          line-height: 39px;
+          margin: 10px 20px;
+          text-align: center;
+          border:rgb(241, 90, 90) solid 0.5px;
+      }
+#dewd{
+    color:rgba(122, 122, 122, 0.288)
+}
+
+          
+
+      </style>
+  </head>
+  <body>
+      <header id="header"></header>
+      <div id="curve"></div>
+      <div id="screen0"></div>
+      <div id="screen"></div>
+
+      <div id="totalearn">
+        <div id="totalearntitle">总收入(币)</div>
+        <div id="totalearnamount">null</div>
+      </div>
+
+      <div id="data">
+        <div class="datadiv">
+            <div class="datatitle">陪玩等级<img src="../image/questionmark.png" class="dataquestion"/></div>
+            <div class="dataamount" id="mylevel">null</div>
+        </div>
+        <div class="datadiv">
+            <div class="datatitle">可提现金额</div>
+            <div class="dataamount" id="mywithdrawamount">null</div>
+        </div>
+        <div class="datadiv">
+            <div class="datatitle">冻结金额<img src="../image/questionmark.png" class="dataquestion"/></div>
+            <div class="dataamount" id="myblockedamount">null</div>
+        </div>
+      </div>
+      
+      <div id="opt">
+          <div class="optbtn" tapmode onclick="fnopenwithdraw()"><img src="../image/withdraw.png"/><p>提现</p></div>
+          <div class="optbtn" tapmode onclick="fnopenchangeprice()"><img src="../image/changeprice.png"/><p>修改价格</p></div>
+          <div class="optbtn" tapmode onclick="fnopenaddgame()"><img src="../image/addgame.png"/><p>增添资质</p></div>
+          <div class="optbtn" tapmode onclick="fnopenchangepwinfo()"><img src="../image/changeinfo.jpg"/><p>修改介绍</p></div>
+          <div class="optbtn" tapmode onclick="fnopenpworder()" ><img src="../image/orderhistory.png"/><p>接单记录</p></div>
+          <div class="optbtn" tapmode onclick="fnopennotice()"><img src="../image/notice.png"/><p>须知</p></div>
+      </div>
+
+      
+  <div id="orderwrap">
+      
+  </div>
+      
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript"> 
+    var myuuid;
+    var rate;
+    apiready = function(){
+        
+        myuuid = api.getPrefs({sync:true,key:'uuid'});
+
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#AAE1DC',
+            dropColor:'rgba(122, 122, 122, 0.288)',
+        }, function() {
+            getmyproinfo();
+            setonline();
+        });
+
+        api.addEventListener({
+            name:'refreshproarea'
+        }, function(ret){
+            getmyproinfo();
+            setonline();
+        })
+
+        getmyproinfo();
+        setonline();
+
+      }; //end of apiready
+
+      function fnopenwithdraw(){
+          api.openWin({
+              name: 'withdraw_window',
+              url: '../html/withdraw_window.html',
+          })
+      }
+
+      function fnopenchangeprice(){
+          api.openWin({
+              name: 'changeprice_window',
+              url: '../html/changeprice_window.html',
+          })
+      }
+
+      function fnopenaddgame(){
+          api.openWin({
+              name: 'addapply_window',
+              url: '../html/addapply_window.html',
+          })
+      }
+
+      function fnopenchangepwinfo(){
+          api.openWin({
+              name: 'changepwinfo_window',
+              url: '../html/changepwinfo_window.html',
+          })
+      }
+
+      function fnopenpworder(){
+          api.openWin({
+              name: 'pworder_window',
+              url: '../html/pworder_window.html',
+          })
+        
+      }
+
+      function fnopennotice(){
+          api.openWin({
+              name: 'pwnotice_window',
+              url: '../html/pwnotice_window.html',
+          })
+
+      }
+
+      function getmyproinfo(){
+        api.ajax({
+                url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/getmyproinfo',
+                method: 'post',
+                headers: {
+                    'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+                },
+                data:{
+                    values:{
+                        uuid: myuuid,
+                    },
+                }
+            }, function(ret, err){
+                if(ret.code==0){
+                    api.refreshHeaderLoadDone();
+                    rate = ret.data.rate;
+                    $api.byId('totalearnamount').innerHTML = ret.data.total;
+                    $api.byId('mylevel').innerHTML = ret.data.level;
+                    $api.byId('mywithdrawamount').innerHTML = ret.data.balence;
+                    $api.byId('myblockedamount').innerHTML = ret.data.blocked;
+                    getorderlist();
+                }
+                else if(err){
+                    api.refreshHeaderLoadDone();
+                    if(err.code==404){
+                        alert('服务器维护中');
+                    }else if(err.code==0){
+                        alert('请检查网络设置');
+                    }
+                }
+            })
+      }
+
+      function acceptorder(orderid,uuid){
+        api.confirm({
+            msg: '您确定要接受订单吗',
+            buttons: ['确定', '取消']
+          }, function(ret, err) {
+            if(ret.buttonIndex==1){
+                startloading();
+                api.ajax({
+                url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/acceptorder',
+                method: 'post',
+                headers: {
+                    'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+                },
+                data:{
+                    values:{
+                        orderid: orderid,
+                        uuid: uuid,
+                    },
+                }
+            }, function(ret, err){
+                if(ret.code==0){
+                    endloading();
+                    getorderlist();
+                    alert('接单成功！');
+                }
+                else if(err){
+                    endloading();
+                    if(err.code==404){
+                        alert('服务器维护中');
+                    }else if(err.code==0){
+                        alert('请检查网络设置');
+                    }
+                }
+                endloading();
+            })
+            }
+            });//end api.confirm
+      };
+
+      function orderdone(orderid,uuid){
+        api.confirm({
+            msg: '您确定要完成订单吗',
+            buttons: ['确定', '取消']
+          }, function(ret, err) {
+            if(ret.buttonIndex==1){
+                startloading();
+                api.ajax({
+                url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/finishorder',
+                method: 'post',
+                headers: {
+                    'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+                },
+                data:{
+                    values:{
+                        orderid: orderid,
+                        uuid: uuid,
+                    },
+                }
+            }, function(ret, err){
+                if(ret.code==0){
+                    endloading();
+                    getorderlist();
+                }
+                else if(err){
+                    endloading();
+                    if(err.code==404){
+                        alert('服务器维护中');
+                    }else if(err.code==0){
+                        alert('请检查网络设置');
+                    }
+                }
+                endloading();
+            })
+            }
+            });//end api.confirm
+      };
+
+      function cancel(orderid,uuid){
+          api.confirm({
+            msg: '您确定要取消订单吗',
+            buttons: ['确定', '取消']
+          }, function(ret, err) {
+            if(ret.buttonIndex==1){
+                startloading();
+                api.ajax({
+                url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/cancelorder',
+                method: 'post',
+                headers: {
+                    'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+                },
+                data:{
+                    values:{
+                        orderid: orderid,
+                        uuid: uuid,
+                    },
+                }
+            }, function(ret, err){
+                if(ret.code==0){
+                    endloading();
+                    getorderlist();
+                }
+                else if(err){
+                    endloading();
+                    if(err.code==404){
+                        alert('服务器维护中');
+                    }else if(err.code==0){
+                        alert('请检查网络设置');
+                    }
+                }
+                endloading();
+            })
+            }
+            });//end api.confirm
+          
+      }
+
+      function getorderlist(){
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/getmyproorder',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                },
+            }
+        }, function(ret, err){
+            if(ret){
+                api.refreshHeaderLoadDone();
+                if(ret.code==0){
+                    var list = ret.orderlist;
+                    $api.byId('orderwrap').innerHTML = '';
+                    for(var i=0;i<=list.length-1;i++){
+                        if(list[i].status!=4){
+                            addorder(list[i]);
+                        }
+                    }
+                }
+                else{
+                    alert('发生未知错误');
+                }
+            }
+            else if(err){
+                api.refreshHeaderLoadDone();
+                if(err.code==404){
+                    alert('服务器维护中');
+                }else if(err.code==0){
+                    alert('请检查网络设置');
+                }
+            } 
+        })
+      };
+
+      function addorder(order){
+        var time = new Date(order.time);
+        var content = "";
+        content += '<div class="order">';
+        content += '<div class="ordertitle">';
+        content += '<div class="ordername">'+order.buyername+'</div>';
+        content += '<div class="ordertime">'+dateFormat(time, "yyyy-MM-dd HH:mm:ss")+'</div>';
+        content += '</div>';
+        content += '<div class="order_info">';
+        content += '<div class="order_info_title">技&nbsp &nbsp &nbsp &nbsp能：</div>';
+        content += '<div class="order_info_content">'+getgamename(order.gamecode)+'</div><div class="clear"></div><br/>';
+        content += '<div class="order_info_title">数&nbsp &nbsp &nbsp &nbsp量：</div>';
+        content += '<div class="order_info_content">'+order.quantity+'</div><div class="clear"></div><br/>'
+        content += '<div class="order_info_title">预计收入：</div>';
+        content += '<div class="order_info_content">'+order.afterrate +'</div><div class="clear"></div><br/>';
+        content += '<div class="order_info_title">订单状态：</div>';
+        content += orderstatus(order.status);
+        content += '</div>';
+        content += orderbtn(order.status,order.id);
+        content += '</div>';
+        $api.byId('orderwrap').innerHTML += content;
+
+    }//end
+
+    function orderbtn(statuscode,orderid){
+        if(statuscode==0){
+            var content = '<div class="order_btn">';
+            content += '<div class="agree" tapmode onclick="acceptorder(';
+            content += "'" +orderid+ "','" +myuuid+ "'";
+            content += ')">接单</div>';
+            content += '<div class="deny" tapmode onclick="cancel(';
+            content += "'" +orderid+ "','" +myuuid+ "'";
+            content += ')">取消</div>';
+            content += '</div>';
+            return content
+        }else if(statuscode==2){
+            var content = '<div class="order_btn">';
+            content += '<div class="done" tapmode onclick="orderdone(';
+            content += "'" +orderid+ "','" +myuuid+ "'";
+            content += ')">完成</div>';
+            content += '<div class="deny" tapmode onclick="cancel(';
+            content += "'" +orderid+ "','" +myuuid+ "'";
+            content += ')">取消</div>';
+            content += '</div>';
+            return content
+        }
+    }
+
+    function orderstatus(statuscode){
+        if(statuscode==0){
+            var content = '<div class="order_info_content">待接单</div><div class="clear"></div><br/>';
+            return content
+        }else if(statuscode==1){
+            var content = '<div class="order_info_content">已取消</div><div class="clear"></div><br/>';
+            return content
+        }else if(statuscode==2){
+            var content = '<div class="order_info_content">进行中</div><div class="clear"></div><br/>';
+            return content
+        }else if(statuscode==3){
+            var content = '<div class="order_info_content" style="font-size:12px !important">完成中(24小时后计入提现金额)</div><div class="clear"></div><br/>';
+            return content
+        }else if(statuscode==4){
+        }else if(statuscode==5){
+            var content = '<div class="order_info_content">对方发起退款</div><div class="clear"></div><br/>';
+            return content
+        }
+        else if(statuscode==6){
+            var content = '<div class="order_info_content">已退款</div><div class="clear"></div><br/>';
+            return content
+        }
+    }
+
+    function setonline(){
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/online',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                },
+            }
+        })
+      }
+
+      function dateFormat(date, format) {
+  const _date = date || new Date();
+  const _format = format || "yyyy-MM-dd HH:mm:ss";
+
+  const yyyy = _date.getFullYear();
+  let MM = _date.getMonth() + 1;
+  let dd = _date.getDate();
+  let HH = _date.getHours();
+  let mm = _date.getMinutes();
+  let ss = _date.getSeconds();
+
+  if (MM >= 1 && MM <= 9) {
+    MM = "0" + MM;
+  }
+  if (dd >= 0 && dd <= 9) {
+    dd = "0" + dd;
+  }
+  if (HH >= 1 && HH <= 9) {
+    HH = "0" + HH;
+  }
+  if (mm >= 0 && mm <= 9) {
+    mm = "0" + mm;
+  }
+  if (ss >= 0 && ss <= 9) {
+    ss = "0" + ss;
+  }
+
+  return _format
+    .replace(/yyyy/g, yyyy)
+    .replace(/MM/g, MM)
+    .replace(/dd/g, dd)
+    .replace(/HH/g, HH)
+    .replace(/mm/g, mm)
+    .replace(/ss/g, ss);
+}
+
+var loadingid;
+  function startloading(){
+  var UILoading = api.require('UILoading');
+    UILoading.flower({
+    center: {
+        x: api.winWidth/2.0,
+        y: api.winHeight/2.0
+    },
+    size: 40,
+    fixed: true
+}, function(ret) {
+      loadingid = ret.id;
+});
+}
+
+function endloading(){
+var uiloading = api.require('UILoading');
+uiloading.closeFlower({
+    id: loadingid,
+    isGradual:false
+});
+}
+
+      
+
+
+      
+
+
+      
+  </script>
+  </html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          *{padding:0;margin:0;font-size: 0;}
+          body{
+              background-color: #f1f7f7;
+              }
+
+          #bg{
+            background-color: #f1f7f7;
+            height: 100% ;
+            width: 100%;
+            position: absolute;
+            z-index: -999;
+            
+            }
+
+          #options{
+            display: inline-block;
+            width: 92vw;
+            height: 200px;
+            border:none;
+            margin: 20px 4vw 14px 4vw;
+            /*box-shadow: 0 0 10px 10px #F0F0F0;*/
+            border-radius: 15px;
+            background: white;
+            overflow: hidden;
+        }
+
+        
+        
+
+      .gameopt{
+          
+          
+          display:inline-block;
+          height: 100px;
+          width: 25%;
+          padding:none;
+          margin:0;
+          border:none;
+          overflow: hidden;
+          text-align: center;
+
+      }
+
+      .gameopt img{
+          width:50px;
+          height:50px;
+          padding:none;
+          border:none;
+          margin-top:25px;
+      }
+
+      .infodisplay{
+              display: inline-block;
+              padding:0;
+              margin:6px 4vw;
+              width:92vw;
+              height:110px;
+              border:none;
+              border-radius: 8px 20px;
+              overflow: hidden;
+              background: white;
+              /*box-shadow:0 0 9px 3px #F0F0F0;*/
+
+              
+          }
+
+          .infoicon{
+            clip-path: polygon(0 0, 75% 0, 100% 100%,0% 100%); /* 图片梯形参数 */
+		    float: left;
+            overflow: hidden;
+            margin: 0;
+            padding:0;
+          }
+
+          .infoicon img{
+              width: 110px;
+              height: 120px;
+
+          }
+
+          .infoarea{
+              display: inline-block;
+              height: 110px;
+              width: calc( 92vw - 110px );
+          }
+
+          .username{
+              float: left;
+              margin-top: 8px;
+              margin-left: 2px;
+              font-size: 16px;
+              line-height: 16px;
+              color: black;
+          }
+
+          .age{
+              float: left;
+              height: 14px;
+              margin-left: 5px;
+              margin-top: 9px;
+              border-radius: 7px;
+              background-color: #5dc5ed;
+          }
+
+          .age p{
+            float: left;
+              margin-left: 3px;
+              margin-right: 5px;
+              font-size: 12px;
+              line-height: 14px;
+              color: white;
+              
+
+          }
+
+          .ageimg{
+              float: left;
+              width: 6px;
+              height: 10.5px;
+              margin-top: 1.75px;
+              margin-left: 5px;
+          }
+
+          .statusicon, .status{
+              float: right;
+          }
+
+          .statusicon{
+              height: 8px;
+              width: 8px;
+              margin-top: 12px;
+              margin-right: 5px;
+              border-radius: 4px;
+          }
+
+          .status{
+              font-size: 12px;
+              color: grey;
+              line-height: 12px;
+              margin-top: 10px;
+              margin-right: 8px;
+          }
+
+          .game{
+              float: left;
+              height: 16px;
+              margin-top: 12px;
+              margin-left: 2px;
+              background-image: linear-gradient(90deg, #ffab2c, #ff9d2c0a);
+              padding: 0 25px 0 5px;
+              border-radius: 4px 0 0 4px;
+              font-size: 12px;
+              line-height: 16PX;
+              color: rgb(65, 65, 65);
+          }
+
+          .description{
+              float: left;
+              padding-left: 5px;
+              margin: 8px 20px 0 2px;
+              background-color: #f0fffe;
+              color: rgb(65, 65, 65);
+              font-size: 12px;
+              line-height: 16px;
+              width: calc(92vw - 150px);
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow:ellipsis;
+          }
+
+          .price{
+              float: left;
+              margin-right: 2px;
+              margin-left:7px;
+              margin-top: 8px;
+              font-size: 20px;
+              line-height: 20px;
+              font-weight: bold;
+              color: rgb(255, 101, 62);
+          }
+
+          .unit{
+            float: left;
+            margin-top: 10px;
+            margin-left:2px;
+            font-size: 12px;
+            line-height: 20px;
+            font-weight: bold;
+            color: grey;
+          }
+
+          
+
+          
+
+      </style>
+  </head>
+  <body>
+    <div id="bg"></div>
+    <div id="options" >
+        <div class="gameopt" ><img src="../image/lol.png" tapmode/></div>
+        <div class="gameopt" ><img src="../image/apex.png"/></div>
+        <div class="gameopt" ><img src="../image/csgo.jpg"/></div>
+        <div class="gameopt" ><img src="../image/dota.jpg"/></div><br/>
+        <div class="gameopt" ><img src="../image/pubg.png"/></div>
+        <div class="gameopt" ><img src="../image/tft.png"/></div>
+        <div class="gameopt" ><img src="../image/wzry.jpg"/></div>
+        <div class="gameopt" ><img src="../image/more.jpg" tapmode onclick="moreoption()"/></div>
+
+    </div>
+
+    
+
+    <div class="infodisplay" tapmode="highlight" onclick="openpwpage()">
+        <div class="infoicon"><img src="../image/1.jpg" /></div>
+        
+        <div class="infoarea" >
+            <div class="username">海绵宝宝</div>
+            <div class="age">
+                <img src="../image/male.png" class="ageimg"/>
+                <p>20</p>
+            </div>
+
+            <div class="status">在线</div>
+            <div class="statusicon" style="background-color: rgb(186, 255, 82);"></div><br>
+            
+            <div class="clear"></div>
+
+            <div class="game">英雄联盟: &nbsp 超凡大师</div><br>
+            
+            <div class="clear"></div>
+            <div class="description">等夕阳掉进了海里 我就背上你 去寻摸一池的星星 等夕阳掉进了海里 我就背上你 去寻摸一池的星星</div><br>
+            <div class="price">20</div>
+            <div class="unit">币/局</div>
+        </div>
+    </div>
+
+    <div class="infodisplay" tapmode="highlight" onclick="openpwpage()">
+        <div class="infoicon"><img src="../image/1.jpg" /></div>
+        
+        <div class="infoarea" >
+            <div class="username">海绵宝宝</div>
+            <div class="age">
+                <img src="../image/male.png" class="ageimg"/>
+                <p>20</p>
+            </div>
+
+            <div class="status">在线</div>
+            <div class="statusicon" style="background-color: rgb(186, 255, 82);"></div><br>
+            
+            <div class="clear"></div>
+
+            <div class="game">英雄联盟: &nbsp 超凡大师</div><br>
+            
+            <div class="clear"></div>
+            <div class="description">等夕阳掉进了海里 我就背上你 去寻摸一池的星星 等夕阳掉进了海里 我就背上你 去寻摸一池的星星</div><br>
+            <div class="price">20</div>
+            <div class="unit">币/局</div>
+        </div>
+    </div>
+
+    <div class="infodisplay" tapmode="highlight" onclick="openpwpage()">
+        <div class="infoicon"><img src="../image/1.jpg" /></div>
+        
+        <div class="infoarea" >
+            <div class="username">海绵宝宝</div>
+            <div class="age">
+                <img src="../image/male.png" class="ageimg"/>
+                <p>20</p>
+            </div>
+
+            <div class="status">在线</div>
+            <div class="statusicon" style="background-color: rgb(186, 255, 82);"></div><br>
+            
+            <div class="clear"></div>
+
+            <div class="game">英雄联盟: &nbsp 超凡大师</div><br>
+            
+            <div class="clear"></div>
+            <div class="description">等夕阳掉进了海里 我就背上你 去寻摸一池的星星 等夕阳掉进了海里 我就背上你 去寻摸一池的星星</div><br>
+            <div class="price">20</div>
+            <div class="unit">币/局</div>
+        </div>
+    </div>
+
+    <div class="infodisplay" tapmode="highlight" onclick="openpwpage()">
+        <div class="infoicon"><img src="../image/1.jpg" /></div>
+        
+        <div class="infoarea" >
+            <div class="username">海绵宝宝</div>
+            <div class="age">
+                <img src="../image/male.png" class="ageimg"/>
+                <p>20</p>
+            </div>
+
+            <div class="status">在线</div>
+            <div class="statusicon" style="background-color: rgb(186, 255, 82);"></div><br>
+            
+            <div class="clear"></div>
+
+            <div class="game">英雄联盟: &nbsp 超凡大师</div><br>
+            
+            <div class="clear"></div>
+            <div class="description">等夕阳掉进了海里 我就背上你 去寻摸一池的星星 等夕阳掉进了海里 我就背上你 去寻摸一池的星星</div><br>
+            <div class="price">20</div>
+            <div class="unit">币/局</div>
+        </div>
+    </div>
+
+    <div class="infodisplay" tapmode="highlight" onclick="openpwpage()">
+        <div class="infoicon"><img src="../image/1.jpg" /></div>
+        
+        <div class="infoarea" >
+            <div class="username">海绵宝宝</div>
+            <div class="age">
+                <img src="../image/male.png" class="ageimg"/>
+                <p>20</p>
+            </div>
+
+            <div class="status">在线</div>
+            <div class="statusicon" style="background-color: rgb(186, 255, 82);"></div><br>
+            
+            <div class="clear"></div>
+
+            <div class="game">英雄联盟: &nbsp 超凡大师</div><br>
+            
+            <div class="clear"></div>
+            <div class="description">等夕阳掉进了海里 我就背上你 去寻摸一池的星星 等夕阳掉进了海里 我就背上你 去寻摸一池的星星</div><br>
+            <div class="price">20</div>
+            <div class="unit">币/局</div>
+        </div>
+    </div>
+
+    <div class="infodisplay" tapmode="highlight" onclick="openpwpage()">
+        <div class="infoicon"><img src="../image/1.jpg" /></div>
+        
+        <div class="infoarea" >
+            <div class="username">海绵宝宝</div>
+            <div class="age">
+                <img src="../image/male.png" class="ageimg"/>
+                <p>20</p>
+            </div>
+
+            <div class="status">在线</div>
+            <div class="statusicon" style="background-color: rgb(186, 255, 82);"></div><br>
+            
+            <div class="clear"></div>
+
+            <div class="game">英雄联盟: &nbsp 超凡大师</div><br>
+            
+            <div class="clear"></div>
+            <div class="description">等夕阳掉进了海里 我就背上你 去寻摸一池的星星 等夕阳掉进了海里 我就背上你 去寻摸一池的星星</div><br>
+            <div class="price">20</div>
+            <div class="unit">币/局</div>
+        </div>
+    </div>
+
+    <div class="infodisplay" tapmode="highlight" onclick="openpwpage()">
+        <div class="infoicon"><img src="../image/1.jpg" /></div>
+        
+        <div class="infoarea" >
+            <div class="username">海绵宝宝</div>
+            <div class="age">
+                <img src="../image/male.png" class="ageimg"/>
+                <p>20</p>
+            </div>
+
+            <div class="status">在线</div>
+            <div class="statusicon" style="background-color: rgb(186, 255, 82);"></div><br>
+            
+            <div class="clear"></div>
+
+            <div class="game">英雄联盟: &nbsp 超凡大师</div><br>
+            
+            <div class="clear"></div>
+            <div class="description">等夕阳掉进了海里 我就背上你 去寻摸一池的星星 等夕阳掉进了海里 我就背上你 去寻摸一池的星星</div><br>
+            <div class="price">20</div>
+            <div class="unit">币/局</div>
+        </div>
+    </div>
+
+    <div class="infodisplay" tapmode="highlight" onclick="openpwpage()">
+        <div class="infoicon"><img src="../image/1.jpg" /></div>
+        
+        <div class="infoarea" >
+            <div class="username">海绵宝宝</div>
+            <div class="age">
+                <img src="../image/male.png" class="ageimg"/>
+                <p>20</p>
+            </div>
+
+            <div class="status">在线</div>
+            <div class="statusicon" style="background-color: rgb(186, 255, 82);"></div><br>
+            
+            <div class="clear"></div>
+
+            <div class="game">英雄联盟: &nbsp 超凡大师</div><br>
+            
+            <div class="clear"></div>
+            <div class="description">等夕阳掉进了海里 我就背上你 去寻摸一池的星星 等夕阳掉进了海里 我就背上你 去寻摸一池的星星</div><br>
+            <div class="price">20</div>
+            <div class="unit">币/局</div>
+        </div>
+    </div>
+
+    
+
+    
+
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        api.addEventListener({
+            name:'scrolltobottom',
+            extra:{
+                threshold:0     
+            }
+        }, function(ret, err){        
+            alert('已滚动到底部');
+        });
+      };
+
+      function opentest(){
+          api.openWin({
+              name: 'opentest',
+              url: '../html/test.html',
+          })
+      }
+
+      function openpwpage(){
+          api.openWin({
+              name: 'pwpage',
+              url: '../html/pwpage_window.html',
+              bgColor:'rgb(237, 239, 248)',
+          })
+      }
+
+      function moreoption(){
+          api.openWin({
+              name: 'alloption',
+              url: '../html/alloption_window.html',
+          })
+      }
+
+      
+  </script>
+  </html>

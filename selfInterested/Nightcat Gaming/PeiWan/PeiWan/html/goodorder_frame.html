@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          body,html{background: #f1f7f7;
+          padding-bottom:20px ;
+          }
+
+        body .orderinfo{
+            display: inline-block;
+            height: auto ;
+            width: 96vw ;
+            margin: 10px 2vw;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow:0 0 9px #F0F0F0;
+            padding: 10px 0 10px 0;
+        }
+        .goodname,.amount,.time,.orderid,.status{
+            display: inline-block;
+            height: auto;
+            width: calc(96vw - 10px);
+            font-size: 14px;
+            color: #707070;
+            margin-left: 10px;
+            line-height: 18px;
+        }
+        .contact{
+            float: right;
+            border: 1px solid rgb(125, 203, 255);
+            background-color: rgb(125, 203, 255);
+            border-radius: 14px;
+            font-size: 16px;
+            color: #ffffff;
+            line-height: 28px;
+            margin-right: 10px;
+            padding: 0 8px 0 8px;
+        }
+
+        .redeem{
+            float: right;
+            border: 1px solid rgb(238, 202, 0);
+            background-color: rgb(238, 202, 0);
+            border-radius: 14px;
+            font-size: 16px;
+            color: #ffffff;
+            line-height: 28px;
+            margin-right: 10px;
+            padding: 0 8px 0 8px;
+        }
+
+
+      </style>
+  </head>
+  <body>
+<div id="orderwrap">
+
+</div><!--end of orderwrap-->   
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      var uuid;
+      apiready = function(){
+        uuid= api.getPrefs({sync:true,key:'uuid'});
+        getorderlist();
+        
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#f1f7f7',
+            dropColor:'#9BA2AC',
+        }, function() {
+            getorderlist()
+        });
+        
+        api.addEventListener({
+            name:'orderrefresh'
+        }, function(ret){
+            getorderlist()
+        })
+
+      };//apiready
+       
+
+      function fnclosewin(){
+          api.closeWin()
+      }
+
+      function getorderlist(){
+          startloading();
+        api.ajax({
+            url:'https://a6170876450137-pd.apicloud-saas.com/api/goodorders/getgoodorder',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                },
+            }
+        }, function(ret, err){
+            if(ret){
+                endloading();
+                api.refreshHeaderLoadDone();
+                var list = ret;
+                $api.byId('orderwrap').innerHTML = '';
+                for(var i=0;i<list.length;i++){
+                    addorder(list[i]);
+                }
+            }
+            else if(err){
+                endloading();
+                api.refreshHeaderLoadDone();
+                if(err  && err.code ==404){
+                    alert('服务器维护中');
+                }else if(err  && err.code ==0){
+                    alert('请检查网络设置');
+                }
+            }
+            
+            
+        })
+      };
+
+      function addorder(order){
+        var time = new Date(order.time);
+        var content = "";
+        content += '<div class="orderinfo">';
+        content += '<div class="goodname">商品：'+order.name+'</div>';
+        content += '<div class="amount">金额：'+order.amount+'元</div>';
+        content += '<div class="time">时间: '+dateFormat(time, "yyyy-MM-dd HH:mm:ss")+'</div>';
+        content += '<div class="orderid">订单号: '+order.id+'</div>';
+        if(order.status==0){
+            content += '<div class="status">状态: 未付款</div>';
+        }else if(order.status==1){
+            if(order.iscard){
+                content += '<div class="status">状态: 已付款</div>';
+                content += '<div class="contact" tapmode onclick="contact()">联系客服发货</div>';
+                content += '<div class="redeem" tapmode onclick="confirmredeem('+"'"+order.id+"'"+')">领取电子卡</div>';
+            }else{
+                content += '<div class="status">状态: 已付款</div>';
+                content += '<div class="contact" tapmode onclick="contact()">联系客服发货</div>';
+            }
+        }else if(order.status==2){
+            content += '<div class="status">状态: 已发货</div>';
+        }
+        content += '</div>';
+        $api.byId('orderwrap').innerHTML += content;
+
+    }//end
+
+function confirmredeem(orderid){
+    api.confirm({
+        title: ' 确认领取',
+        msg: '领取电子卡后将自动绑定至当前账号,如需绑定至其他账号,请联系客服',
+        buttons: ['确定', '取消']
+    }, function(ret, err) {
+        if(ret && ret.buttonIndex==1){
+            redeem(orderid);
+        };
+    });
+}
+
+function redeem(orderid){
+    startloading();
+    api.ajax({
+        url:'https://a6170876450137-pd.apicloud-saas.com/api/goodorders/redeem',
+        method: 'post',
+        headers: {
+            'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+        },
+        data:{
+            values:{
+                uuid: uuid,
+                orderid: orderid
+            },
+        }
+    }, function(ret, err){
+        if(ret){
+            endloading();
+            if(ret.code==0){
+                alert('领取成功');
+            }
+        }
+        else if(err){
+            endloading();
+            alert('领取失败,请重试或联系客服');
+        }
+    })
+}
+
+   function contact(){
+    var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: 280,                     
+                h: 300 
+            },
+            texts: {
+                title: '联系客服发货',
+                content: '        请添加客服微信进行发货，需提供订单号及用户ID(我的-ID)。\n\n客服微信号: YMcustomer',
+                okBtnTitle: '关闭'
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 10,
+                title:{
+                    bg: 'white',
+                    h: 44,
+                    size: 18,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'left',
+                    size: 15
+                },
+                ok: {
+                    h: 50,
+                    bg: 'rgb(81, 162, 255)',
+                    titleColor: '#fff',
+                    titleSize: 20,
+                }
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    dialogName: 'scene'
+                })
+            }
+        })
+   }
+
+    function dateFormat(date, format) {
+  const _date = date || new Date();
+  const _format = format || "yyyy-MM-dd HH:mm:ss";
+
+  const yyyy = _date.getFullYear();
+  let MM = _date.getMonth() + 1;
+  let dd = _date.getDate();
+  let HH = _date.getHours();
+  let mm = _date.getMinutes();
+  let ss = _date.getSeconds();
+
+  if (MM >= 1 && MM <= 9) {
+    MM = "0" + MM;
+  }
+  if (dd >= 0 && dd <= 9) {
+    dd = "0" + dd;
+  }
+  if (HH >= 1 && HH <= 9) {
+    HH = "0" + HH;
+  }
+  if (mm >= 0 && mm <= 9) {
+    mm = "0" + mm;
+  }
+  if (ss >= 0 && ss <= 9) {
+    ss = "0" + ss;
+  }
+
+  return _format
+    .replace(/yyyy/g, yyyy)
+    .replace(/MM/g, MM)
+    .replace(/dd/g, dd)
+    .replace(/HH/g, HH)
+    .replace(/mm/g, mm)
+    .replace(/ss/g, ss);
+}
+
+
+  </script>
+  </html>

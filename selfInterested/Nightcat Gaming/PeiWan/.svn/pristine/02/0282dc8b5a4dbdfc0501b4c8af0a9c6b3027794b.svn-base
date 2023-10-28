@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+
+    #name,#password,#repassword {
+        display: inline-block;
+        width: 50vw;
+        height: 40px;
+        margin-top: 20px;
+        margin-left: calc( 25vw - 1px );
+        border: 1px solid #888;
+        border-radius: 15px;
+    }
+
+    #uploadicon{
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        margin-top: 30px;
+        margin-left: calc( 50vw - 56px );
+        width: 110px;
+        height: 110px;
+        border: 1px solid rgb(155, 155, 155) ;
+        border-radius: 55px;
+        
+    }
+
+    .imgdescription{
+        font-size: 12px;
+        line-height: 110px;
+        color: GREY;
+        text-align: center;
+        z-index: -999;
+    }
+
+    #icondisplay{
+        position: absolute;
+        top:0;
+        left:0;
+        width: 110px;
+        height: 110px;
+        z-index: 9999;
+    }
+
+    #submit{
+        display: inline-block;
+        width: 40vw;
+        height: 40px;
+        margin-top: 40px;
+        margin-left: 30vw;
+        border-radius: 20px;
+        background-color: #AAE1DC;
+        text-align: center;
+        font-size: 16px;
+        line-height: 40px;
+        color: #fff;
+
+    }
+
+    </style>
+</head>
+
+<body>
+    <div id="uploadicon" tapmode onclick="uploadicon()">
+        <div class="imgdescription">上传头像</div>
+        <img id="icondisplay" src=""/>
+    </div>
+
+    <div id="name"></div>
+    <div id="password"></div>
+    <div id="repassword"></div>
+    <div id="submit" tapmode onclick="submit()">保存</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/APICloud-rest.js"></script>
+<script type="text/javascript" src="../script/custom.js"></script>
+<script type="text/javascript">
+apiready = function() {
+
+    UIInputIntl();
+};
+
+var UIInput;
+var nameUIInputId;
+var nameValue;
+var passUIInputId;
+var passValue;
+var repassUIInputId;
+var repassValue;
+var iconpath;
+var iconurl;
+
+function uploadicon(){
+        var permission = api.hasPermission({
+            list:['photos']
+        });
+        var granted = permission[0].granted;
+        if(!granted){
+            getphotopermission();
+        }else{
+            api.getPicture({
+            sourceType:'album',
+            mediaValue: 'pic',
+            destinationType:'url',
+            allowEdit: true,
+            targetWidth: 220,
+            targetHeight: 220,
+        },
+        function(ret){
+            if(ret){
+            iconpath = ret.data;
+            var iconimg = $api.byId("icondisplay");
+            iconimg.src = ret.data;
+            }
+        })
+        }
+        
+        
+    }
+
+
+
+function UIInputIntl(){
+    // 用户名输入框模块
+    var nameNum = $api.byId('name');
+    var nameRect = $api.offset(nameNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: nameRect.l + 15 ,
+            y: nameRect.t + 1 ,
+            w: nameRect.w - 30 ,
+            h: nameRect.h - 2
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 14,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:14
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '用户名',
+        keyboardType: 'default',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            nameUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: nameUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            nameValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    // 密码输入框模块
+    var passNum = $api.byId('password');
+    var passRect = $api.offset(passNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: passRect.l + 15 ,
+            y: passRect.t + 1 ,
+            w: passRect.w - 30 ,
+            h: passRect.h - 2
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 14,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:12
+            }
+        },
+        inputType: 'password',
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '设置密码,不少于八位',
+        keyboardType: 'default',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            passUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: passUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            passValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    // 验证密码输入框模块
+    var repassNum = $api.byId('repassword');
+    var repassRect = $api.offset(repassNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: repassRect.l + 15 ,
+            y: repassRect.t + 1 ,
+            w: repassRect.w - 30 ,
+            h: repassRect.h - 2
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 14,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:12
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '重复密码',
+        keyboardType: 'default',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            repassUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: repassUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            repassValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+}
+
+function submit(){
+    if(!nameValue){
+        alerttext('请输入用户名');
+    }else if(!iconpath){
+        alerttext('请选择头像');
+    }else if(!passValue || passValue.length<8){
+        alerttext('密码长度至少为八位');
+    }else if(passValue!=repassValue){
+        alerttext('密码不一致');
+    }else{
+        var qiniu = api.require('qiniuUpfile');
+        qiniu.upfile({
+            file: iconpath
+        },function(ret,err){
+            if(ret.oper=="complete"){
+                iconurl = 'http://qyeqgfbmx.bkt.gdipper.com/' + ret.info.hash + '.png';
+                alert(nameValue+passValue+iconurl);
+                
+            }
+        }
+
+        )
+    }
+    endloading();
+}  
+
+function alerttext(text){
+    var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: api.winWidth*0.6,                     
+                h: 100 
+            },
+            texts: {
+                title: '',
+                content: text,
+                okBtnTitle: '知道了'
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 20,
+                title:{
+                    bg: 'white',
+                    h: 10,
+                    size: 14,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'center',
+                    size: 16
+                },
+                ok: {                             
+                h: 45,                         
+                bg: '#AAE1DC',                   
+                titleColor: '#fff',           
+                titleSize: 16                  
+    }
+                
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    icon: '',
+                    dialogName: 'scene'
+                })
+            }
+        })
+  }
+
+
+
+</script>
+
+</html>

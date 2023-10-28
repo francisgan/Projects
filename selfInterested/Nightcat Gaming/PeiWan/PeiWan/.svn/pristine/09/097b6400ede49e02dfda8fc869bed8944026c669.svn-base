@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: rgb(243, 243, 243);}
+          #setting, #quit{
+              width: 100%;
+              height: auto;
+              margin-top: 20px;
+              background-color: white;
+          }
+
+          #setting .title, #quittitle{
+              width: 100%;
+              height: auto;
+              font-size: 14px;
+              text-indent: 12px;
+              line-height: 50px;
+              background-color: white;
+          }
+
+          .title img{
+              float: right;
+              height: 10px;
+              width: 5px;
+              margin: 20px 10px;
+          }
+
+          #setting .settingline{
+              position:relative;
+              left:4.5vw;
+              width: 95.5vw;
+              height: 0.5px;
+              border-bottom: #ececec 1px solid;
+          }
+
+          #quittitle{
+              text-align: center;
+              color: red;
+              font-size: 16px;
+          }
+
+          #cache{
+              margin-right: 10px;
+              float: right;
+              font-size: 14px;
+              line-height: 50px;
+              color: rgb(209, 209, 209);
+          }
+
+      </style>
+  </head>
+  <body>
+    <div id="setting">
+        <div class="title" tapmode onclick="openas()">账号与安全<img src="../image/next.png"/></div>
+        <div class="settingline"></div>
+        <div class="title"  tapmode onclick="openpermission()">权限设置<img src="../image/next.png"/></div>
+        <div class="settingline"></div>
+        <div class="title"  tapmode onclick="openabout()">关于<img src="../image/next.png"/></div>
+        <div class="settingline"></div>
+        <div class="title" tapmode onclick="clearcache()">清除缓存<div id="cache"></div></div>
+    </div>
+    <div id="quit">
+        <div id="quittitle" tapmode onclick="logout()">退出账号</div>
+    </div>
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+          var cachesizeinbytes = api.getCacheSize({sync: true});;
+          var cachesize = cachesizeinbytes/1048576;
+          cachesize = cachesize.toFixed(2);
+          $api.byId('cache').innerHTML = cachesize + " MB";
+          
+        
+      };
+
+      function openas(){
+          api.openWin({
+              name: 'setting_as_window',
+              url: '../html/setting_as_window.html',
+              bounces: false,
+          })
+      }
+
+      function openpermission(){
+          api.openWin({
+              name: 'setting_permission_window',
+              url: '../html/setting_permission_window.html',
+              bounces: false,
+          })
+      }
+
+      function openabout(){
+          api.openWin({
+              name: 'setting_about_window',
+              url: '../html/setting_about_window.html',
+              bounces: false,
+          })
+      }
+
+      function clearcache(){
+
+          api.confirm({
+            title: '提醒',
+            msg: '确定清除缓存',
+            buttons: ['确定', '取消']
+          }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if(index==1){
+                api.clearCache(function(){
+                    var cachesizeinbytes = api.getCacheSize({sync: true});;
+                    var cachesize = cachesizeinbytes/1048576;
+                    cachesize = cachesize.toFixed(2);
+                    $api.byId('cache').innerHTML = cachesize + " MB";
+                });
+                
+            }
+          });
+      }
+
+      
+      
+
+      
+  </script>
+  </html>

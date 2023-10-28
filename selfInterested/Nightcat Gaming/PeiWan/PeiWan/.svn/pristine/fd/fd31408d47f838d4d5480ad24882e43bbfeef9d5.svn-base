@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      </style>
+  </head>
+  <body>
+
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        
+        api.ajax({
+            url:'https://api.stripe.com/v1/payment_intents',
+            method: 'post',
+            headers: {
+                Authorization: 'Bearer sk_test_51JNFIDItVZCdBRH36jQrqCx1FJzs3jOiJKJP9GxIZuhpb2IF4P4SC14sRWY0lORF0EgLDSKEjDNS8NZbI36r0YXa00c1DvM1rx',
+	  	 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data: {
+                    amount: 1000,
+  currency: 'usd',
+  payment_method_types: ['card'],
+  receipt_email: 'jenny.rosen@example.com',
+                
+            },
+        }, function(ret, err){
+            if(ret){
+                alert(JSON.stringify( ret ))
+            }
+            else if(err){
+                alert(JSON.stringify( err ));
+            }
+        })
+      };
+      api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/sms',
+            method: 'post',
+            headers: {
+            },
+            data: {
+                values:{
+                    body:'phone=18357233355&zone=86&code=902307'
+                } 
+            },
+        }, function(ret, err){
+            if(ret){
+                var body = ret.body.replace(/\"/g,"");
+                alert(body);
+            }
+            else if(err){
+                alert(JSON.stringify( err ));
+            }
+        })
+      
+      
+        var iconurl = 'http://qyeqgfbmx.bkt.gdipper.com/FiPAI41ugJpcP8SHn_Sur4zaCDrS.jpg';
+        var nameValue = '糯米';
+        var passValue = 12345678;
+        api.ajax({
+                    url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/setnewuser',
+                    method: 'post',
+                    headers: {
+                        'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+                    },
+                    data: {
+                        values:{
+                            icon:iconurl,
+                            username:nameValue,
+                            password:passValue,
+                            uuid:'12b7b4b0-0eed-11ec-b465-f9d1ae4c362a',
+                        } 
+                    },
+                }, function(ret, err){
+                    if(ret){
+                        alert(iconurl+'-' + nameValue)
+                        endloading();
+                        alert(JSON.stringify(ret));
+                        api.setPrefs({
+                            key: 'rongtoken',
+                            value:ret.rongtoken.token
+                        });
+                        api.closeWin();
+                    }
+                    else if(err){
+                        endloading();
+                        alert(JSON.stringify( err ));
+                    }
+                });//ajax
+  </script>
+  </html>

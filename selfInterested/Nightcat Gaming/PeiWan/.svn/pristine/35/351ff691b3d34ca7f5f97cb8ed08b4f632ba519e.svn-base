@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+     
+      <style>
+        
+        #header{
+		width: 100vw;
+		height: 200px;
+		position: absolute;
+        top: 0;
+        left: 0;
+		z-index: -1;
+		overflow: hidden;
+	}
+
+	#header::after {
+		content: '';
+		width: 100vw;
+		height: 200px;
+		position: absolute;
+		top: 0;
+        left: 0;
+		z-index: -1;
+		border-radius: 0 0 60% 60%;
+		background-image: url(../image/bg.jpg);
+	}
+
+         
+      </style>
+  </head>
+  <body>
+    <header id="header"></header>
+
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        var demo = api.require('dropDownMenu');
+        demo.openMenu({
+    rect : {
+        x : 0,
+        y : 200,
+        w : api.frameWidth
+     },
+     data : [
+        {
+            title : '地区',
+            item : ["不限", "武汉", "北京", "上海", "成都", "广州", "深圳", "重庆", "天津", "西安", "南京", "杭州"]
+        },{
+            title : '年龄',
+            item : ["不限", "18岁以下", "18-22岁", "23-26岁", "27-35岁", "35岁以上"]
+        },{
+            title : '性别',
+            item : ["不限", "男", "女"]
+        }
+    ],
+    textUnselectedColor : '#333',
+    textSelectedColor : '#03a9f4',
+    dropDownCheckedColor : '#03a9f4',
+    dropDownChecked : 'widget://image/drop_down_checked.png',
+    dropDownSelectedIcon : 'widget://image/refresh1.png',
+    dropDownUnselectedIcon : 'widget://image/icon_default@2x.png',
+    fixedOn : api.frameName,
+    fixed : true
+},function(ret, err) {
+    alert(JSON.stringify(ret));
+});
+
+      };
+  </script>
+  </html>

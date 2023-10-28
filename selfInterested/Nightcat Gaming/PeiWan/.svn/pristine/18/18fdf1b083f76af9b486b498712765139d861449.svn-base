@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    .row {
+        margin-top: 20px;
+        width: 80vw;
+        height: 50px;
+        margin-left: 10vw;
+        
+    }
+    #password, #newpassword, #confirmpassword{
+        display: inline-block;
+        width: 100%;
+        height: 40px;
+        border:none;
+        font-size: 18px;
+        line-height: 40px;
+        border-bottom: 1px solid rgb(204, 204, 204);
+    }
+
+
+
+    .btn {
+        width: 80vw;
+        height: 50px;
+        margin-left: 10vw;
+        margin-top: 32px;
+        background-color: #20dbcc;
+        color: #fff;
+        font-size: 16px;
+        line-height: 50px;
+        text-align: center;
+        border-radius: 25px;
+    }
+
+    .highlight {
+        opacity: 0.7;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div id="password"></div>
+    </div>
+
+    <div class="row">
+        <div id="newpassword"></div>
+    </div>
+
+    <div class="row">
+        <div id="confirmpassword"></div>
+    </div>
+
+    <div class="btn" tapmode="highlight" onclick="submit();">修改</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/APICloud-rest.js"></script>
+<script type="text/javascript" src="../script/SHA1.js"></script>
+<script type="text/javascript">
+apiready = function() {
+
+    UIInputIntl();
+};
+
+var UIInput;
+var passwordUIInputId;
+var newpasswordUIInputId;
+var confirmpasswordUIInputId;
+var passwordValue;
+var newpasswordValue;
+var confirmpasswordValue;
+
+
+function UIInputIntl(){
+    // 旧密码输入框模块
+    var passwordNum = $api.byId('password');
+    var passwordRect = $api.offset(passwordNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: passwordRect.l,
+            y: passwordRect.t,
+            w: passwordRect.w,
+            h: passwordRect.h - 1
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 20,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:20
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '旧密码',
+        keyboardType: 'default',
+        inputType: 'password',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            passwordUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: passwordUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            passwordValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    // 新密码输入框模块
+    var newpasswordNum = $api.byId('newpassword');
+    var newpasswordRect = $api.offset(newpasswordNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: newpasswordRect.l,
+            y: newpasswordRect.t,
+            w: newpasswordRect.w,
+            h: newpasswordRect.h - 1
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 20,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:20
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '新密码',
+        keyboardType: 'default',
+        inputType: 'password',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            newpasswordUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: newpasswordUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            newpasswordValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    // 确认密码输入框模块
+    var confirmpasswordNum = $api.byId('confirmpassword');
+    var confirmpasswordRect = $api.offset(confirmpasswordNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: confirmpasswordRect.l,
+            y: confirmpasswordRect.t,
+            w: confirmpasswordRect.w,
+            h: confirmpasswordRect.h - 1
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 20,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:20
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '重复新密码',
+        keyboardType: 'default',
+        inputType: 'password',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            confirmpasswordUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: confirmpasswordUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            confirmpasswordValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+}
+
+
+function submit(){
+    if(!passwordValue || !newpasswordValue || !confirmpasswordValue){
+        alert('缺少信息');
+    }
+    else if(newpasswordValue != confirmpasswordValue){
+        alert('新密码不一致');
+    }
+    else{
+        alert(passwordValue + '-' + newpasswordValue)
+    }
+    
+    
+}
+
+</script>
+
+</html>

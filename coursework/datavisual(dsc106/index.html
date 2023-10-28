@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Exploring US Commercial Flights: A Data Visualization Study (2016-2018)</h1>
+    <h2>Introduction:</h2>
+    <h3>Welcome to my data visualization project, where we delve into the intricate world of US commercial flights from 2016 to
+    2018. Our study utilizes a comprehensive dataset that includes flight delays(Below it will be represented by average
+    delay time for each flight in minutes), cancellations(Below it will be represented by cancellation rate), airport types,
+    and geographical information. The aim is to provide insights into the patterns and trends of commercial flights during
+    this period. Whether you're a traveler, an aviation professional, a researcher, or simply interested in flight patterns,
+    this visualization offers a unique perspective on US commercial flights. Notice that, we exclude all data related to
+    Alaska and Hawaii.</h3>
+
+    <div class="chart-wrapper">
+        <h2>Bar Chart of Flight Data</h2>
+        <h3>Our first visualization is a neat bar chart representing flight data over time. The bars represent the total number
+            of flights, average delay time for each flight, or cancellation rate, depending on what you choose. This chart provides
+            a summary of the flight data, enabling easy comparison across different time periods. Select a year and type of date
+            to delve deeper into the data and understand the trends of commercial flights during that period.</h3>
+        <div class="nav">
+            <label for=""> Year :</label>
+            <select id='barYear' style="width: 100px;margin-left: 10px;" onchange="BarChange()">
+                <option value="2016" selected>2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="All">All</option>
+            </select>
+
+            <label style="margin-left: 80px;" for=""> Type :</label>
+            <select id='infoBarType' style="width: 200px;margin-left: 10px;" onchange="barTypeChange()">
+                <option value="flight" selected>Number of flights</option>
+                <option value="delay">Delay</option>
+                <option value="cancel">Cancel</option>
+            </select>
+        </div>
+       
+        <div class="bar-wrapper" id="barChart"></div>
+    </div>
+
+    <div class="chart-wrapper">
+        <h2>US Map with Flight Connections</h2>
+        <h3>Our second visualization is a stylized map of the United States, highlighting the interconnectivity of airports across
+        the country. Each point on the map represents an airport, with lines connecting them to depict flight routes. The color
+        of the lines vary, representing the volume of flights, average delay times for each flight or cancellation rate. This
+        visualization provides a bird's-eye view of the flight network within the US, allowing you to identify the busiest
+        routes and airports at a glance. Explore the map to discover more about the patterns of commercial flights during
+        2016-2018. You can also select the Major City option to include only top 30 cities with the most population in the US,
+        notice that some cities may not operate an airport.
+        </h3>
+        <div class="nav">
+            
+            <label for=""> Year :</label>
+            <select id='lineMapYear' style="width: 100px;margin-left: 10px;" onchange="lineMapYearChange()">
+                <option value="2016" selected>2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="All">All</option>
+            </select>
+
+            <label style="margin-left: 80px;" for=""> Type :</label>
+            <select id='infoLineMapType' style="width: 200px;margin-left: 10px;" onchange="LineMapTypeChange()">
+                <option value="flight" selected>Number of flights</option>
+                <option value="delay">Delay</option>
+                <option value="cancel">Cancel</option>
+            </select>
+
+            <label style="margin-left: 80px;" for="myCheckbox">Major City</label>
+            <input type="checkbox" id="myCheckbox" style="height: 16px;width: 16px;">
+
+        </div>
+       
+        <div class="line-wrapper" id="lineMapChart"></div>
+    </div>
+
+    <div class="chart-wrapper">
+        <h2>US map with each State’s flight information</h2>
+        <h3>Our third visualization is a color-coded map of the United States, reflecting the aggregate flight number, cancellation
+        rate, or average delay times for each flight data for each state during the selected time period. The color darkness
+        corresponds to the total volume of flights, the cancellation rate, and the average delay time in each state. Darker
+        shades represent higher numbers or longer delays, providing a clear visual summary of state-wise flight activities. This
+        representation allows you to understand which states have the busiest airports, the most cancellations, or the longest
+        delays. Delve into the details of each state by choosing times and type of data on it, unveiling an even deeper level of
+        data analysis for your exploration. This map delivers an expansive view of the trends and patterns that have shaped US
+        commercial flights from 2016 to 2018.</h3>
+        <div class="nav">
+            <label for=""> Year :</label>
+            <select id='baseMapYear' style="width: 100px;margin-left: 10px;" onchange="baseMapChange()">
+                <option value="2016" selected>2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="All">All</option>
+            </select>
+
+            <label style="margin-left: 80px;" for=""> Type :</label>
+            <select id='infoBaseMapType' style="width: 200px;margin-left: 10px;" onchange="baseMapTypeChange()">
+                <option value="flight" selected>Number of flights</option>
+                <option value="delay">Delay</option>
+                <option value="cancel">Cancel</option>
+            </select>
+        </div>
+       
+        <div class="map-wrapper" id="baseMap"></div>
+    </div>
+    
+    <script src="http://d3js.org/d3.v7.min.js"></script>
+    
+    <script src="app.js"></script>
+
+    <script src="barChart.js"></script>
+
+    <script src="baseMap.js"></script>
+
+    <script src="lineMap.js"></script>
+
+    <script src="main.js"></script>
+</body>
+</html>

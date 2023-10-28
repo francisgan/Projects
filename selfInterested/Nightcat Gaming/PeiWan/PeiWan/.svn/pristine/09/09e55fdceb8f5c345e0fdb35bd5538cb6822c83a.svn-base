@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: #f1f7f7;}
+
+          .itemblock{
+              display: inline-block;
+              width: 44vw;
+              height: auto;
+              margin: 4vw 0 0 4vw;
+              background-color: rgb(255, 255, 255);
+              border-radius: 10px;
+          }
+
+          .itemblock .itempicture{
+              width: 36vw;
+              height: 36vw;
+              margin:4vw;
+          }
+
+          .itemname{
+              color: black;
+              font-size: 12px;
+              text-align: center;
+          }
+
+          .cart{
+              float: right;
+              width: 30px;
+              height: 30px;
+              margin:3vw;
+          }
+
+          
+      </style>
+  </head>
+  <body>
+    <div id='goodwrap'>
+
+
+    </div>
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      var goodlist;
+      apiready = function(){
+        getgoodlist()
+
+      }; //end of apiready
+
+     function buy(good_number,picture,name,price){
+         api.openWin({
+             name: 'buy_window',
+             url: '../html/buy_window.html',
+             pageParam:{
+                 good_number:good_number,
+                 picture:picture,
+                 name:name,
+                 price:price
+             },
+         })
+     }
+
+     function getgoodlist(){
+         startloading();
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/shops/good_list',
+            method: 'get',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            }
+        }, function(ret, err){
+            if(ret){
+                endloading();
+                if(ret.code==0){
+                    goodlist = ret.data.list;
+                    for(var i=0;i<=goodlist.length-1;i++){
+                        addgood(goodlist[i]);
+                    }
+                }else{
+                    alert('发生未知错误');
+                }
+            }else if(err){
+                endloading();
+            }
+        })
+    }
+
+    function addgood(good){
+        var content = "";
+        content += '<div class="itemblock">';
+        content += '<img src="'+good.picture+'" class="itempicture"/>';
+        content += '<div class="itemname">'+good.name+'</div>';
+        content += '<img src="../image/cart.png" class="cart" onclick="buy('+good.good_number+",'"+good.picture+"','"+good.name+"',"+good.price+')"/>';
+        content += '</div>';
+        $api.byId('goodwrap').innerHTML += content;
+
+    }
+
+  </script>
+  </html>

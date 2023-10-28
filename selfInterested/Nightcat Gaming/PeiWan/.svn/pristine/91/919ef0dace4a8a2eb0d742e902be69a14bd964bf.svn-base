@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          *{padding:0;margin:0;font-size:0;}
+          body{background: transparent;}
+
+          header{
+              position: absolute;
+              z-index: -1;
+              width: 100%;
+              height: calc(20vw + 80px );
+              background-color: #AAE1DC;
+          }
+
+          #screen{
+              width: 100%;
+              height: 100%;
+              z-index: -999;
+              position: absolute;
+              background-color: #f1f7f7;
+
+          }
+
+          #curve{
+		    width: 100vw;
+		    height: 100px;
+		    position: absolute;
+            top: calc(20vw + 100px );
+            left: 0;
+		    z-index: -1;
+		    overflow: hidden;
+	      }
+
+	      #curve::after {
+		    content: '';
+		    width: 100vw;
+		    height: 20vw;
+		    position: absolute;
+		    top: 0;
+            left: 0;
+		    z-index: -1;
+		    border-radius: 0 0 60% 60%;
+		    background-color: #AAE1DC;
+	      }
+
+          #top #myicon{
+              display:inline-block;
+              height:20vw;
+              width: 20vw;
+              margin-top:0;
+              margin-left:calc( 50vw - 10vw - 2px);
+              overflow: hidden;
+              border-radius: 10vw;
+              border:white 2px solid;
+          }
+
+          #top #myicon img{
+              height: 20vw;
+              width: 20vw;
+          }
+
+          #top #username{
+              margin: 5px 0;
+              font-size: 16px;
+              font-weight: bold;
+              line-height: 20px;
+              color: rgb(39, 39, 39);
+              text-align: center;
+          }
+
+          #top #userid{
+              font-size: 12px;
+              line-height: 20px;
+              color: rgb(39, 39, 39);
+              text-align: center;
+          }
+
+          #wallet{
+            display: inline-block;
+            width: 92vw;
+            height: 100px;
+            border:none;
+            margin: 4vw;
+            border-radius: 10px;
+            background: white;
+            overflow: hidden;
+        }
+
+        #wallettitle{
+            float: left;
+            font-size: 15px;
+            line-height: 15px;
+            font-weight: bold;
+            color: black;
+            margin: 15px 0 0 15px;
+        }
+
+        #charge{
+            float: right;
+            height: 24px;
+            width: 48px;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+            color: white;
+            background-color: #00c3ff;
+            border: 0.5px solid white;
+            border-radius: 12.5px;
+            margin: 8px 15px 0 0;
+        }
+
+        #balence{
+            font-size: 18px;
+            line-height: 24px;
+            font-weight: bold;
+            text-align: center;
+            color: rgb(255, 136, 1);
+        }
+
+        #wallet img{
+            width: 16px;
+            height: 16px;
+            margin-left: calc( 46vw - 8px);
+        }
+
+          #opt{
+            display: inline-block;
+            width: 92vw;
+            height: auto;
+            border:none;
+            margin: 4vw;
+            border-radius: 10px;
+            background: white;
+            overflow: hidden;
+            padding-bottom: 20px;
+        }
+
+        .personopt{
+          display:inline-block;
+          height: 90px;
+          width: 20%;
+          margin-left:10%;
+          margin-top:10px;
+          padding:none;
+          border:none;
+          overflow: hidden;
+          text-align: center;
+
+      }
+
+      .personopt img{
+          width:50px;
+          height:50px;
+          padding:none;
+          border:none;
+          margin-top:15px;
+      }
+
+      .personopt p{
+          font-size: 12px;
+          margin-top: 5px;
+      }
+
+          
+
+      </style>
+  </head>
+  <body>
+      <header id="header"></header>
+      <div id="curve"></div>
+      <div id="screen"></div>
+
+      <div id="top">
+        <div id="myicon"><img src="" id="icon"/> </div>
+        <div id="username"></div>
+        <div id="userid"></div>
+      </div>
+
+      <div id="wallet" tapmode="active">
+          <div id="wallettitle">当前余额</div>
+          <div id="charge" tapmode onclick="fnopencharge()">充值</div>
+          <div class="clear"></div>
+          <div id="balence"></div>
+          <img src="../image/refreshbottom.png" tapmode="btn-press" />
+      </div>
+
+      
+      <div id="opt">
+          <div class="personopt" tapmode onclick="fnopenorder()"><img src="../image/order.png"/><p>订单</p></div>
+          <div class="personopt" tapmode onclick="fnopenapply()"><img src="../image/apply.png"/><p>申请资质</p></div>
+          <div class="personopt" tapmode onclick="fnopenproarea()"><img src="../image/proarea.png"/><p>陪玩专区</p></div>
+          <div class="personopt" tapmode onclick="fnopenstore()"><img src="../image/buy.png"/><p>商城</p></div>
+          <div class="personopt" tapmode onclick="fnopensetting()"><img src="../image/setting.jpg"/><p>设置</p></div>
+          <div class="personopt" tapmode onclick="alert(loginstatus())"><img src="../image/setting.jpg"/><p>测试</p></div>
+      </div>
+
+      
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript"> 
+    apiready = function(){
+        api.parseTapmode();
+
+        $api.fixStatusBar(
+            $api.byId("header")
+        );
+        $api.fixStatusBar(
+            $api.byId("top")
+        );
+
+        //获取头像，用户名，id
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/getmyinfo',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    useridentifyid: api.getPrefs({sync:true,key:'useridentifyid'}),
+                },
+            }
+        }, function(ret, err){
+            if(ret){
+                if(ret.code==0){
+                    $api.byId('username').innerHTML = ret.data.username;
+                    $api.byId('userid').innerHTML = 'ID: ' + ret.data.userid;
+                    $api.byId('balence').innerHTML = ret.data.balence + ' 币';
+                    $api.byId('icon').src = ret.data.usericon;
+                }else if(ret.code==1){
+                    alert('服务器发生错误');
+                }
+                else{
+                    alert('发生未知错误');
+                }
+
+            }
+            else if(err){
+                alert('发生错误,代码:'+JSON.stringify( err ));
+            }
+            
+            
+        })
+    
+
+      };
+
+      function fnopenorder() {
+          api.openWin({
+              name: 'order',
+              url: '../html/order_window.html',
+              bgColor:'#fcfcfc'
+          })
+      }
+
+      function fnopenapply() {
+          api.openWin({
+              name: 'apply',
+              url: '../html/apply_window.html',
+              bgColor:'#fcfcfc'
+          })
+      }
+
+      function fnopenproarea() {
+          api.openWin({
+              name: 'proarea',
+              url: '../html/proarea_window.html',
+          })
+      }
+
+      function fnopenstore() {
+          api.openWin({
+              name: 'store',
+              url: '../html/store_window.html',
+          })
+      }
+
+      function fnopenregister() {
+          api.openWin({
+              name: 'register',
+              url: '../html/register.html',
+          })
+      }
+
+      function fnopensetting() {
+          api.openWin({
+              name: 'setting',
+              url: '../html/setting_window.html',
+              bgColor:'#fcfcfc',
+              bounces: false,
+          })
+      }
+
+      function fnopentest() {
+          api.openWin({
+              name: 'test',
+              url: '../html/testpage.html',
+              bgColor:'#fcfcfc'
+          })
+      }
+
+      function fnopencharge() {
+          api.openWin({
+              name: 'charge',
+              url: '../html/charge_window.html',
+              bgColor:'#fcfcfc'
+          })
+      }
+
+
+
+      
+
+
+      
+  </script>
+  </html>

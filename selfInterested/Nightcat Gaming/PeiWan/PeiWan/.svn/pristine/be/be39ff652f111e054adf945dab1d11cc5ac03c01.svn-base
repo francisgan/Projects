@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    .row {
+        margin-top: 20px;
+        width: 80vw;
+        margin-left: 10vw;
+        
+    }
+
+    #notification{
+        display: inline-block;
+        width: 100%;
+        border:none;
+        font-size: 12px;
+        line-height: 40px;
+        color: rgb(112, 112, 112);
+    }
+
+    #newareaNum {
+        display: inline-block;
+        width: 15%;
+        height: 40px;
+        margin-right: 5%;
+        outline: none;
+        border-bottom: 1px solid #888;
+    }
+
+    #newphone {
+        display: inline-block;
+        width: 80%;
+        height: 40px;
+        border:none;
+        border-bottom: 1px solid #888;
+    }
+
+    #newcode {
+        display: inline-block;
+        width: 45%;
+        height: 40px;
+        border-bottom: 1px solid #888;
+    }
+
+    #newgetcode{
+        float: right;
+        width: 45%;
+        height: 40px;
+        font-size: 15px;
+        color: white;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 20px;
+        background-color: #05b0ff;
+
+    }
+
+    #password {
+        display: inline-block;
+        width: 100%;
+        height: 40px;
+        border:none;
+        border-bottom: 1px solid #888;
+    }
+
+    #repassword {
+        display: inline-block;
+        width: 100%;
+        height: 40px;
+        border:none;
+        border-bottom: 1px solid #888;
+    }
+
+
+    .btn {
+        width: 80vw;
+        height: 50px;
+        margin-left: 10vw;
+        margin-top: 32px;
+        background-color: #20dbcc;
+        color: #fff;
+        font-size: 16px;
+        line-height: 50px;
+        text-align: center;
+        border-radius: 25px;
+    }
+
+    .highlight {
+        opacity: 0.7;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div id="newareaNum"></div>
+        <div id="newphone"></div>
+    </div>
+    <div class="row" id="newcoderow">
+        <div id="newcode"></div>
+        <div id="newgetcode" onclick="newgetcode()">获取验证码</div>
+    </div>
+    <div class="row">
+        <div id="password"></div>
+    </div>
+
+    <div class="row">
+        <div id="repassword"></div>
+    </div>
+    <div class="btn" tapmode="highlight" onclick="submit();">确定</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/APICloud-rest.js"></script>
+<script type="text/javascript" src="../script/SHA1.js"></script>
+<script type="text/javascript">
+var oldphone;
+var oldzone;
+apiready = function() {
+
+    UIInputIntl();
+};
+
+var UIInput;
+var newAreaNumUIInputId;
+var newPhoneUIInputId;
+var newCodeUIInputId;
+var oldcode;
+var newzone;
+var newphone;
+var newcode;
+var passUIInputId;
+var passValue;
+var repassUIInputId;
+var repassValue;
+
+var oldcodecd = 0;
+var newcodecd = 0;
+var oldtimer = null;
+var newtimer = null;
+
+
+function UIInputIntl(){
+
+    // 新区号输入框模块
+    var newAreaNum = $api.byId('newareaNum');
+    var newAreaNumRect = $api.offset(newAreaNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: newAreaNumRect.l,
+            y: newAreaNumRect.t,
+            w: newAreaNumRect.w,
+            h: newAreaNumRect.h - 1
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 20,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:20
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '86',
+        keyboardType: 'number',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            newAreaNumUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: newAreaNumUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            newzone = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    // 新手机号输入框模块
+    var newphoneNum = $api.byId('newphone');
+    var newphoneRect = $api.offset(newphoneNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: newphoneRect.l,
+            y: newphoneRect.t,
+            w: newphoneRect.w,
+            h: newphoneRect.h - 1
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 20,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:20
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '手机号',
+        keyboardType: 'number',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            newPhoneUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: newPhoneUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            newphone = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    // 新验证码输入框模块
+    var newcodeNum = $api.byId('newcode');
+    var newcodeRect = $api.offset(newcodeNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: newcodeRect.l,
+            y: newcodeRect.t,
+            w: newcodeRect.w,
+            h: newcodeRect.h - 1
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 20,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:20
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '验证码',
+        keyboardType: 'number',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            newCodeUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: newCodeUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            newcode = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+        // 密码输入框模块
+        var passNum = $api.byId('password');
+    var passRect = $api.offset(passNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: passRect.l + 15 ,
+            y: passRect.t + 1 ,
+            w: passRect.w - 30 ,
+            h: passRect.h - 2
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 14,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:12
+            }
+        },
+        inputType: 'password',
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '设置密码,不少于八位',
+        keyboardType: 'default',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            passUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: passUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            passValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    // 验证密码输入框模块
+    var repassNum = $api.byId('repassword');
+    var repassRect = $api.offset(repassNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: repassRect.l + 15 ,
+            y: repassRect.t + 1 ,
+            w: repassRect.w - 30 ,
+            h: repassRect.h - 2
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 14,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:12
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        inputType: 'password',
+        placeholder: '重复密码',
+        keyboardType: 'default',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            repassUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: repassUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            repassValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+}
+
+
+//newcode
+function newgetcode(){
+    if(newcodecd==0){
+        if(!newzone || !newphone ){
+            alert('未填写区号或手机号');
+        }
+        else{
+            var moduleSMSSDK = api.require('smssdk');
+            var param = {zone:newzone, phoneNumber:newphone,tempCode:'4548239'};
+            moduleSMSSDK.getTextCode(param, function(ret, err){
+                if (err) {
+                    alert("Error:\n" + JSON.stringify(err));
+                }else if(ret){
+                    alert("已发送验证码");      
+                    newcodecd=30;
+                    $api.byId('newgetcode').style.backgroundColor = 'rgb(200,200,200)';
+                    $api.byId('newgetcode').innerHTML = newcodecd + 's';
+                    newtimer = setInterval('newcountdown()',1000);
+                }
+            });
+        }
+    }
+}
+
+function newcountdown(){
+    if(newcodecd==0){
+    }
+    else{
+        newcodecd -= 1;
+        $api.byId('newgetcode').innerHTML = newcodecd + 's';
+        if(newcodecd==0){
+            $api.byId('newgetcode').style.backgroundColor = '#05b0ff';
+            $api.byId('newgetcode').innerHTML = '获取验证码';
+            clearInterval(newtimer);
+        }
+    }
+}
+
+function submit(){
+    if(!newcode){
+        alert('请填写验证码');
+    }
+    else if(!newphone){
+        alert('请填写区号和手机号');
+    }else if(!passValue || passValue.length<8){
+        alert('密码长度至少为八位');
+    }else if(passValue!=repassValue){
+        alert('密码不一致');
+    }else{
+        startloading();
+        addphone();
+    }
+}
+
+function addphone(){
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/addphone',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                    newphone: newphone,
+                    newzone: newzone,
+                    newcode: newcode,
+                    password: passValue,
+                },
+            }
+        }, function(ret, err){
+            if(ret){
+                endloading();
+                if(ret.code==0){
+                    alert('修改成功!');
+                    api.sendEvent({
+                        name:'changephone'
+                    });
+                    api.closeToWin({name:'setting'});
+                }else if(ret.code==1 || ret.code==2){
+                    alert('验证码错误');
+                }else if(ret.code==3){
+                    alert('号码已被使用');
+                }else{
+                    alert('发生未知错误');
+                }
+            }
+            else{
+                endloading();
+                if(err  && err.code ==404){
+                    alert('服务器维护中');
+                }else if(err  && err.code ==0){
+                    alert('请检查网络设置');
+                }
+            }
+            
+            
+        })
+    
+    
+}
+
+function getoldphone(){
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/myphone',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data: {
+                values:{
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                },
+            },
+        }, function(ret, err){
+            if(ret){
+                if(ret.code==0){
+                    oldphone = ret.phone;
+                    oldzone = ret.zone;
+                    $api.byId('oldphone').innerHTML = '原手机号: +' + oldzone + ' ' + oldphone.replace(/.(?=.{4})/g, '*');
+                }else{
+                    alert('发生错误');
+                }
+            }
+            else if(err){
+                if(err  && err.code ==404){
+                    alert('服务器维护中');
+                }else if(err  && err.code ==0){
+                    alert('请检查网络设置');
+                }
+            }
+            
+        })
+      };
+
+      var loadingid;
+  function startloading(){
+  var UILoading = api.require('UILoading');
+    UILoading.flower({
+    center: {
+        x: api.winWidth/2.0,
+        y: api.winHeight/2.0
+    },
+    size: 40,
+    fixed: true
+}, function(ret) {
+      loadingid = ret.id;
+});
+}
+
+function endloading(){
+    var uiloading = api.require('UILoading');
+    for(var i = loadingid+5; i>=0;i--){
+        uiloading.closeFlower({
+            id: i,
+            isGradual:false
+        });
+    }
+}
+
+</script>
+
+</html>

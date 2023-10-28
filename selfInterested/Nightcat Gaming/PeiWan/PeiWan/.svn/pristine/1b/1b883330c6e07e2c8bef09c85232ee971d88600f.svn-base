@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+
+    #name{
+        display: inline-block;
+        width: 50vw;
+        height: 40px;
+        margin-top: 20px;
+        margin-left: calc( 25vw - 1px );
+        border: 1px solid #888;
+        border-radius: 15px;
+    }
+
+    #submit{
+        display: inline-block;
+        width: 40vw;
+        height: 40px;
+        margin-top: 40px;
+        margin-left: 30vw;
+        border-radius: 20px;
+        background-color: #AAE1DC;
+        text-align: center;
+        font-size: 16px;
+        line-height: 40px;
+        color: #fff;
+
+    }
+
+    #rule{
+        display: inline-block;
+        width: 70vw;
+        margin-left: 15vw;
+        margin-top: 20px;
+        color: #858585;
+        font-size: 10px;
+        text-indent: 20px;
+        text-align:justify;
+    }
+
+    </style>
+</head>
+
+<body>
+
+    <div id="name"></div>
+    <div id="submit" tapmode onclick="submit()">保存</div>
+
+    <div id="rule">
+        昵称应符合《互联网用户账号名称管理规定》，不准违反法律、危害国家安全、侮辱诽谤他人等“九不准”(详细准则可进入设置-关于-用户协议中查看)；如有违反平台有权对账号进行处罚。
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/APICloud-rest.js"></script>
+<script type="text/javascript" src="../script/custom.js"></script>
+<script type="text/javascript">
+var rong;
+apiready = function() {
+    UIInputIntl();
+};
+
+var UIInput;
+var nameUIInputId;
+var nameValue;
+
+    
+
+
+
+function UIInputIntl(){
+    // 用户名输入框模块
+    var nameNum = $api.byId('name');
+    var nameRect = $api.offset(nameNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: nameRect.l + 15 ,
+            y: nameRect.t + 1 ,
+            w: nameRect.w - 30 ,
+            h: nameRect.h - 2
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 14,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:14
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '用户名',
+        keyboardType: 'default',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            nameUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: nameUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            nameValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+   
+
+}
+
+function submit(){
+    if(!nameValue){
+        alerttext('请输入用户名');
+    }else{
+        startloading();
+        changeusername();
+    }
+}  
+
+function changeusername(){
+    api.ajax({
+                    url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/changeusername',
+                    method: 'post',
+                    headers: {
+                        'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+                    },
+                    data: {
+                        values:{
+                            username:nameValue,
+                            uuid:api.getPrefs({sync:true,key:'uuid'}),
+                        } 
+                    },
+                }, function(ret, err){
+                    if(ret){
+                        endloading();
+                        alert('修改成功');
+                        api.sendEvent({
+                            name:'refreshmyinfo'
+                        })
+                        api.closeWin();
+                    }
+                    else if(err){
+                        endloading();
+                        if(err  && err.code ==404){
+                            alert('服务器维护中');
+                        }else if(err  && err.code ==0){
+                            alert('请检查网络设置');
+                        }
+                    }
+                });//ajax
+}
+
+
+var loadingid;
+  function startloading(){
+  var UILoading = api.require('UILoading');
+    UILoading.flower({
+    center: {
+        x: api.winWidth/2.0,
+        y: api.winHeight/2.0
+    },
+    size: 40,
+    fixed: true
+}, function(ret) {
+      loadingid = ret.id;
+});
+}
+
+function endloading(){
+var uiloading = api.require('UILoading');
+uiloading.closeFlower({
+    id: loadingid,
+    isGradual:false
+});
+}
+
+</script>
+
+</html>

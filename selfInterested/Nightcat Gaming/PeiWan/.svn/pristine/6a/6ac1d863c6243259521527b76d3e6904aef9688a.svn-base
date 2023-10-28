@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: rgb(243, 243, 243);}
+          #setting, #quit{
+              width: 100%;
+              height: auto;
+              margin-top: 20px;
+              background-color: white;
+          }
+
+          #setting .title, #quittitle{
+              width: 100%;
+              height: auto;
+              font-size: 14px;
+              text-indent: 12px;
+              line-height: 50px;
+              background-color: white;
+          }
+
+          .title img{
+              float: right;
+              height: 10px;
+              width: 5px;
+              margin: 20px 10px;
+          }
+
+          #setting .settingline{
+              position:relative;
+              left:4.5vw;
+              width: 95.5vw;
+              height: 0.5px;
+              border-bottom: #ececec 1px solid;
+          }
+
+          #quittitle{
+              text-align: center;
+              color: red;
+              font-size: 16px;
+          }
+
+      </style>
+  </head>
+  <body>
+    <div id="setting">
+        <div class="title" tapmode onclick="openas()">账号与安全<img src="../image/next.png"/></div>
+        <div class="settingline"></div>
+        <div class="title">隐私权限<img src="../image/next.png"/></div>
+        <div class="settingline"></div>
+        <div class="title">系统设置<img src="../image/next.png"/></div>
+        <div class="settingline"></div>
+        <div class="title">清除缓存</div>
+    </div>
+    <div id="quit">
+        <div id="quittitle">退出账号</div>
+    </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        
+      };
+
+      function openas(){
+          api.openWin({
+              name: 'setting_as_window',
+              url: '../html/setting_as_window.html',
+              bounces: false,
+          })
+      }
+  </script>
+  </html>

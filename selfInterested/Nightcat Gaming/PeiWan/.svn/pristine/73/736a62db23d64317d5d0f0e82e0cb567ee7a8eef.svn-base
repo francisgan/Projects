@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+        .title{
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+            color: rgb(70, 70, 70);
+            line-height: 18px;
+            margin-left: 18px;
+            margin-top:10px;
+            margin-bottom:20px;
+        }
+
+        .optblock{
+            float: left;
+            width: 16vw;
+            height: calc( 16vw + 20px );
+            margin-left: 7.2vw;
+            margin-bottom: 20px;
+            overflow: visible;
+        }
+
+        .icon{
+            width: 11vw;
+            height: 11vw;
+            margin: 2.5vw;
+        }
+
+        .name{
+            font-size: 12px;
+            color: grey;
+            line-height: 20px;
+            text-align: center;
+        }
+      </style>
+  </head>
+  <body>
+    <div class="title">端游</div>
+        <div class="optblock" tapmode onclick="opengame(1)">
+            <img class="icon" src="../image/lol.png" />
+            <div class="name">英雄联盟</div>
+        </div>
+        <div class="optblock" tapmode onclick="opengame(2)">
+            <img class="icon" src="../image/csgo.jpg" />
+            <div class="name">CS:GO</div>
+        </div>
+        <div class="optblock" tapmode onclick="opengame(3)">
+            <img class="icon" src="../image/pubg.png" />
+            <div class="name">绝地求生</div>
+        </div>
+        <div class="optblock" tapmode onclick="opengame(4)">
+            <img class="icon" src="../image/tft.png" />
+            <div class="name">云顶之奕</div>
+        </div>
+        <div class="optblock" tapmode onclick="opengame(5)">
+            <img class="icon" src="../image/dota.jpg" />
+            <div class="name">DOTA</div>
+        </div>
+        <div class="optblock" tapmode onclick="opengame(6)">
+            <img class="icon" src="../image/apex.png" />
+            <div class="name">APEX</div>
+        </div>
+        <div class="optblock" tapmode onclick="opengame(7)">
+            <img class="icon" src="../image/valorant.png" />
+            <div class="name">Valorant</div>
+        </div>
+        <div class="optblock" tapmode onclick="opengame(8)">
+            <img class="icon" src="../image/steam.png" />
+            <div class="name">Steam专区</div>
+        </div>
+        <div class="optblock" tapmode onclick="opengame(9)">
+            <img class="icon" src="../image/r6.jpg" />
+            <div class="name">彩虹六号</div>
+        </div>
+        <div class="clear"></div>
+
+    <div class="title">手游</div>
+    <div class="optblock" tapmode onclick="opengame(10)">
+        <img class="icon" src="../image/wzry.jpg" />
+        <div class="name">王者荣耀</div>
+    </div>
+    <div class="optblock" tapmode onclick="opengame(11)">
+        <img class="icon" src="../image/lolmobile.png" />
+        <div class="name">LOL手游</div>
+    </div>
+    <div class="optblock" tapmode onclick="opengame(12)">
+        <img class="icon" src="../image/hpjy.png" />
+        <div class="name">和平精英</div>
+    </div>
+    <div class="optblock" tapmode onclick="opengame(13)">
+        <img class="icon" src="../image/tftm.png" />
+        <div class="name">金铲铲之战</div>
+    </div>
+    <div class="optblock" tapmode onclick="opengame(14)">
+        <img class="icon" src="../image/cod.png" />
+        <div class="name">COD手游</div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="title">其他</div>
+    <div class="optblock" tapmode onclick="opengame(15)">
+        <img class="icon" src="../image/sing.png" />
+        <div class="name">聊天唱歌</div>
+    </div>
+    <div class="optblock" tapmode onclick="opengame(16)">
+        <img class="icon" src="../image/hw.png" />
+        <div class="name">作业指导</div>
+    </div>
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+      };
+
+      function opengame(gamecode){
+          api.openWin({
+              name: 'game_window',
+              url: '../html/game_window.html',
+              pageParam:{
+                gamecode: gamecode,
+                gamename: getgamename(gamecode),
+              },
+          })
+      }
+  </script>
+  </html>

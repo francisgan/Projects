@@ -1,0 +1,81 @@
+<widget id="A6170876450137" version="0.0.1">
+
+	<name>PeiWan</name>
+
+	<description>Example For APICloud.</description>
+
+	<author email="developer@apicloud.com" href="http://www.apicloud.com">Developer</author>
+
+	<content src="index.html"/>
+
+	<access origin="*"/>
+
+	<preference name="pageBounce" value="true"/>
+
+	<preference name="appBackground" value="rgba(0,0,0,0.0)"/>
+
+	<preference name="windowBackground" value="rgba(0,0,0,0.0)"/>
+
+	<preference name="frameBackgroundColor" value="rgba(0,0,0,0.0)"/>
+
+	<preference name="hScrollBarEnabled" value="false"/>
+
+	<preference name="vScrollBarEnabled" value="false"/>
+
+	<preference name="autoLaunch" value="true"/>
+
+	<preference name="fullScreen" value="false"/>
+
+	<preference name="autoUpdate" value="true"/>
+
+	<preference name="smartUpdate" value="false"/>
+
+	<preference name="debug" value="true"/>
+
+	<preference name="statusBarAppearance" value="true"/>
+
+	<preference name="iOS7StatusBarAppearance" value="true"/>
+
+	<preference name="useWKWebView" value="true"/>
+
+	<permission name="readPhoneState"/>
+
+	<permission name="camera"/>
+
+	<permission name="record"/>
+
+	<permission name="location"/>
+
+	<permission name="fileSystem"/>
+
+	<permission name="internet"/>
+
+	<permission name="bootCompleted"/>
+
+	<permission name="hardware"/>
+
+	<preference name="customRefreshHeader" value="UIPullRefreshMotive"/>
+
+	<feature name="UIRongCloud">
+		<param name="appKey" value="25wehl3u21o4w" />
+	</feature>
+
+
+	<feature name="qiniuUpfile"> 
+   <param name="bucket" value="unicorngaming"/>  
+   <param name="SecretKey" value="S5gT6bey_fkHaNV-ZJLv0oau8C3-ogoT8WGKIzbR"/>  
+   <param name="AccessKey" value="cJvgC7dVHELirzlPej-57Ib5Z9TrZDYBFf7qTYea"/> 
+  </feature>  
+
+   <meta-data name="Mob-AppKey" value="342f70a05a0d9"/>
+ <meta-data name="Mob-AppSecret" value="9f824a79adcd809a200b6f556bd4f79d"/> 
+
+ <preference name="customRefreshHeader" value="UIPullRefreshDrop"/>
+
+  <feature name="wxPlus">
+    <param name="urlScheme" value="wxbc6c457f9c91cc4e"/>
+    <param name="apiKey" value="wxbc6c457f9c91cc4e"/>
+    <param name="apiSecret" value="c7596f4c39a668c216ef4c0f20d3d5e8"/>
+    <param name="universalLink" value="https://zjrongshun.com/"/>
+  </feature>
+</widget>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    .row {
+        margin-top: 20px;
+        width: 80vw;
+        height: 50px;
+        margin-left: 10vw;
+        
+    }
+    #oldphone{
+        display: inline-block;
+        width: 80%;
+        height: 40px;
+        border:none;
+        font-size: 18px;
+        line-height: 40px;
+        color: rgb(102, 102, 102);
+    }
+
+    #newareaNum {
+        display: inline-block;
+        width: 15%;
+        height: 40px;
+        margin-right: 5%;
+        outline: none;
+        border-bottom: 1px solid #888;
+    }
+
+    #newphone {
+        display: inline-block;
+        width: 80%;
+        height: 40px;
+        border:none;
+        border-bottom: 1px solid #888;
+    }
+
+    #oldcode, #newcode {
+        display: inline-block;
+        width: 45%;
+        height: 40px;
+        border-bottom: 1px solid #888;
+    }
+
+    #oldgetcode, #newgetcode{
+        float: right;
+        width: 45%;
+        height: 40px;
+        font-size: 15px;
+        color: white;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 20px;
+        background-color: #05b0ff;
+
+    }
+
+
+    .btn {
+        width: 80vw;
+        height: 50px;
+        margin-left: 10vw;
+        margin-top: 32px;
+        background-color: #20dbcc;
+        color: #fff;
+        font-size: 16px;
+        line-height: 50px;
+        text-align: center;
+        border-radius: 25px;
+    }
+
+    .highlight {
+        opacity: 0.7;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div id="oldphone">原手机号: +86 18888888888</div>
+    </div>
+    <div class="row" id="oldcoderow">
+        <div id="oldcode"></div>
+        <div id="oldgetcode" onclick="oldgetcode()">获取验证码</div>
+    </div>
+
+    <div class="row">
+        <div id="newareaNum"></div>
+        <div id="newphone"></div>
+    </div>
+    <div class="row" id="newcoderow">
+        <div id="newcode"></div>
+        <div id="newgetcode" onclick="newgetcode()">获取验证码</div>
+    </div>
+    <div class="btn" tapmode="highlight" onclick="submit();">修改</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/APICloud-rest.js"></script>
+<script type="text/javascript" src="../script/SHA1.js"></script>
+<script type="text/javascript">
+apiready = function() {
+
+    UIInputIntl();
+};
+
+var UIInput;
+var oldCodeUIInputId;
+var newAreaNumUIInputId;
+var newPhoneUIInputId;
+var newCodeUIInputId;
+var oldCodeValue;
+var newAreaNumValue;
+var newPhoneValue;
+var newCodeValue;
+
+var oldcodecd = 0;
+var newcodecd = 0;
+var oldtimer = null;
+var newtimer = null;
+
+
+function UIInputIntl(){
+    // 旧验证码输入框模块
+    var oldCodeNum = $api.byId('oldcode');
+    var oldCodeNumRect = $api.offset(oldCodeNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: oldCodeNumRect.l,
+            y: oldCodeNumRect.t,
+            w: oldCodeNumRect.w,
+            h: oldCodeNumRect.h - 1
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 20,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:20
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '验证码',
+        keyboardType: 'number',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            oldCodeUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: oldCodeUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            oldCodeValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    // 新区号输入框模块
+    var newAreaNum = $api.byId('newareaNum');
+    var newAreaNumRect = $api.offset(newAreaNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: newAreaNumRect.l,
+            y: newAreaNumRect.t,
+            w: newAreaNumRect.w,
+            h: newAreaNumRect.h - 1
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 20,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:20
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '86',
+        keyboardType: 'number',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            newAreaNumUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: newAreaNumUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            newAreaNumValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    // 新手机号输入框模块
+    var newphoneNum = $api.byId('newphone');
+    var newphoneRect = $api.offset(newphoneNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: newphoneRect.l,
+            y: newphoneRect.t,
+            w: newphoneRect.w,
+            h: newphoneRect.h - 1
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 20,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:20
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '新手机号',
+        keyboardType: 'number',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            newPhoneUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: newPhoneUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            newPhoneValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    // 新验证码输入框模块
+    var newcodeNum = $api.byId('newcode');
+    var newcodeRect = $api.offset(newcodeNum);
+    UIInput = api.require('UIInput');
+    UIInput.open({
+        rect: {
+            x: newcodeRect.l,
+            y: newcodeRect.t,
+            w: newcodeRect.w,
+            h: newcodeRect.h - 1
+        },
+        styles: {
+            bgColor: '#fff',
+            size: 20,
+            color: '#000',
+            placeholder: {
+                color: '#ccc',
+                size:20
+            }
+        },
+        autoFocus: false,
+        maxRows: 1,
+        placeholder: '验证码',
+        keyboardType: 'number',
+        fixedOn: api.frameName
+    }, function(ret, err) {
+        if (ret) {
+            newCodeUIInputId = ret.id;
+            if (ret && ret.eventType == "show") {
+                
+            } else if (ret.eventType == "change") {
+                UIInput.value({
+                    id: newCodeUIInputId
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status) {
+                            newCodeValue = ret.msg;
+                        }
+                    }
+                });
+            }
+        }
+    });
+}
+
+
+//old code
+function oldgetcode(){
+    if(oldcodecd==0){
+            alert('获取验证码');
+            oldcodecd=30;
+            $api.byId('oldgetcode').style.backgroundColor = 'rgb(200,200,200)';
+            $api.byId('oldgetcode').innerHTML = oldcodecd + 's';
+            oldtimer = setInterval('oldcountdown()',1000);
+        
+    }
+}
+
+function oldcountdown(){
+    if(oldcodecd==0){
+    }
+    else{
+        oldcodecd -= 1;
+        $api.byId('oldgetcode').innerHTML = oldcodecd + 's';
+        if(oldcodecd==0){
+            $api.byId('oldgetcode').style.backgroundColor = '#05b0ff';
+            $api.byId('oldgetcode').innerHTML = '获取验证码';
+            clearInterval(oldtimer);
+        }
+    }
+}
+
+//newcode
+function newgetcode(){
+    if(newcodecd==0){
+        if(!newAreaNumValue || !newPhoneValue ){
+            alert('未填写区号或手机号');
+        }
+        else{
+            alert('获取验证码');
+            newcodecd=30;
+            $api.byId('newgetcode').style.backgroundColor = 'rgb(200,200,200)';
+            $api.byId('newgetcode').innerHTML = newcodecd + 's';
+            newtimer = setInterval('newcountdown()',1000);
+        }
+    }
+}
+
+function newcountdown(){
+    if(newcodecd==0){
+    }
+    else{
+        newcodecd -= 1;
+        $api.byId('newgetcode').innerHTML = newcodecd + 's';
+        if(newcodecd==0){
+            $api.byId('newgetcode').style.backgroundColor = '#05b0ff';
+            $api.byId('newgetcode').innerHTML = '获取验证码';
+            clearInterval(newtimer);
+        }
+    }
+}
+
+function submit(){
+    if(!oldCodeValue || !newCodeValue){
+        alert('请填写验证码');
+    }
+    else if(!newAreaNumValue || !newPhoneValue){
+        alert('请填写区号和手机号');
+    }
+    else{
+        alert(oldCodeValue + '-' + newAreaNumValue + '-'+ newPhoneValue + '-' +newCodeValue)
+    }
+    
+    
+}
+
+</script>
+
+</html>

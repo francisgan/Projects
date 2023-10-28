@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          *{padding:0;margin:0;font-size: 0;}
+          html,body{background-color: #f1f7f7 !important;}
+
+          header {
+        position:fixed;
+        top:0px;
+        width:100%;
+        height:60px;
+        background-color: #AAE1DC;
+        /*box-shadow: 0 0 5px #F0F0F0;*/
+        
+        
+  }
+
+  header .headeropt{
+      display:inline-block;
+      font-weight:600;
+      color: rgb(255, 255, 255);
+      position:relative;
+      left:25px;
+      margin-right: 16px;
+  }
+
+  #rec{
+      font-size:36px;
+  }
+
+  #follow{
+      font-size:20px;
+  }
+
+  
+
+
+        
+      </style>
+  </head>
+  <body>
+    <header id="header">
+        <div class="headeropt" id="rec" tapmode onclick="fnopenmainframe1()">推荐</div>
+        <div class="headeropt" id="follow" tapmode onclick="fnopenmainframe2()">关注</div>
+    </header>
+    
+
+        
+    
+
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        $api.fixStatusBar(
+            $api.byId("header")
+        );
+
+        
+
+
+
+        
+
+      var header = $api.byId("header");
+      var headerH = $api.offset(header).h;
+
+      api.openFrameGroup({
+          name: 'mainframegroup',
+          scrollEnabled: true,
+          rect:{
+              x:0,
+              y:headerH,
+              w:'auto',
+              h:api.winHeight - headerH - 56 - api.safeArea.bottom ,
+          },
+          index:0,
+          frames:[
+              {
+                name: 'mainframe1',
+                url: '../html/main_frame1.html',
+             },
+             {
+                name: 'mainframe2',
+                url: '../html/main_frame2.html',
+             }
+          ],
+          preload: 1
+      }, function(ret, err){
+          api.sendEvent({
+              name:'mainframegroupchange',
+              extra:{
+                  id: ret.index
+              }
+          })
+          
+      })
+
+      var recfont = $api.byId("rec");
+      var followfont = $api.byId("follow");
+
+      api.addEventListener({
+          name:'mainframegroupchange'
+      }, function(ret){
+            if(ret.value.id ==0) {
+                recfont.style.fontSize = '36px';
+                followfont.style.fontSize = '20px';
+                  }
+            
+            if(ret.value.id ==1){
+                recfont.style.fontSize = '20px';
+                followfont.style.fontSize = '36px';
+              }
+        }
+          
+      )
+      
+      api.bringFrameToFront({
+          from:'footer_frame'
+      })
+      
+      
+};//apiready end
+
+function fnopenmainframe1(){
+    api.setFrameGroupIndex({
+        name: 'mainframegroup',
+        index: 0,
+        scroll: true
+    });
+}
+
+
+
+function fnopenmainframe2(){
+    api.setFrameGroupIndex({
+        name: 'mainframegroup',
+        index: 1,
+        scroll: true
+    });
+    
+}
+
+      
+
+      
+  </script>
+  </html>

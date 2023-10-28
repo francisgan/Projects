@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: #f1f7f7;}
+
+          .itemblock{
+              display: inline-block;
+              width: 44vw;
+              height: auto;
+              margin: 4vw 0 0 4vw;
+              background-color: rgb(255, 255, 255);
+              border-radius: 10px;
+          }
+
+          .itemblock .itempicture{
+              width: 36vw;
+              height: 36vw;
+              margin:4vw;
+          }
+
+          .itemname{
+              color: black;
+              font-size: 12px;
+              text-align: center;
+          }
+
+          .cart{
+              float: right;
+              width: 30px;
+              height: 30px;
+              margin:3vw;
+          }
+
+          
+      </style>
+  </head>
+  <body>
+      <div class="itemblock">
+          <img src="../image/card.png" class="itempicture"/>
+          <div class="itemname">独角兽实体卡50元</div>
+          <img src="../image/cart.png" class="cart" onclick="buy()"/>
+      </div>
+
+      <div class="itemblock">
+        <img src="../image/card.png" class="itempicture"/>
+        <div class="itemname">独角兽实体卡100元</div>
+        <img src="../image/cart.png" class="cart"/>
+      </div>
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+
+      }; //end of apiready
+
+     function buy(){
+         api.openWin({
+             name: 'buy_window',
+             url: '../html/buy_window.html',
+         })
+     }
+
+  </script>
+  </html>

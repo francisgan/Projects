@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          #botarea{
+              margin-bottom: 0px !important;
+          }
+
+        #submit{
+            display: inline-block;
+            margin-left: calc( 10vw - 0.5px );
+            width: 80vw;
+            height: 40px;
+            background-color: white;
+            border:0.5px rgb(81, 162, 255) solid;
+            border-radius: 20px;
+            font-size: 20px;
+            line-height: 40px;
+            text-align: center;
+            color:rgb(81, 162, 255);
+            margin-bottom: 50px;
+
+        }
+
+      body{background: white;}
+
+      .title{
+          float: left;
+          margin-left:10px;
+          font-size: 18px;
+          font-weight: bold;
+          color: black;
+          line-height: 38px;
+      }
+
+      .note{
+          float: left;
+          margin-left:10px;
+          font-size: 12px;
+          color: rgb(122, 122, 122);
+          line-height: 38px;
+      }
+
+      .area{
+          display: inline-block;
+          background-color: rgb(255, 255, 255);
+          width: 100%;
+          margin-bottom: 8px;
+      }
+
+      #gamelist{
+          float: right;
+          margin-top: 9px;
+          margin-right: 5px;
+          font-size: 14px;
+          line-height: 14px;
+          padding: 4px;
+          color: rgb(81, 162, 255);
+          border: 0.5px rgb(81, 162, 255) solid;
+          border-radius: 11px;
+
+      }
+      #region, #contact, #defaultgame{
+        width: calc( 100vw - 15px);
+        margin-left: 10px;
+        margin-top:5px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 16px;
+        background-color: #f6f7f9;
+        margin-bottom: 10px;
+    }
+
+    #uploadgameimg, #uploadid, #uploadregion{
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        width: calc( 100vw - 21px);
+        height: calc( (100vw - 20px) / 1.75 - 1px);
+        border: 0.5px dashed grey ;
+        border-radius: 10px;
+        
+    }
+
+    #rankuploadicon{
+        display: inline-block;
+        width: 20vw;
+        height: 20vw;
+        margin-left: calc( 40vw - 10.5px );
+        margin-top: 10vw;
+        z-index: -999;
+    }
+
+    .imgdescription{
+        font-size: 12px;
+        margin-top: 20px;
+        color: GREY;
+        text-align: center;
+        z-index: -999;
+    }
+
+
+    #introduction{
+        width: calc( 100vw - 15px);
+        margin-left: 10px;
+        margin-top:5px;
+        height: 135px;
+        line-height: 20px;
+        font-size: 16px;
+        background-color: #f6f7f9;
+        margin-bottom: 10px;
+    }
+
+    #time{
+        width: calc( 100vw - 15px);
+        margin-left: 10px;
+        margin-top:5px;
+        height: 50px;
+        line-height: 20px;
+        font-size: 16px;
+        background-color: #f6f7f9;
+        margin-bottom: 10px;
+    }
+
+    #regionimgdisplay{
+        position: absolute;
+        top:0;
+        left:0;
+        width: calc( 100vw - 21px);
+        height: calc( (100vw - 20px) / 1.75 - 1px);
+        display: none;
+        z-index: 9999;
+    }
+
+    
+
+    
+
+      
+
+
+      </style>
+  </head>
+  <body>
+
+    <div class="area">
+        <div class="title">陪玩介绍</div><br>
+        <textarea id="introduction" placeholder="介绍自己，如：个人特色，游戏技能等，不可包含违规内容。限100字以内"></textarea>
+    </div>
+
+    <div class="area">
+        <div class="title">首页默认显示游戏</div><br>
+        <textarea id="defaultgame" placeholder="不填写则由系统自动分配"></textarea>
+    </div>
+
+    <div class="area">
+        <div class="title">接单时间</div><br>
+        <textarea id="time" placeholder="如:每日19:00-23:00,全天,不固定"></textarea>
+    </div>
+
+
+    <div class="area" id="botarea">
+        <div class='title'>个人信息</div>
+        <input type="text" id="region" placeholder="地区(如：美国加利福尼亚州)">
+        <input type="text" id="contact" placeholder="微信号/邮箱(仅用于与平台联系)">
+
+        <div id="uploadgameimg" tapmode onclick="uploadregionimg()">
+            <img src="../image/upload.png" id="rankuploadicon" />
+            <div class="imgdescription">请上传任何可以证明您在您填写的地区的图片(包括但不限于水电清单，银行账单，保险账单，学生id等)，上传前请查看注意事项。</div>
+            <img id="regionimgdisplay" src=""/>
+        </div>
+
+        <div id="submit" tapmode onclick="submit()">提交修改申请</div>
+    </div>
+
+    <div class="area" id="botarea">
+        
+    </div>
+
+    
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+        var introduction;
+        var time;
+        var region;
+        var contact;
+        var regionimgpath;
+        var imgurl;
+        var defaultgame;
+      apiready = function(){
+
+
+        //上传数据:
+        
+
+        api.addEventListener({
+            name:'uploadimg'
+        }, function(ret){
+            uploadapply();
+        })
+
+        
+
+      };
+
+      
+
+    function openalert(){
+        var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: 280,                     
+                h: 300 
+            },
+            texts: {
+                title: '注意事项',
+                content: '1.我们不会泄露或贩卖您的个人信息，除非需要配合有关部门调查 \n\n 2.证件照片仅用于验证身份，您只需要提供姓名、证件号码及出生年份，请您遮挡或打码证件有效期、证件签发日期、出生月份、出生日期、证件地址 \n\n 3.我们不会保存您的地址证明，请您遮挡或打码具体门牌号、街道号',
+                okBtnTitle: '关闭'
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 10,
+                title:{
+                    bg: 'white',
+                    h: 44,
+                    size: 14,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'left',
+                    size: 14
+                },
+                ok: {
+                    h: 50,
+                    bg: 'rgb(81, 162, 255)',
+                    titleColor: '#fff',
+                    titleSize: 20,
+                }
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    dialogName: 'scene'
+                })
+            }
+        })
+    } //end of gamelist function
+
+
+    function uploadregionimg(){
+        api.getPicture({
+            sourceType:'album',
+            mediaValue: 'pic',
+            destinationType:'url',
+            targetWidth: 1500,
+            targetHeight:857,
+        },
+        function(ret){
+            if(ret){
+            regionimgpath = ret.data;
+            var regionimg = $api.byId("regionimgdisplay");
+            regionimg.style.display = 'inline-block' ;
+            regionimg.src = ret.data;
+            }
+        })
+    }
+
+    function submit(){
+        var text="";
+        
+        introduction = $api.byId('introduction').value;
+        time = $api.byId('time').value;
+        region = $api.byId('region').value;
+        contact = $api.byId('contact').value;
+        defaultgame = $api.byId('defaultgame').value;
+        if(introduction){
+            text += '介绍:' + introduction +'\n';
+        }
+        if(defaultgame){
+            text += '默认游戏:' + defaultgame +'\n';
+        }
+        if(time){
+            text += '时间:' + time +'\n';
+        }
+        if(region){
+            text += '地区:' + region +'\n';
+        }
+        if(typeof regionimgpath=="undefined"){}
+        else{
+            text += '地区图片' + regionimgpath + '\n';
+        }
+        if(contact){
+            text += '联系方式:' + contact +'\n';
+        }
+
+        if(!text)
+        {alert('请修改至少一种信息')}
+        else{
+            alert(text);
+            uploadimg();
+        }
+        
+    }
+    
+    function uploadapply(){
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/changeinfo',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    info: introduction,
+	                maingame: defaultgame,
+                    time:time,
+	                region: region,  
+                    contact: contact,
+                    img:imgurl,
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                },
+            }
+        }, function(ret, err){
+            if(ret.code==0){
+                endloading();
+                success();
+                setTimeout(api.closeWin(),1000);
+
+            }else{
+                endloading();
+                if(err.code==404){
+                    alert('服务器维护中');
+                }else if(err.code==0){
+                    alert('请检查网络设置');
+                }
+            }
+        })//ajax
+    }
+
+    function uploadimg(){
+        startloading()
+        var qiniu = api.require('qiniuUpfile');
+            qiniu.upfile({
+            file: regionimgpath,
+            },function(ret,err){
+                if(ret.oper=="complete"){
+                    imgurl = 'http://qiniu.zjrongshun.com/' + ret.info.hash;
+                    api.sendEvent({
+                        name:'uploadimg'
+                    });
+                }else if(err){
+                    endloading();
+                    alert('上传图片时出错');
+                }
+            });//img1
+    }
+
+    var loadingid;
+  function startloading(){
+  var UILoading = api.require('UILoading');
+    UILoading.flower({
+    center: {
+        x: api.winWidth/2.0,
+        y: api.winHeight/2.0
+    },
+    size: 40,
+    fixed: true
+}, function(ret) {
+      loadingid = ret.id;
+});
+}
+
+function endloading(){
+var uiloading = api.require('UILoading');
+uiloading.closeFlower({
+    id: loadingid,
+    isGradual:false
+});
+}
+
+function success(){
+    var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: api.winWidth*0.6,                     
+                h: 100 
+            },
+            texts: {
+                title: '',
+                content: '提交成功,平台将尽快审核',
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 20,
+                title:{
+                    bg: 'white',
+                    h: 30,
+                    size: 14,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'center',
+                    size: 16
+                },
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    icon: '',
+                    dialogName: 'scene'
+                })
+            }
+        })
+  }
+    
+
+  </script>
+  </html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: #ffffff;}
+
+          #top{
+            width: calc( 100vw - 10px );
+            height: 60px;
+            background-color: white;
+            margin-left: 5px;
+            margin-top: 5px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .topson{
+            float: left;
+        }
+
+        #top #top_left{
+            position: relative;
+            width: 60px;
+            height: 100%;
+        }
+
+        #top #top_left #icon{
+            background-color: rgb(235, 235, 235);
+            position: absolute;
+            top:5px;
+            left:5px;
+            overflow: hidden;
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+        }
+
+        #top #top_middle{
+            position: relative;
+            width: calc(100% - 125px);
+            height: 60px;
+        }
+
+        
+
+        #top #top_middle #top_middle_l1{
+            display: inline-block;
+            height: 30px;
+            width: 100%;
+
+        }
+
+        #top_middle_l1 #username{
+            float: left;
+            height: 16px;
+            font-size: 15px;
+            color:black;
+            line-height: 16px;
+            margin: 9px 0px 7px 10px;
+        }
+
+        #top_middle_l1 #agedisplay{
+            height: 14px;
+            display: inline-block;
+            margin-left: 10px;
+            margin-bottom: 8px;
+            margin-top: 10px;
+            border-radius: 7px;
+            
+        }
+
+        #top_middle_l1 #agedisplay #age{
+            float: left;
+            height: 14px;
+            color: white;
+            font-size: 12px;
+            line-height: 14px;
+            margin-left:3px;
+            margin-right: 5px;
+        }
+
+        #top_middle_l1 #agedisplay img{
+            float: left;
+            height: 10.5px;
+            width: 6px;
+            margin:1.75px 0px 1.75px 5px
+        }
+
+        #top #top_middle #top_middle_l2{
+            display: inline-block;
+            height: 30px;
+            width: 100%;
+        }
+
+        #statuscolor, #status, #location{
+            float: left;
+        }
+
+        #statuscolor{
+            width: 8px;
+            height: 8px;
+            background-color: rgb(186, 255, 82);
+            border-radius: 4px;
+            margin-left:10px;
+            margin-top:9px;
+        }
+
+        #status, #location{
+            font-size: 12px;
+            line-height: 12px;
+            color: rgb(187, 187, 187);
+        } 
+
+        #status{
+            margin-left: 2px;
+            margin-top:7px;
+        }
+
+        #top #top_right{
+            width: 65px;
+            height: 100%;
+            position: relative;
+        }
+
+        #top #top_right #follow{
+            width: 60px;
+            height: 30px;
+            position: absolute;
+            top:15px;
+            right:5px;
+            background-color: #8194ff;
+            display: inline-block;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 15px;
+        }
+
+        #infodisplay{
+            display: inline-block;
+            width: calc( 100vw - 10px);
+            height: auto + 100px ;
+            border-radius: 5px;
+            margin-top: 5px;
+            margin-left: 5px;
+            padding-bottom: 10px;
+            background-color: white;
+
+        }
+
+        #certarea{
+            display: inline-block;
+            margin-top: 5px;
+            margin-left: 5px;
+            width: calc( 100vw - 20px);
+            height: calc( (100vw - 20px) / 1.75 );
+            border-radius: 10px;
+            background-color: rgb(235, 235, 235);
+        }
+
+        #infotitle{
+            margin-left: 6px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        #infotitleletter{
+            display: inline-block;
+            color: black;
+            font-size: 20px;
+            line-height: 20px;
+            font-weight: bold;
+        }
+
+        #infoverify{
+            display:initial;
+            height: 15px;
+            width: 15px;
+            margin-top: 2.5px;
+            margin-left: 5px;
+        }
+
+        .infotag{
+            float: left;
+            width: 65px;
+            font-size: 12px;
+            line-height: 16px;
+            color: rgb(137, 170, 221);
+            font-weight: normal;
+            margin-top: 6px;
+            margin-left: 6px;
+            background-color: #eaf4fc;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .infocontent{
+            display: inline-block;
+            font-size: 12px;
+            line-height: 16px;
+            color: rgb(104, 104, 104);
+            max-width: calc( 100vw - 100px );
+            margin-top: 6px;
+            margin-left: 5px;
+        }
+
+        #description{
+            display: inline-block;
+            font-size: 14px;
+            color: rgb(104, 104, 104);
+            margin-top: 10px;
+            margin-left: 20px;
+            margin-right: 20px;
+            text-indent: 28px;
+            
+        }
+
+        #skill{
+            width: calc( 100vw - 10px );
+            height: auto;
+            margin-left: 5px;
+            margin-top: 5px;
+            margin-bottom: 96px;
+            padding-bottom: 10px;
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        #skilltitle{
+            display: inline-block;
+            padding: 0 10px;
+            font-size: 20px;
+            color: rgb(255, 255, 255);
+            line-height: 30px;
+            background-image: linear-gradient(90deg, #5e77ff, #61e2fa);
+            border-radius: 15px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        .skilldisplay{
+            width: calc( 100vw - 30px );
+            margin-top: 10px;
+            margin-left: 10px;
+            box-shadow: rgb(224, 224, 224) 0 0 5px;
+            border-radius: 10px;
+        }
+
+        .skillline1{
+            width: auto ;
+            height: 70px;
+        }
+
+        .gameicon{
+            float: left;
+            margin-top: 15px;
+            margin-left: 15px;
+            height: 50px;
+            width: 50px;
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        .gamename{
+            float: left;
+            font-size: 18px;
+            font-weight: bold;
+            color: rgb(24, 24, 24);
+            line-height: 18px;
+            margin-top: 31px;;
+            margin-left: 15px;
+        }
+
+        .price{
+            float: right;
+            font-size: 16px;
+            color: rgb(253, 62, 62);
+            line-height: 16px;
+            margin-top: 32px;
+            margin-right: 10px;
+        }
+
+        .skillline2{
+            width: auto;
+            height: 30px;
+            padding-left: 15px;
+            padding-bottom: 10px;
+            margin-top: 15px;
+        }
+
+        .proplayer{
+            display:initial;
+            float: left;
+            font-size: 12px;
+            line-height: 16px;
+            color: white;
+            background-image: linear-gradient(90deg, #fa7a30, #f5b645);
+            padding: 0 4px;
+            margin-top: 7px;
+            margin-right: 10px;
+            border-radius: 8px;
+        }
+
+        .rank{
+            float: left;
+            font-size: 12px;
+            line-height: 16px;
+            color: #8ebbe2;
+            background-color: #eaf4fc;
+            padding: 0 4px;
+            
+            margin-top: 7px;
+            border-radius: 8px;
+        }
+
+        .skillorder{
+            float: right;
+            font-size: 16px;
+            line-height: 30px;
+            color: white;
+            background-image: linear-gradient(90deg, #b68bff, #8d88fe);
+            padding: 0 10px;
+            margin-right: 10px;
+            border-radius: 15px;
+        }
+
+        #conversation{
+            position: fixed;
+            bottom: 30px;
+            left: 10vw;
+            width: 80vw;
+            height: 46px;
+            border-radius: 23px;
+            background-image: linear-gradient(90deg, #b68bff, #8d88fe);
+            font-size: 20px;
+            line-height: 46px;
+            text-align: center;
+            color: white;
+        }
+        /*AAE1DC*/
+
+
+
+          
+      </style>
+  </head>
+  <body>
+
+    <div id="conversation" tapmode onclick="conversation(1000)">聊一聊</div>
+    <div id="top">
+        <div id="top_left" class="topson">
+            <img src="" id="icon"/>
+        </div>
+
+        <div id="top_middle" class="topson">
+            <div id="top_middle_l1">
+                <div id="username"></div>
+                <div id="agedisplay">
+                    <img src="" id="genderpic"/>
+                    <div id="age"></div>
+                </div>
+            </div>
+            <div id="top_middle_l2">
+                  <div id="statuscolor"></div>
+                  <div id="status">在线</div>
+            </div>
+        </div>
+
+        <div id="top_right" class="topson">
+            <div id="follow">关注</div>
+        </div>
+    </div>
+
+
+    <div id="infodisplay">
+        <div id="certarea"></div>
+        <div id="infotitle">
+            <div id="infotitleletter">个人资料</div>
+            <img src="../image/infoverify.png" id="infoverify"/><br>
+        </div>
+
+            <div class="infotag">用户ID</div>
+            <div class="infocontent" id="contentid">10082941</div><br>
+
+            <div class="infotag">地区</div>
+            <div class="infocontent" id="contentregion">Los Angeles, CA</div><br>
+
+            <div class="infotag">接单时间</div>
+            <div class="infocontent" id="contentavailtime">周一 ~ 周五 21:00~00:00</div><br>
+
+            <div id="description"></div>
+    </div>
+
+    <div id="skill">
+        <div id="skilltitle">技能展示</div>
+        <div id="skillwrap"><!--skillwrap begin-->
+
+
+
+        </div><!--skillwrap end-->
+
+    </div>
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+          var userid = api.pageParam.userid;
+
+          $api.byId('contentid').innerHTML = userid;
+
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/pwpage',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    userid: userid
+                }
+            }
+        }, function(ret, err){
+            if(ret && ret.code==0){
+                var username = ret.data.user.username;
+                var iconurl = ret.data.user.icon;
+                api.setGlobalData({
+                    key: 'placeordericonurl',
+                    value:iconurl
+                });
+                $api.byId('username').innerHTML = username;
+                $api.byId('icon').src = iconurl;
+                $api.byId('age').innerHTML = ret.data.user.age;
+                $api.byId('username').innerHTML = ret.data.user.username;
+                if(ret.data.user.gender=='m'){
+                    $api.byId('agedisplay').style.backgroundColor = '#5dc5ed';
+                    $api.byId('genderpic').src = '../image/male.png'
+                }else{
+                    $api.byId('agedisplay').style.backgroundColor = '#ffb5c5';
+                    $api.byId('genderpic').src = '../image/female.png'
+                }
+                $api.byId('contentregion').innerHTML = ret.data.user.region;
+                $api.byId('contentavailtime').innerHTML = ret.data.user.availtime;
+                $api.byId('description').innerHTML = '"'+ret.data.user.info+'"';
+                loadphoto(ret.data.user.photo);
+                for(var i=1;i<=16;i++){
+                    var a=eval("ret.data.user._" + i);
+                    if(a){
+                        var name = getgamename(i);
+                        var imgpath = getgameimgpath(i);
+                        var price = a[0];
+                        var pro = a[1];
+                        var rank = a[2];
+                        var skill = '<div class="skilldisplay"><div class="skillline1">';
+                        skill += '<img src= ' + imgpath + ' class="gameicon" />';
+                        skill += '<div class="gamename">' + name + '</div>';
+                        skill += '<div class="price">' + price + '币/时</div>';
+                        skill += '</div><div class="skillline2">'
+                        if(pro){
+                            skill +='<div class="proplayer">大神陪玩</div>';
+                        };
+                        skill += '<div class="rank">' + rank + '</div>';
+                        skill += '<div class="skillorder" tapmode onclick="'+"placeorder("+userid+",'"+ username +"',"+i+",'"+name+"',"+ price + ")" +'">下单</div>';
+                        skill += '</div></div>';
+                        $api.byId('skillwrap').innerHTML += skill;
+                    }
+                }
+            }
+            else{
+                alert('发生错误');
+                alert(JSON.stringify(err));
+            }
+            
+            
+        })
+
+        var body = $api.byId("skill")
+        body.style.paddingBottom = 10 + api.safeArea.bottom + 'px';
+        
+        
+
+    }; //end of apiready
+
+    function follow(){
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/follow',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data: {
+                values:{
+                    userid = api.pageParam.userid,
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                },
+            },
+        }, function(ret, err){
+            if(ret){
+                if(ret.code==0){
+                    
+                }else if(ret.code==1){
+                    alert('服务器发生错误');
+                }
+                else{
+                    alert('发生未知错误');
+                }
+            }
+            else if(err){
+                alert('发生错误,代码:'+JSON.stringify( err ));
+            }
+            
+        })
+    }
+
+    function unfollow(){
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/unfollow',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data: {
+                values:{
+                    userid = api.pageParam.userid,
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                },
+            },
+        }, function(ret, err){
+            if(ret){
+                if(ret.code==0){
+                    
+                }else if(ret.code==1){
+                    alert('服务器发生错误');
+                }
+                else{
+                    alert('发生未知错误');
+                }
+            }
+            else if(err){
+                alert('发生错误,代码:'+JSON.stringify( err ));
+            }
+            
+        })
+    }
+
+    function loadphoto(photopath){
+        //begin of uiscroll
+        var picture = $api.byId('certarea');
+        var pictureRect = $api.offset(picture);
+        var UIScrollPicture = api.require('UIScrollPicture');
+        UIScrollPicture.open({
+            rect: {
+            x: pictureRect.l,
+            y: pictureRect.t,
+            w: pictureRect.w,
+            h: pictureRect.h
+        },
+        data: {
+            paths: [
+                'http://qyeqgfbmx.bkt.gdipper.com/cert1.jpg',
+                'http://qyeqgfbmx.bkt.gdipper.com/cert2.jpg',
+                'http://qyeqgfbmx.bkt.gdipper.com/cert3.jpg'
+            ],
+        },
+        styles: {
+            indicator: {
+                dot:{
+                w:10,
+                h:10,
+                r:5,
+                margin:10
+            },
+            align: 'center',
+            color: '#adadad',
+            activeColor: '#4c4c4c'
+            }
+        },
+        contentMode: 'scaleToFill',
+        cornerRadius: 10,
+        scrollerCorner: 5,
+        auto:false,
+        loop: false,
+        fixed: false,
+        fixedOn:'pwpage_frame'
+        }, function(ret, err) {
+        }); //end of UIscroll
+    }
+
+
+    function placeorder(userid,username,game,gamename,price){
+        api.openWin({
+            name: 'placeorder_window',
+            url: '../html/placeorder_window.html',
+            pageParam:{
+                userid: userid,
+                username: username,
+                game: game,
+                gamename: gamename,
+                price: price,
+            }
+        })
+    }
+
+    function conversation(id){
+        alert("打开聊天"+id);
+    }
+
+
+
+
+
+
+  </script>
+  </html>

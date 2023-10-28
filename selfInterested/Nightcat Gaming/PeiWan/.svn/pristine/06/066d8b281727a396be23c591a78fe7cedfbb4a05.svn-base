@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="./css/api.css" />
+    <style type="text/css">
+        
+    </style>
+</head>
+
+<body class="wrap">
+    
+</body>
+<script type="text/javascript" src="./script/api.js"></script>
+<script type="text/javascript" src="./script/custom.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.setPrefs({
+                key: 'deviceid',
+                value: api.deviceId
+            });
+        var firstopen = api.getPrefs({
+            sync: true,
+            key:'firstopen'
+        });
+
+        if(firstopen!='not'){
+            //首次打开软件初始化
+            alert('第一次');
+            api.setPrefs({
+                key: 'firstopen',
+                value: 'not'
+            });
+            api.setPrefs({
+                key: 'loginstatus',
+                value: false
+            });
+            api.setPrefs({
+                key: 'uuid',
+                value: ''
+            });
+            api.requestPermission({list:['notification'],});
+            //初始化结束
+        }else{
+            if(loginstatus()==true){
+                checkdevice();
+            }else{
+                openmain();
+            }
+            
+            
+            
+        }
+        
+        var rong = api.require('UIRongCloud');
+        rong.init(function(ret, err) {
+            if (ret.status == 'error')
+            api.toast({ msg: err.code });
+        });
+        rong.connect({
+            token: 'ThptTWyiPPPvZHvuSiuri82yq+hfEluLjZ78E1qo4hEVSFQNpqdoPu406urMWKN4Z3/olWR+v9JVLAwfOQoLrA=='},function(ret, err) {
+            if (ret.status == 'success') api.toast({ msg: ret.result.userId });
+        });
+
+        $api.setStorage('rong',rong);
+
+
+        
+
+        
+
+    };//end of apiready
+
+    function openmain(){
+        api.openWin({
+              name: 'main',
+              url: './html/main.html',
+              slidBackEnabled: false
+          });
+    }
+
+    function checkdevice(){
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/checkdevice',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                    deviceid: api.deviceId,
+                },
+            }
+        }, function(ret, err){
+            if(ret){
+                if(ret.code==1){
+                    logout();
+                }else if(ret.code==2){
+                    alert('服务器发生错误');
+                }
+                openmain();
+            }
+            else if(err){
+                alert('发生错误,代码:'+JSON.stringify( err ));
+            }
+            
+            
+        })
+    }
+
+</script>
+
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: rgb(243, 243, 243);}
+          #setting{
+              width: 100%;
+              height: auto;
+              margin-top: 20px;
+              background-color: white;
+          }
+
+          .row{display: inline-block;
+              width: 100%;
+              height: auto;
+              background-color: white;
+          }
+
+          #setting .row .title{
+              float: left;
+              height: auto;
+              font-size: 14px;
+              text-indent: 12px;
+              line-height: 50px;
+              background-color: white;
+          }
+
+          .row img{
+              float: right;
+              height: 10px;
+              width: 5px;
+              margin: 20px 10px;
+          }
+
+          #setting .settingline{
+              position:relative;
+              left:4.5vw;
+              width: 95.5vw;
+              height: 0.5px;
+              border-bottom: #ececec 1px solid;
+          }
+
+          #phone{
+              float: right;
+              font-size: 12px;
+              line-height: 50px;
+              color: rgb(139, 139, 139);
+          }
+
+          #wechatbind{
+            float: right;
+            font-size: 12px;
+            line-height: 50px;
+            color: rgb(139, 139, 139);
+          }
+
+          #copyright{
+              position: absolute;
+              bottom: 40px;
+              width: 100%;
+              text-align: center;
+              font-size: 10px;
+              color: rgb(156, 156, 156);
+              
+          }
+
+
+      </style>
+  </head>
+  <body>
+    <div id="setting">
+        <div class="row" tapmode onclick="privacy()">
+            <div class="title">隐私政策</div>
+            <img src="../image/next.png"/>
+        </div><br>
+        <div class="settingline"></div>
+
+        
+        <div class="row"  tapmode onclick="agreement()">
+            <div class="title">用户协议</div>
+            <img src="../image/next.png"/>
+        </div>
+
+        <div id="copyright">浙江融顺网络科技有限公司 版权所有</div>
+
+       
+
+    </div>
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        
+      };
+
+      function privacy(){
+          api.openWin({
+              name: 'setting_about_privacy',
+              url: '../html/doc_privacy.html',
+              bounces: false,
+          })
+      }
+
+      function agreement(){
+          api.openWin({
+              name: 'setting_about_agreement',
+              url: '../html/doc_agreement.html',
+              bounces: false,
+          })
+      }
+    
+  </script>
+  </html>

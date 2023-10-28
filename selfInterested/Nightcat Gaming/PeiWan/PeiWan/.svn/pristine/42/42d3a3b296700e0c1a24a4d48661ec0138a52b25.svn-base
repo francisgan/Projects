@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        header {
+        position:fixed;
+        top:0px;
+        width:100%;
+        height:50px;
+        background-color: #ffffff;
+        }
+
+        header #back{
+            position: absolute;
+            bottom: 0;
+            left:0;
+            height: 50px;
+            width: 80px;
+            
+        }
+
+        header img{
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            bottom:15px;
+            left:18px;
+        }
+
+        #wechatlogin{
+            position:absolute;
+            left:10vw;
+            width: 80vw;
+            height: 44px;
+            border-radius: 22px;
+            display: table-cell;
+            text-align: center;
+            background-color: rgb(22, 230, 22);
+            bottom:130px;
+        }
+
+        #phonelogin{
+            background-color: #fff;
+            bottom:50px;
+            position:absolute;
+            left:10vw;
+            width: calc(80vw - 2px);
+            height: 44px;
+            border-radius: 22px;
+            border: black 1px solid;
+            display: table-cell;
+            text-align: center;
+        }
+
+        .icon, .title{
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+
+        .icon{
+            height: 24px;
+            width: 24px;
+        }
+
+        .title{
+            height: 44px;
+            font-size: 15px;
+            line-height: 44px;
+            color: rgb(255, 255, 255);
+        }
+
+        #phonetitle{
+            color: black;
+
+        }
+    </style>
+</head>
+
+<body id="body">
+    <header id="header">
+        <div id="back" tapmode onclick="fnclosewin()"><img src="../image/cancel.png" /></div>
+    </header>
+    
+    <div id="wechatlogin" tapmode onclick="wechatlogin()">
+        
+        <div class="title"><img src="../image/wechat.png" class="icon"/>微信登入</div>
+
+    </div>
+    <div id="phonelogin" tapmode onclick="phonelogin()">
+        
+    <div class="title" id="phonetitle"><img src="../image/phone.png" class="icon"/>手机号登入</div>
+    
+        
+    </div>
+    
+    
+        
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+var wxPlus;
+var rong;
+apiready = function() {
+    rong = api.require('UIRongCloud');
+
+    wxPlus = api.require('wxPlus');
+
+    $api.fixStatusBar(
+        $api.byId("header")
+    );
+
+    api.addEventListener({
+        name:'closelogin'
+    }, function(ret){
+        api.closeWin();
+    })
+
+};
+
+
+function wechatlogin(){
+    wxPlus.auth({
+    }, function(ret, err) {
+        if (ret.status) {
+            startloading();
+            wxlogin(ret.code)
+        } else {
+            alert(err.code);
+        }
+    });
+}
+
+function wxlogin(code){
+    api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/wxlogin',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    deviceid:api.deviceId,
+                    wxcode:code
+                },
+            }
+        }, function(ret, err){
+            if(ret){
+                endloading();
+                if(ret.code==0){
+                    api.setPrefs({
+                        key: 'loginstatus',
+                        value:true
+                    });
+                    api.setPrefs({
+                        key: 'uuid',
+                        value:ret.data.uuid
+                    });
+                    api.setPrefs({
+                        key: 'rongtoken',
+                        value:ret.data.rongtoken
+                    });
+                    api.setPrefs({
+                        key: 'userid',
+                        value:ret.data.userid
+                    });
+                    rong.connect({
+                        token: ret.data.rongtoken
+                    },function(ret, err) {
+                        if (ret.status != 'success'){
+                            alert('通讯服务器发生错误');
+                        };
+                    });
+                    api.closeWin();
+                }else{
+                    alert('微信登入失败');
+
+                }
+
+            }
+            else if(err){
+                if(err.code==404){
+                    alert('服务器维护中');
+                }else if(err.code==0){
+                    alert('请检查网络设置');
+                }else{
+                    alert('发生未知错误');
+                }
+            }
+            
+            
+        })
+}
+
+function phonelogin(){
+    var header = $api.byId("header");
+    $api.fixStatusBar(header);
+    var headerH = $api.offset(header).h;
+    
+    api.openFrame({
+        name: 'login_phone_frame',
+        url:'../html/login_phone_frame.html',
+        bgColor: 'white',
+            rect:{
+                x:0,
+                y:headerH,
+                w:'auto',
+                h:'auto'
+            },
+        bounces: false,
+    })
+}
+
+function fnclosewin(){
+    api.closeWin()
+}
+
+function startloading(){
+  var UILoading = api.require('UILoading');
+    UILoading.flower({
+    center: {
+        x: api.winWidth/2.0,
+        y: api.winHeight/2.0
+    },
+    size: 40,
+    fixed: true
+}, function(ret) {
+      loadingid = ret.id;
+});
+}
+
+function endloading(){
+var uiloading = api.require('UILoading');
+uiloading.closeFlower({
+    id: loadingid,
+    isGradual:false
+});
+}
+</script>
+
+</html>

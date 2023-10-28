@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: #f1f7f7;}
+
+          #iteminfo{
+              display: inline-block;
+              margin: 20px 3vw;
+              width: 94vw;
+              height: auto;
+              border-radius: 10px;
+              background-color: white;
+          }
+
+          #left{
+              float: left;
+              height: auto;
+              width: 31vw;
+          }
+
+          #right{
+            float: left;
+            height: auto;
+            width: 63vw;
+          }
+
+          #left img{
+              height: 25vw;
+              width: 25vw;
+              margin: 3vw;
+          }
+
+          #itemname{
+              display: inline-block;
+              margin-top: 3vw;
+              width: 63vw;
+              height: calc(25vw - 15px);
+              font-size: 15px;
+          }
+
+          #itemprice{
+              display: inline-block;
+              width: 63vw;
+              font-size: 15px;
+              line-height: 15px;
+          }
+
+
+
+          #methodarea{
+              display: inline-block;
+              margin: 0 3vw;
+              width: 94vw;
+              height: auto;
+              border-radius: 10px;
+              background-color: white;
+              padding-bottom: 3vw;
+          }
+
+          #methodtitle{
+              float: left;
+              font-size: 17px;
+              line-height: 17px;
+              color: black;
+              margin: 4vw;
+          }
+
+
+          .methodoption{
+              position: relative;
+              display: inline-block;
+              width: calc(80vw - 4px);
+              height: 56px;
+              margin:10px 7vw 0 7vw;
+              border-radius: 10px;
+              border: solid 2px;
+              border-color: rgb(209, 209, 209);
+          }
+
+          #appleicon{
+            margin-top: 5px ;
+            margin-left: calc(40vw - 25px);
+            height: 46px;
+            width: 46px;
+          }
+
+          .methodicon{
+              float: left;
+              height: 40px;
+              width: 40px;
+              margin: 8px;
+          }
+
+          .optionname{
+              float: left;
+              font-size: 17px;
+              color: black;
+              line-height: 56px;
+              margin-left: 20px;
+
+          }
+
+          #submit{
+              width: 80vw;
+              height: 40px;
+              margin-top: 20px;
+              margin-left: 10vw;
+              margin-bottom: 20vh;
+              border-radius: 20px;
+              font-size: 18px;
+              line-height: 40px;
+              text-align: center;
+              color: white;
+              background-color: rgb(30, 173, 255);
+          }
+
+          #soon{
+              font-size: 12px;
+              line-height: 22px;
+              color: white;
+              padding: 0 4px 0 4px;
+              background-color: rgb(138, 138, 138);
+              height: auto;
+              width: auto;
+              position: absolute;
+              right: 5px;
+              top:17px;
+              border-radius: 8px;
+          }
+
+
+
+          
+      </style>
+  </head>
+  <body>
+      <div id="iteminfo">
+          <div id="left">
+              <img src="../image/default.png" id="itemimage"/>
+          </div>
+          <div id="right">
+              <div id="itemname">&nbsp;</div>
+              <div id="itemprice">&nbsp;</div>
+          </div>
+          
+      </div>
+
+      <div id="methodarea">
+          <div id="methodtitle">支付方式</div>
+
+          <div class="methodoption" tapmode onclick="choosemethod(0)">
+            <img src="../image/wechatpay.png" class="methodicon"/>
+            <div class="optionname">微信钱包</div>
+        </div>
+
+        <div class="methodoption" tapmode onclick="">
+            <img src="../image/alipay.png" class="methodicon"/>
+            <div class="optionname">支付宝</div>
+            <div id="soon">即将推出</div>
+        </div>
+
+        <div class="methodoption" tapmode onclick="othermethod()">
+            <img src="../image/otherpayment.png" class="methodicon"/>
+            <div class="optionname">其他付款方式</div>
+        </div>
+
+      </div>
+
+      <div id="submit" tapmode onclick="submit()">下单</div>
+
+   
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+  var pageParam;
+  var ipAddress;
+  var ip;
+  var wxPayPlus;
+  var uuid;
+      apiready = function(){
+        wxPayPlus = api.require('wxPayPlus');
+        ipAddress = api.require('ipAddress');
+        ipAddress.getIp({
+        isNetIp : false,
+        isIpV6 : false
+        },function(ret, err) {
+            ip =ret.ip;
+        });
+        uuid = api.getPrefs({sync:true,key:'uuid'});
+        pageParam = api.pageParam;
+        $api.byId('itemimage').src=pageParam.picture;
+        $api.byId('itemname').innerHTML=pageParam.name;
+        $api.byId('itemprice').innerHTML= "￥"+pageParam.price;
+      }; //end of apiready
+      var method;
+
+
+      function othermethod(){
+        var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: 280,                     
+                h: 300 
+            },
+            texts: {
+                title: '其他付款方式',
+                content: '        如需使用Zelle、Venmo、Paypal等付款方式，您可以联系客服进行购买。\n\n客服微信号: YMcustomer',
+                okBtnTitle: '关闭'
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 10,
+                title:{
+                    bg: 'white',
+                    h: 44,
+                    size: 18,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'left',
+                    size: 15
+                },
+                ok: {
+                    h: 50,
+                    bg: 'rgb(81, 162, 255)',
+                    titleColor: '#fff',
+                    titleSize: 20,
+                }
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    dialogName: 'scene'
+                })
+            }
+        })
+    }
+
+
+      function choosemethod(num){
+          var methodnum = $api.domAll('.methodoption');
+          for(i=0;i<=1;i++){
+            methodnum[i].style.borderColor = 'rgb(209,209,209)';
+          }
+          methodnum[num].style.borderColor = 'rgb(60,60,60)';
+          if(num==0){
+              method = 'wechat';
+          }
+          else if(num==1){
+              method = 'alipay';
+          }
+      }
+
+      function submit(){
+        placeorder();
+      }
+
+      function placeorder(){
+        startloading();
+        api.ajax({
+            url:'https://a6170876450137-pd.apicloud-saas.com/api/goodorders/placeorder',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data: {
+                values:{
+                    uuid: uuid,
+                    ip: ip,
+                    good_number: pageParam.good_number,
+                    method: method
+                },
+            },
+        }, function(ret, err){
+            if(ret){
+                endloading();
+                wechatPay(ret.resData.params);
+            }
+            else if(err){
+                endloading()
+                if(err.code ==404){
+                    alert('服务器维护中');
+                }else if(err.code ==0){
+                    alert('请检查网络设置');
+                }
+            }
+            
+        })
+      }
+
+    function wechatPay(params){
+        wxPayPlus.payOrder({
+            apiKey: 'wxbc6c457f9c91cc4e',
+            orderId: params.prepayid,
+            mchId: '1613993680',
+            nonceStr: params.noncestr,
+            timeStamp: params.timestamp,
+            package: 'Sign=WXPay',
+            sign: params.sign
+        }, function(ret, err) {
+            if (ret.status) {
+                alert('支付成功! 请前往"商城"-"订单"查看订单');
+                api.closeWin();
+            } else if(err){
+                alert('取消支付，请重新下单');
+                
+            }
+        });
+    }
+
+      
+
+
+
+
+  </script>
+  </html>

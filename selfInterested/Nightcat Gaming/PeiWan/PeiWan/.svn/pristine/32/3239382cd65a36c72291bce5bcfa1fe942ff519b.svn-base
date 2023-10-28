@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: rgb(243, 243, 243);}
+          #setting{
+              width: 100%;
+              height: auto;
+              margin-top: 20px;
+              background-color: white;
+          }
+
+          .row{display: inline-block;
+              width: 100%;
+              height: auto;
+              background-color: white;
+          }
+
+          #setting .row .title{
+              float: left;
+              height: auto;
+              font-size: 14px;
+              text-indent: 12px;
+              line-height: 50px;
+              background-color: white;
+          }
+
+          .row img{
+              float: right;
+              height: 10px;
+              width: 5px;
+              margin: 20px 10px;
+          }
+
+          #setting .settingline{
+              position:relative;
+              left:4.5vw;
+              width: 95.5vw;
+              height: 0.5px;
+              border-bottom: #ececec 1px solid;
+          }
+
+          #phone{
+              float: right;
+              font-size: 12px;
+              line-height: 50px;
+              color: rgb(139, 139, 139);
+          }
+
+          #wechatbind{
+            float: right;
+            font-size: 12px;
+            line-height: 50px;
+            color: rgb(139, 139, 139);
+          }
+          
+
+      </style>
+  </head>
+  <body>
+    <div id="setting">
+        <div class="row" tapmode onclick="openphone()" id="row_phone">
+            <div class="title">手机号</div>
+            <img src="../image/next.png"/>
+            <div id="phone"></div>
+        </div><br>
+        <div class="settingline"></div>
+
+        
+        <div class="row"  tapmode onclick="changepassword()">
+            <div class="title">修改密码</div>
+            <img src="../image/next.png"/>
+        </div>
+        <div class="settingline"></div>
+
+        <div class="row" tapmode onclick="bindwx()">
+            <div class="title">绑定微信</div>
+            <img src="../image/next.png"/>
+            <div id="wechatbind"></div>
+        </div>
+        <div class="settingline"></div>
+
+        <div class="row" tapmode onclick="deleteaccount()">
+            <div class="title" style="color:red">永久注销账号(无法恢复,谨慎操作)</div>
+            <img src="../image/next.png"/>
+        </div>
+
+    </div>
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+  var phonebind;
+  var wxbind;
+
+  var wxPlus;
+      apiready = function(){
+        wxPlus = api.require('wxPlus');
+          phonebind = 2;
+          wxbind = 2;
+        showphone();
+        api.addEventListener({
+            name:'changephone'
+        }, function(ret){
+            showphone();
+        })
+      };
+
+      function changephone(){
+          api.openWin({
+              name: 'setting_as_changephone_window',
+              url: '../html/setting_as_changephone_window.html',
+              bounces: false,
+          })
+      }
+
+      function addphone(){
+          api.openWin({
+              name: 'setting_as_addphone_window',
+              url: '../html/setting_as_addphone_window.html',
+              bounces: false,
+          })
+      }
+
+      function openphone(){
+        if(phonebind==0){
+            addphone();
+        }else if(phonebind==1){
+            changephone();
+        }
+      }
+
+      function changepassword(){
+          api.openWin({
+              name: 'setting_as_changepassword_window',
+              url: '../html/setting_as_changepassword_window.html',
+              bounces: false,
+          })
+      }
+
+      function deleteaccount(){
+          api.openWin({
+              name: 'setting_as_delete_window',
+              url: '../html/setting_as_delete_window.html',
+              bounces: false,
+          })
+      }
+
+      function bindwx(){
+          if(wxbind==0){
+            wxPlus.auth({
+            }, function(ret, err) {
+        if (ret.status) {
+            startloading();
+            uploadwxcode(ret.code)
+        } else {
+            alert(err  && err.code );
+        }
+    });
+          }
+      }
+
+      function uploadwxcode(code){
+          startloading();
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/bindwx',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data: {
+                values:{
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                    wxcode: code
+                },
+            },
+        }, function(ret, err){
+            if(ret){
+                endloading();
+                if(ret.code==0){
+                    alert('绑定成功');
+                    showphone();
+                }else if(ret.code==1){
+                    alert('此微信号已被绑定');
+                }
+            }
+            else if(err){
+                endloading();
+                if(err  && err.code ==404){
+                    alert('服务器维护中');
+                }else if(err  && err.code ==0){
+                    alert('请检查网络设置');
+                }
+            }
+        })
+      }
+
+      function showphone(){
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/myphone',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data: {
+                values:{
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                },
+            },
+        }, function(ret, err){
+            if(ret){
+                if(ret.code==0){
+                    if(!ret.zone || !ret.phone){
+                        $api.byId('phone').innerHTML = '未绑定';
+                        phonebind = 0;
+                    }else{
+                        $api.byId('phone').innerHTML = '+' + ret.zone + ' ' + ret.phone;
+                        phonebind = 1;
+                    }
+                    if(!ret.wechat){
+                        $api.byId('wechatbind').innerHTML = '未绑定';
+                        wxbind = 0;
+                    }else{
+                        $api.byId('wechatbind').innerHTML = '已绑定';
+                        $api.byId('wechatbind').style.color = 'rgb(60, 211, 14)';
+                        wxbind = 1;
+                    }
+                }else{
+                    alert('发生错误');
+                }
+            }
+            else if(err){
+                if(err  && err.code ==404){
+                    alert('服务器维护中');
+                }else if(err  && err.code ==0){
+                    alert('请检查网络设置');
+                }
+            }
+            
+        })
+      };
+
+      var loadingid;
+  function startloading(){
+  var UILoading = api.require('UILoading');
+    UILoading.flower({
+    center: {
+        x: api.winWidth/2.0,
+        y: api.winHeight/2.0
+    },
+    size: 40,
+    fixed: true
+}, function(ret) {
+      loadingid = ret.id;
+});
+}
+
+function endloading(){
+    var uiloading = api.require('UILoading');
+    for(var i = loadingid+5; i>=0;i--){
+        uiloading.closeFlower({
+            id: i,
+            isGradual:false
+        });
+    }
+}
+  </script>
+  </html>

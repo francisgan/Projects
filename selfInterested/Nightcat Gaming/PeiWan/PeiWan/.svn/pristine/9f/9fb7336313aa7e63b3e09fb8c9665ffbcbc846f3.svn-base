@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          body,html{background: white;
+          padding-bottom:20px ;
+          }
+          #noinfo{
+              width: 100%;
+              top: 70px;
+              position: absolute;
+              font-size: 14px;
+              color: #dfdfdf;
+              text-align: center;
+              z-index: -1;
+          }
+
+          .infodisplay{
+              display: inline-block;
+              margin:6px 3vw;
+              width:94vw;
+              height:110px;
+              border:none;
+              border-radius: 10px 10px;
+              box-shadow: 0 0 3px 3px #f8f8f8;
+              overflow: hidden;
+              background: white;
+              /*box-shadow:0 0 9px 3px #F0F0F0;*/
+
+              
+          }
+
+          .infoicon{
+            clip-path: polygon(0 0, 75% 0, 100% 100%,0% 100%); /* 图片梯形参数 */
+		    float: left;
+            overflow: hidden;
+            margin: 0;
+            padding:0;
+          }
+
+          .infoicon img{
+              width: 110px;
+              height: 120px;
+
+          }
+
+          .infoarea{
+              display: inline-block;
+              height: 110px;
+              width: calc( 92vw - 110px );
+          }
+
+          .username{
+              float: left;
+              margin-top: 8px;
+              margin-left: 2px;
+              font-size: 16px;
+              line-height: 16px;
+              color: black;
+          }
+
+          .age{
+              float: left;
+              height: 14px;
+              margin-left: 5px;
+              margin-top: 9px;
+              border-radius: 7px;
+              background-color: #5dc5ed;
+          }
+
+          .age p{
+            float: left;
+              margin-left: 3px;
+              margin-right: 5px;
+              font-size: 12px;
+              line-height: 14px;
+              color: white;
+              
+
+          }
+
+          .ageimg{
+              float: left;
+              width: 6px;
+              height: 10.5px;
+              margin-top: 1.75px;
+              margin-left: 5px;
+          }
+
+          .statusicon, .status{
+              float: right;
+          }
+
+          .statusicon{
+              height: 8px;
+              width: 8px;
+              margin-top: 12px;
+              margin-right: 5px;
+              border-radius: 4px;
+          }
+
+          .status{
+              font-size: 12px;
+              color: grey;
+              line-height: 12px;
+              margin-top: 10px;
+              margin-right: 8px;
+          }
+
+          .game{
+              float: left;
+              height: 16px;
+              margin-top: 12px;
+              margin-left: 2px;
+              background-image: linear-gradient(90deg, #ffd54db2, #ffd54d00);
+              padding: 0 25px 0 5px;
+              border-radius: 8px 0 0 8px;
+              font-size: 12px;
+              line-height: 16PX;
+              color: rgb(87, 87, 87);
+              padding-right: 24px;
+              padding-left: 5px;
+          }
+
+          .description{
+              float: left;
+              padding-left: 5px;
+              margin: 8px 20px 0 2px;
+              background-color: #f0fffe;
+              color: rgb(65, 65, 65);
+              font-size: 12px;
+              line-height: 16px;
+              width: calc(92vw - 150px);
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow:ellipsis;
+          }
+
+          .price{
+              float: left;
+              margin-right: 2px;
+              margin-left:7px;
+              margin-top: 8px;
+              font-size: 20px;
+              line-height: 20px;
+              font-weight: bold;
+              color: rgb(255, 101, 62);
+          }
+
+          .unit{
+            float: left;
+            margin-top: 10px;
+            margin-left:2px;
+            font-size: 12px;
+            line-height: 20px;
+            font-weight: bold;
+            color: grey;
+          }
+
+      </style>
+  </head>
+  <body id="body">
+    <div id="noinfo">暂无符合要求的陪玩</div>
+
+<div id="pwwrap">
+
+
+</div> <!--end of pwwrap-->
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+  var myuserid;
+      apiready = function(){
+          myuserid = api.getPrefs({sync: true,key:'userid'});
+          var gamecode = api.pageParam.gamecode;
+          var gamename = api.pageParam.gamename;
+          var condition1 = 'true';
+          var condition2 = 'true';
+          var condition3 = 'true';
+          var list = api.getGlobalData({
+              key:'pwlist'
+          });
+          if(!list){}else{
+            list.sort(randomsort);
+          }
+          
+
+          api.setCustomRefreshHeaderInfo({
+            bgColor: '#fff',
+            dropColor:'#9BA2AC',
+            finishedText:''
+        }, function() {
+            getgamepwlist(condition1,condition2,condition3,gamename);
+            api.refreshHeaderLoadDone();
+        });
+
+
+          var dropDownMenu = api.require('dropDownMenu');
+          dropDownMenu.openMenu({
+            rect : {
+                x : 0,
+                y : 0,
+                w : api.frameWidth
+            },
+            data : [
+                {
+                    title : '大神陪玩',
+                    item : ["不限", "是"]
+                },
+                {
+                    title : '价格',
+                    item : ["不限", "1-20币", "21-40币", "41-60币", "60币以上"]
+                },
+                {
+                    title : '性别',
+                    item : ["不限", "男", "女"]
+                }
+            ],
+            textUnselectedColor : '#333',
+            textSelectedColor : '#03a9f4',
+            dropDownCheckedColor : '#03a9f4',
+            fixedOn : 'game_frame',
+            fixed : true
+          },function(ret, err) {
+            $api.byId('body').style.paddingTop = ret.height + 'px';
+            if(ret){
+                if(ret.title=='大神陪玩'){
+                    if(ret.value=='是'){
+                        condition1 = 'a[1]';
+                    }else if(ret.value=='不限'){
+                        condition1 = 'true'
+                    }
+                }
+                else if(ret.title=='价格'){
+                    if(ret.value=='1-20币'){
+                        condition2 = 'a[0]<=20'
+                    }else if(ret.value=='21-40币'){
+                        condition2 = '21<=a[0]<=40'
+                    }else if(ret.value=='41-60币'){
+                        condition2 = '41<=a[0]<=60'
+                    }else if(ret.value=='60币以上'){
+                        condition2 = 'a[0]>=61'
+                    }else if(ret.value=='不限'){
+                        condition2 = 'true'
+                    }
+
+                }else if(ret.title=='性别'){
+                    if(ret.value=='男'){
+                        condition3 = '(list[i].gender=="m")'
+                    }else if(ret.value=='女'){
+                        condition3 = '(list[i].gender=="f")'
+                    }else if(ret.value=='不限'){
+                        condition3 = 'true'
+                    }
+                    
+                }
+                showlist(list,condition1,condition2,condition3,gamename);
+                
+            }
+          });
+
+        
+        
+
+      };//end of apiready
+      var loadingid;
+
+      function showlist(list,c1,c2,c3,gamename){
+        $api.byId('pwwrap').innerHTML = '';
+        for(var i=0;i<=list.length-1;i++){
+            var a=eval("list[" + i + "]._" + api.pageParam.gamecode);
+            if(a){
+                if(eval(c1) && eval(c2) && eval(c3)){
+                    if(list[i].userid!=myuserid){
+                        addpw(list[i],a,gamename);
+                    }
+                }
+            }
+        }
+      }
+
+      function addpw(info,a,gamename){
+        var content = "";
+        content += '<div class="infodisplay" id="'+info.userid+'" tapmode="highlight" onclick="openpwpage('+info.userid+')">';
+        content += '<div class="infoicon"><img src="'+info.icon+'" /></div>';
+        content += '<div class="infoarea" >';
+        content += '<div class="username">'+info.username+'</div>';
+        if(info.gender=='m'){
+            content += '<div class="age" style="background-color: #5dc5ed">';
+            content +='<img src="../image/male.png" class="ageimg"/>'
+        }else{
+            content += '<div class="age" style="background-color: #ffb5c5">';
+            content +='<img src="../image/female.png" class="ageimg"/>'
+        }
+        content += '<p>'+info.age+'</p>';
+        var lasttime = new Date(info.lasttime);
+        var timenow = new Date();
+        var diff = timenow.getTime() - lasttime.getTime();
+        if(diff<=1800000){
+            content += '</div><div class="status">在线</div>';
+            content += '<div class="statusicon" style="background-color: rgb(186, 255, 82);"></div><br><div class="clear"></div>';
+        }else{
+            content += '</div><div class="status">离线</div>';
+            content += '<div class="statusicon" style="background-color: rgb(230, 230, 230);"></div><br><div class="clear"></div>';
+        }
+        content += '<div class="game">'+gamename+': &nbsp '+a[2]+'</div><br>';
+        content += '<div class="clear"></div>';
+        content += '<div class="description">'+info.info+'</div><br>';
+        content += '<div class="price">'+a[0]+'</div>';
+        content += '<div class="unit">币/时</div></div></div>';
+        $api.byId('pwwrap').innerHTML += content;
+
+    }//end
+
+    function openpwpage(userid){
+          api.openWin({
+              name: 'pwpage',
+              url: '../html/pwpage_window.html',
+              bgColor:'rgb(237, 239, 248)',
+              pageParam: {
+                  userid: userid,
+              },
+          })
+    }
+
+    function getgamepwlist(condition1,condition2,condition3,gamename){
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/getgamepwlist',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    gamecode: api.pageParam.gamecode
+                }
+            },
+        }, function(ret, err){
+            if(ret){
+                if(ret.code==0){
+                    var gamepwlist = ret.list;
+                    gamepwlist.sort(randomsort);
+                    showlist(gamepwlist,condition1,condition2,condition3,gamename);
+                }else{
+                    alert('发生未知错误');
+                }
+            }else if(err){
+                endloading();
+            }
+            
+        })
+
+    }
+
+  </script>
+  </html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="./css/api.css" />
+    <style type="text/css">
+        
+    </style>
+</head>
+
+<body class="wrap">
+    
+</body>
+<script type="text/javascript" src="./script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        
+        var rong = api.require('UIRongCloud');
+        rong.init(function(ret, err) {
+            if (ret.status == 'error')
+            api.toast({ msg: err.code });
+        });
+
+        $api.setStorage('rong',rong);
+
+        api.openWin({
+              name: 'app',
+              url: './html/main.html',
+              slidBackEnabled: false
+          });
+
+          var permissionlist = api.hasPermission({
+              list:['photos','notification']
+          })
+          alert('相册:' + permissionlist[0].granted +'通知:' + permissionlist[1].granted );
+
+          api.requestPermission({
+              list:['photos','notification'],
+          }, function(ret){
+              
+          })
+
+          
+
+
+
+    };
+
+</script>
+
+</html>

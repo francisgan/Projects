@@ -1,0 +1,11 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "S8T79XF5M7.nightcatgaming",
+                "paths": ["*","/m/*","/*"]
+            }
+        ]
+    }
+}

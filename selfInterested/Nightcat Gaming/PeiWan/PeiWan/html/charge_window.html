@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: #f1f7f7 !important;}
+
+          header {
+        position:fixed;
+        top:0px;
+        width:100%;
+        height:50px;
+        background-color: #AAE1DC;
+        color: rgb(255, 255, 255);
+        font-size: 20px;  
+        line-height: 50px;   
+        text-align: center;
+        font-weight:bold;
+        box-shadow: 0 0 5px #F0F0F0;
+        margin-bottom: 10px;
+        }
+
+        header #back{
+            position: absolute;
+            bottom: 0;
+            left:0;
+            height: 50px;
+            width: 80px;
+            
+        }
+
+        header img{
+            height: 20px;
+            width: 10px;
+            position: absolute;
+            bottom:15px;
+            left:18px
+        }
+
+        header #storeorder{
+            text-align: center;
+            position: absolute;
+            bottom:10px;
+            right: 4vw;
+            width: 50px;
+            height: 30px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 30px;
+            color: white;
+            background-color: rgb(0, 217, 255) ;
+        }
+
+      </style>
+  </head>
+  <body>
+    <header id="header">
+        <div id="back" tapmode onclick="fnclosewin()"><img src="../image/back_white.png" /></div>
+        充值
+        <div id="storeorder" tapmode onclick="customer()">客服</div>
+    </header>
+
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        $api.fixStatusBar(
+            $api.byId("header")
+        );
+
+        var header = $api.byId("header");
+        var headerH = $api.offset(header).h;
+
+        api.openFrame({
+            name: 'charge_frame', //frame名称
+            url:'../html/charge_frame.html', //frame位置
+            bgColor: '#f1f7f7',
+            rect:{
+                x:0,
+                y:headerH,
+                w:'auto',
+                h:'auto'
+            }
+        })
+
+      };
+
+
+      function fnclosewin(){
+          api.closeWin()
+      }
+
+      function customer(){
+        var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: 280, 
+                h:200 
+            },
+            texts: {
+                title: '联系客服',
+                content: '        充值中遇到问题请咨询夜猫陪玩客服.\n\n客服微信号：YMcustomer',
+                okBtnTitle: '关闭'
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 10,
+                title:{
+                    bg: 'white',
+                    h: 44,
+                    size: 18,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'left',
+                    size: 15
+                },
+                ok: {
+                    h: 50,
+                    bg: 'rgb(81, 162, 255)',
+                    titleColor: '#fff',
+                    titleSize: 20,
+                }
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    dialogName: 'scene'
+                })
+            }
+        })
+    }
+  </script>
+  </html>

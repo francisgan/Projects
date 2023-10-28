@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: #f1f7f7;}
+
+          #amount{
+              display: inline-block;
+              margin: 20px 3vw;
+              width: 94vw;
+              height: auto;
+              border-radius: 10px;
+              background-color: white;
+              padding-bottom: 4vw;
+          }
+
+          #amounttitle{
+              font-size: 16px;
+              line-height: 16px;
+              font-weight: bold;
+              color: black;
+              margin: 4vw;
+          }
+
+          .amountopt{
+              display: inline-block;
+              margin: 4vw 0 0 4vw;
+              width: calc(41vw - 4px);
+              height: 40px;
+              border-radius: 21px;
+              border: solid 2px;
+              border-color: rgb(219, 219, 219) ;
+
+          }
+
+          .coin{
+              float: left;
+              margin: 10px 5px 0 10px;
+              height: 20px;
+              width: 20px;
+          }
+
+          .amountget{
+              float: left;
+              font-size: 18px;
+              line-height: 40px;
+              color: black;
+          }
+
+          .amountunit{
+              float: right;
+              font-size: 18px;
+              line-height: 40px;
+              color: rgb(97, 97, 97);
+          }
+
+          .amountpay{
+              float: right;
+              margin-right: 10px;
+              font-size: 18px;
+              line-height: 40px;
+              color: rgb(97, 97, 97);
+          }
+
+          #diyamount{
+              height: 40px;
+              width: 20vw;
+          }
+
+
+          #methodarea{
+              display: inline-block;
+              margin: 0 3vw;
+              width: 94vw;
+              height: auto;
+              border-radius: 10px;
+              background-color: white;
+              padding-bottom: 3vw;
+          }
+
+          #methodtitle{
+              float: left;
+              font-size: 17px;
+              line-height: 17px;
+              color: black;
+              margin: 4vw;
+          }
+
+          #openrate{
+              margin-top: calc(4vw - 1px);
+              width: 110px;
+              float: left;
+              height: 19px;
+              border-radius: 9.5px;
+              font-size: 12px;
+              line-height: 19px;
+              text-align: center;
+              background-color: rgb(0, 204, 255);
+              color: white;
+          }
+
+          .methodoption{
+              display: inline-block;
+              width: calc(80vw - 4px);
+              height: 56px;
+              margin:10px 7vw 0 7vw;
+              border-radius: 10px;
+              border: solid 2px;
+              border-color: rgb(209, 209, 209);
+          }
+
+          #appleicon{
+            margin-top: 5px ;
+            margin-left: calc(40vw - 25px);
+            height: 46px;
+            width: 46px;
+          }
+
+          .methodicon{
+              float: left;
+              height: 46px;
+              width: 46px;
+              margin: 5px;
+          }
+
+          .optionname{
+              float: left;
+              font-size: 17px;
+              color: black;
+              line-height: 56px;
+              margin-left: 20px;
+
+          }
+
+          #submit{
+              width: 80vw;
+              height: 40px;
+              margin-top: 20px;
+              margin-left: 10vw;
+              margin-bottom: 20vh;
+              border-radius: 20px;
+              font-size: 18px;
+              line-height: 40px;
+              text-align: center;
+              color: white;
+              background-color: rgb(30, 173, 255);
+          }
+
+
+
+          
+      </style>
+  </head>
+  <body>
+      <div id="amount">
+          <div id="amounttitle">请选择金额</div>
+
+          <div class="amountopt" tapmode onclick="chooseamount(0)">
+            <img class="coin" src="../image/coin.png" />
+            <div class="amountget">4.2</div>
+            <div class="amountpay">6</div>
+            <div class="amountunit">￥</div>
+        </div>
+
+          <div class="amountopt" tapmode onclick="chooseamount(1)">
+              <img class="coin" src="../image/coin.png" />
+              <div class="amountget">21</div>
+              <div class="amountpay">30</div>
+              <div class="amountunit">￥</div>
+          </div>
+
+          <div class="amountopt" tapmode onclick="chooseamount(2)">
+            <img class="coin" src="../image/coin.png" />
+            <div class="amountget">35</div>
+            <div class="amountpay">50</div>
+            <div class="amountunit">￥</div>
+        </div>
+
+        <div class="amountopt" tapmode onclick="chooseamount(3)">
+            <img class="coin" src="../image/coin.png" />
+            <div class="amountget">68.6</div>
+            <div class="amountpay">98</div>
+            <div class="amountunit">￥</div>
+        </div>
+
+        <div class="amountopt" tapmode onclick="chooseamount(4)">
+            <img class="coin" src="../image/coin.png" />
+            <div class="amountget">89.6</div>
+            <div class="amountpay">128</div>
+            <div class="amountunit">￥</div>
+        </div>
+
+        <div class="amountopt">
+            <img class="coin" src="../image/coin.png" />
+            <input type="text" id="diyamount" class="amountget" placeholder="自定义" style="z-index: 999;">
+        </div>
+          
+      </div>
+
+      <div id="methodarea">
+          <div id="methodtitle">充值方式</div>
+          <div id="openrate" tapmode onclick="openrate()">查看汇率和手续费</div>
+
+          <div class="methodoption" tapmode onclick="choosemethod(0)">
+            <img src="../image/apple.png" id="appleicon"/>
+        </div>
+
+          <div class="methodoption" tapmode onclick="choosemethod(1)">
+              <img src="../image/alipay.png" class="methodicon"/>
+              <div class="optionname">支付宝</div>
+          </div>
+
+          <div class="methodoption" tapmode onclick="choosemethod(2)">
+            <img src="../image/wechatpay.png" class="methodicon"/>
+            <div class="optionname">微信钱包</div>
+        </div>
+
+        <div class="methodoption" tapmode onclick="choosemethod(3)">
+            <img src="../image/uscard.png" class="methodicon"/>
+            <div class="optionname">国际信用卡(美元)</div>
+        </div>
+
+      </div>
+
+      <div id="submit" tapmode onclick="submit()">充值</div>
+
+   
+
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+
+          var amountnum = $api.byId("diyamount");
+          amountnum.onchange = function(){
+              var a = amountnum.value;
+              if(isNaN(a)){
+                  alert("只能填写数字");
+                  amountnum.value="";
+                  setamountbydiy('');
+              }
+              else if(a.indexOf('.')>=0){
+                alert("请填写整数");
+                  amountnum.value="";
+                  setamountbydiy('');
+              }
+              else if(a<=0){
+                alert("不可为0或负数");
+                  amountnum.value="";
+                  setamountbydiy('');
+              }
+              else{
+                var amountopt = $api.domAll('.amountopt');
+                for(i=0;i<=3;i++){
+                    amountopt[i].style.borderColor = 'rgb(209,209,209)';
+                }
+                amountopt[5].style.borderColor = 'rgb(60,60,60)';
+                setamountbydiy(a);
+              }
+          }
+
+
+      }; //end of apiready
+      var amount;
+      var method;
+
+      function setamountbydiy(diyamount){
+          amount = diyamount;
+      }
+
+      function openrate(){
+        var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: 280,                     
+                h: 300 
+            },
+            texts: {
+                title: '手续费及汇率(不定时更新)',
+                content: '当前平台充值汇率: \n 1币=1人民币 \n 1币=0.1559美元 \n\n 当前充值手续费: \n 支付宝，微信:0%  \n 国际信用卡:2.9%+0.3USD \n Paypal:3.5%+0.49USD',
+                okBtnTitle: '关闭'
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 10,
+                title:{
+                    bg: 'white',
+                    h: 44,
+                    size: 14,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'left',
+                    size: 14
+                },
+                ok: {
+                    h: 50,
+                    bg: 'rgb(81, 162, 255)',
+                    titleColor: '#fff',
+                    titleSize: 20,
+                }
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    dialogName: 'scene'
+                })
+            }
+        })
+    }
+
+      function chooseamount(num){
+          var amountopt = $api.domAll('.amountopt');
+          var amountvalue = $api.domAll('.amountpay');
+          for(i=0;i<=4;i++){
+            amountopt[i].style.borderColor = 'rgb(209,209,209)';
+          }
+          amountopt[num].style.borderColor = 'rgb(60,60,60)';
+          amount = amountvalue[num].innerHTML;
+          $api.byId('diyamount').value = "";
+      }
+
+      function choosemethod(num){
+          var methodnum = $api.domAll('.methodoption');
+          for(i=0;i<=3;i++){
+            methodnum[i].style.borderColor = 'rgb(209,209,209)';
+          }
+          methodnum[num].style.borderColor = 'rgb(60,60,60)';
+          if(num==0){
+              method = 'apple';
+          }
+          else if(num==1){
+              method = 'alipay';
+          }
+          else if(num==2){
+              method = 'wechat';
+          }
+          else{
+              method = 'creditcard';
+          }
+      }
+
+      function submit(){
+          if(!amount){alert('未填写金额')}
+          else if(!method){alert('未选取方式')}
+          else{
+              alert(
+                  "金额:" + amount +
+                  "方式:" + method
+              )
+          }
+      }
+
+
+      
+
+
+
+
+  </script>
+  </html>

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: #f1f7f7;}
+
+          #amount{
+              display: inline-block;
+              margin: 20px 3vw;
+              width: 94vw;
+              height: auto;
+              border-radius: 10px;
+              background-color: white;
+              padding-bottom: 10px;
+          }
+
+          #amounttitle{
+              font-size: 17px;
+              line-height: 17px;
+              color: black;
+              margin: 4vw;
+          }
+
+          #withdrawamount{
+              width: 86vw;
+              height: 80px;
+              margin-left: 4vw;
+              margin-top:5px;
+              margin-bottom: 10px;
+              line-height: 50px;
+              font-size: 50px;
+              font-weight: bold;
+              background-color: #ffffff;
+              border-bottom: rgb(97, 97, 97) solid 1px;
+              border-radius: 0;
+          }
+
+          #available{
+              float: left;
+              margin-left: 4vw;
+              font-size: 17px;
+              color: rgb(124, 124, 124);
+
+          }
+
+          #withdrawall{
+            float: right;
+            font-size: 17px;
+            margin-right: 4vw;
+            color: rgb(19, 141, 255);
+        
+          }
+
+          #bottom{
+              width: 80px;
+              height: 80px;
+              background-color: green;
+          }
+
+          #methodarea{
+              display: inline-block;
+              margin: 0 3vw;
+              width: 94vw;
+              height: auto;
+              border-radius: 10px;
+              background-color: white;
+              padding-bottom: 3vw;
+          }
+
+          #methodtitle{
+              float: left;
+              font-size: 17px;
+              line-height: 17px;
+              color: black;
+              margin: 4vw;
+          }
+
+          #openrate{
+              margin-top: calc(4vw - 1px);
+              width: 95px;
+              float: left;
+              height: 19px;
+              border-radius: 9.5px;
+              font-size: 12px;
+              line-height: 19px;
+              text-align: center;
+              background-color: rgb(0, 204, 255);
+              color: white;
+          }
+
+          .methodoption{
+              display: inline-block;
+              width: calc(80vw - 4px);
+              height: 56px;
+              margin:10px 7vw 0 7vw;
+              border-radius: 10px;
+              border: solid 2px;
+              border-color: rgb(209, 209, 209);
+          }
+
+          .methodicon{
+              float: left;
+              height: 46px;
+              width: 46px;
+              margin: 5px;
+          }
+
+          .optionname{
+              float: left;
+              font-size: 17px;
+              color: black;
+              line-height: 56px;
+              margin-left: 20px;
+
+          }
+
+          #info{
+            display: inline-block;
+              margin: 20px 3vw;
+              width: 94vw;
+              height: auto;
+              border-radius: 10px;
+              background-color: white;
+              padding-bottom: 3vw;
+          }
+
+          #infotitle{
+              font-size: 17px;
+              line-height: 17px;
+              color: black;
+              margin: 4vw;
+          }
+
+          .nametitle{
+              font-size: 16px;
+              line-height: 16px;
+              text-indent:5px;
+              color: rgb(105, 105, 105);
+          }
+
+          #lastnamearea{
+              float: left;
+              margin: 10px 3vw 0 4vw;
+              width: 40vw;
+              height: 66px;
+          }
+
+          #firstnamearea{
+              float: right;
+              margin: 10px 4vw 0 3vw;
+              width: 40vw;
+              height: 66px;
+          }
+
+          .nameinput{
+              display: inline-block;
+              margin-top: 10px;
+              height: 40px;
+              width: 40vw;
+              background-color:rgb(245, 245, 245) ;
+              color: rgb(0, 0, 0);
+              font-size: 16px;
+              line-height: 40px;
+              text-indent: 5px;
+          }
+
+          #accountinfo, #otherinfo, #contactinfo{
+              display: inline-block;
+              width: 86vw;
+              height: auto;
+              margin: 10px 0 0 4vw ;
+          }
+
+          .accounttitle{
+              display: inline-block;
+              font-size: 16px;
+              line-height: 16px;
+              color: rgb(105, 105, 105);
+              text-indent: 5px;
+          }
+
+          .infoinput{
+              display: inline-block;
+              margin-top: 10px;
+              height: 40px;
+              width: 86vw;
+              background-color:rgb(245, 245, 245) ;
+              color: rgb(0, 0, 0);
+              font-size: 16px;
+              text-indent: 5px;
+          }
+
+          #accountother{
+            height: 120px;
+          }
+
+          #submit{
+              width: 80vw;
+              height: 40px;
+              margin-left: 10vw;
+              margin-bottom: 20vh;
+              border-radius: 20px;
+              font-size: 18px;
+              line-height: 40px;
+              text-align: center;
+              color: white;
+              background-color: rgb(30, 173, 255);
+          }
+
+
+
+
+
+
+
+
+
+          
+          
+      </style>
+  </head>
+  <body>
+      <div id="amount">
+          <div id="amounttitle">提现金额</div>
+          <input type="text" id="withdrawamount">
+          <div id="available">可提现金额:&nbsp </div>
+          <div id="withdrawall" onclick="withdrawall()">全部提现</div>
+      </div>
+
+      <div id="methodarea">
+          <div id="methodtitle">提现方式</div>
+          <div id="openrate" tapmode onclick="openrate()">查看汇率和手续费</div>
+          <div class="methodoption" tapmode onclick="choosemethod(0)">
+              <img src="../image/cny.png" class="methodicon"/>
+              <div class="optionname">人民币</div>
+          </div>
+
+          <div class="methodoption" tapmode onclick="choosemethod(1)">
+            <img src="../image/otherpayment.png" class="methodicon"/>
+            <div class="optionname">外币</div>
+        </div>
+
+        </div>
+
+      </div>
+
+      <div id="info">
+          <div id="infotitle">提现信息</div>
+          <div id="lastnamearea">
+                <div class="nametitle">姓/Last Name</div>
+                <input type="text" id="lastname" class="nameinput">
+          </div>
+          <div id="firstnamearea">
+            <div class="nametitle">名/First Name</div>
+            <input type="text" id="firstname" class="nameinput">
+          </div>
+          <div id="accountinfo">
+            <div class="accounttitle">账户号码</div>
+            <input type="text" id="accountnumber" class="infoinput">
+          </div>
+          <div id="otherinfo">
+            <div class="accounttitle">其他账户信息</div>
+            <textarea type="text" placeholder="如银行名称,账户类型,Routing,Swift Code等" id="accountother" class="infoinput"></textarea>
+          </div>
+          <div id="contactinfo">
+            <div class="accounttitle">联系方式*</div>
+            <input type="text" placeholder="微信/电话/邮箱" id="contact" class="infoinput">
+          </div>
+      </div>
+
+      <div id="submit" tapmode onclick="submit()">提现</div>
+
+   
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+  var availableamount;
+      apiready = function(){
+        getwithdrawamount();
+
+          var amountnum = $api.byId("withdrawamount");
+          amountnum.onchange = function(){
+              var a = amountnum.value;
+              if(isNaN(a)){
+                  alert("只能填写数字");
+                  amountnum.value="";
+              }
+              if(a>availableamount){
+                alert("超过提现金额");
+                  amountnum.value="";
+              }
+              if(a.indexOf('.')>=0 && (a.length - a.indexOf('.') - 1)>2 ){
+                alert("小数点后最多为两位");
+                  amountnum.value="";
+              }
+              if(a<=0){
+                alert("不可为0或负数");
+                  amountnum.value="";
+              }
+          }
+
+
+      }; //end of apiready
+
+      function getwithdrawamount(){
+        api.ajax({
+                url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/getwithdrawamount',
+                method: 'post',
+                headers: {
+                    'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+                },
+                data:{
+                    values:{
+                        uuid: api.getPrefs({sync: true,key:'uuid'}),
+                    },
+                }
+              }, function(ret, err){
+                if(ret && ret.code==0){
+                    availableamount=ret.balence;
+                    $api.byId('available').innerHTML = '可提现金额:&nbsp'+availableamount;
+                }
+                else if(err){
+                    if(err  && err.code ==404){
+                        alert('服务器维护中');
+                    }else if(err  && err.code ==0){
+                        alert('请检查网络设置');
+                    }
+                }
+              })
+      }
+
+      var method;
+
+      function withdrawall(){
+        var amountnum = $api.byId("withdrawamount");
+          amountnum.value = availableamount;
+      }
+
+      function openrate(){
+        var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: 280,                     
+                h: 300 
+            },
+            texts: {
+                title: '手续费及汇率(不定时更新)',
+                content: '当前平台提现汇率: \n 1币=1人民币 \n 1币=6.5美元 \n 1币=5.1加元 \n\n 当前手续费: \n L4陪玩免提现手续费 \n 人民币:0.5%  \n 外币:1%',
+                okBtnTitle: '关闭'
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 10,
+                title:{
+                    bg: 'white',
+                    h: 44,
+                    size: 14,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'left',
+                    size: 14
+                },
+                ok: {
+                    h: 50,
+                    bg: 'rgb(81, 162, 255)',
+                    titleColor: '#fff',
+                    titleSize: 20,
+                }
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    dialogName: 'scene'
+                })
+            }
+        })
+    }
+
+      function choosemethod(num){
+          var methodnum = $api.domAll('.methodoption');
+          for(i=0;i<=1;i++){
+            methodnum[i].style.borderColor = 'rgb(209,209,209)';
+          }
+          methodnum[num].style.borderColor = 'rgb(60,60,60)';
+          if(num==0){
+              method = '人民币';
+          }
+          else if(num==1){
+              method = '外币';
+          }
+          else if(num==2){
+              method = '暂无';
+          }
+          else{
+              method = '暂无';
+          }
+      }
+
+      function submit(){
+          amount = $api.byId('withdrawamount').value;
+          lastname = $api.byId('lastname').value;
+          firstname = $api.byId('firstname').value;
+          account  = $api.byId('accountnumber').value;
+          accountother = '信息:' + $api.byId('accountother').value;
+          contact = $api.byId('contact').value;
+          if(!amount){alert('未填写金额')}
+          else if(!method){alert('未选取方式')}
+          else if(!lastname){alert('未填写姓')}
+          else if(!firstname){alert('未填写名')}
+          else if(!account){alert('未填写账户号码')}
+          else if(!contact){alert('未填写联系方式')}
+          else{
+              alert(
+                  "金额:" + amount +
+                  "方式:" + method +
+                  "姓:" + lastname +
+                  "名:" + firstname +
+                  "账户:" + account +
+                  "其他:" + accountother +
+                  "联系:" + contact
+              );
+              startloading();
+              api.ajax({
+                url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/withdraw',
+                method: 'post',
+                headers: {
+                    'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+                },
+                data:{
+                    values:{
+                        uuid: api.getPrefs({sync: true,key:'uuid'}),
+                        amount: amount,
+                        method: method,
+                        lastname: lastname,
+                        firstname: firstname,
+                        account: account,
+                        accountother: accountother ,
+                        contact: contact,
+                    },
+                }
+              }, function(ret, err){
+                if(ret && ret.code==0){
+                    endloading();
+                    alert('提交成功');
+                    api.sendEvent({
+                        name:'refreshproarea'
+                    });
+                    api.closeWin()
+                }
+                else if(err){
+                    endloading();
+                    if(err  && err.code ==404){
+                        alert('服务器维护中');
+                    }else if(err  && err.code ==0){
+                        alert('请检查网络设置');
+                    }
+                }
+              })
+          }
+      }
+
+
+
+
+      
+  var loadingid;
+  function startloading(){
+    var UILoading = api.require('UILoading');
+        UILoading.flower({
+        center: {
+            x: api.winWidth/2.0,
+            y: api.winHeight/2.0
+        },
+        size: 40,
+        fixed: true
+    }, function(ret) {
+        loadingid = ret.id;
+    });
+  }   
+
+function endloading(){
+    var uiloading = api.require('UILoading');
+    for(var i = loadingid; i>=0;i--){
+        uiloading.closeFlower({
+            id: i,
+            isGradual:false
+        });
+    }
+}
+
+
+
+  </script>
+  </html>

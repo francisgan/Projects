@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: #f1f7f7;}
+
+          #iteminfo{
+              display: inline-block;
+              margin: 20px 3vw;
+              width: 94vw;
+              height: auto;
+              border-radius: 10px;
+              background-color: white;
+          }
+
+          #left{
+              float: left;
+              height: auto;
+              width: 31vw;
+          }
+
+          #right{
+            float: left;
+            height: auto;
+            width: 63vw;
+          }
+
+          #left img{
+              height: 25vw;
+              width: 25vw;
+              margin: 3vw;
+          }
+
+          #itemname{
+              display: inline-block;
+              margin-top: 3vw;
+              width: 63vw;
+              height: calc(25vw - 15px);
+              font-size: 15px;
+          }
+
+          #itemprice{
+              display: inline-block;
+              width: 63vw;
+              font-size: 15px;
+              line-height: 15px;
+          }
+
+
+
+          #methodarea{
+              display: inline-block;
+              margin: 0 3vw;
+              width: 94vw;
+              height: auto;
+              border-radius: 10px;
+              background-color: white;
+              padding-bottom: 3vw;
+          }
+
+          #methodtitle{
+              float: left;
+              font-size: 17px;
+              line-height: 17px;
+              color: black;
+              margin: 4vw;
+          }
+
+          #openrate{
+              margin-top: calc(4vw - 1px);
+              width: 110px;
+              float: left;
+              height: 19px;
+              border-radius: 9.5px;
+              font-size: 12px;
+              line-height: 19px;
+              text-align: center;
+              background-color: rgb(0, 204, 255);
+              color: white;
+          }
+
+          .methodoption{
+              display: inline-block;
+              width: calc(80vw - 4px);
+              height: 56px;
+              margin:10px 7vw 0 7vw;
+              border-radius: 10px;
+              border: solid 2px;
+              border-color: rgb(209, 209, 209);
+          }
+
+          #appleicon{
+            margin-top: 5px ;
+            margin-left: calc(40vw - 25px);
+            height: 46px;
+            width: 46px;
+          }
+
+          .methodicon{
+              float: left;
+              height: 46px;
+              width: 46px;
+              margin: 5px;
+          }
+
+          .optionname{
+              float: left;
+              font-size: 17px;
+              color: black;
+              line-height: 56px;
+              margin-left: 20px;
+
+          }
+
+          #submit{
+              width: 80vw;
+              height: 40px;
+              margin-top: 20px;
+              margin-left: 10vw;
+              margin-bottom: 20vh;
+              border-radius: 20px;
+              font-size: 18px;
+              line-height: 40px;
+              text-align: center;
+              color: white;
+              background-color: rgb(30, 173, 255);
+          }
+
+
+
+          
+      </style>
+  </head>
+  <body>
+      <div id="iteminfo">
+          <div id="left">
+              <img src="../image/card.png" id="itemimage" />
+          </div>
+          <div id="right">
+              <div id="itemname">独角兽实体卡50元</div>
+              <div id="itemprice">￥50</div>
+          </div>
+          
+      </div>
+
+      <div id="methodarea">
+          <div id="methodtitle">支付方式</div>
+          <div id="openrate" tapmode onclick="openrate()">查看汇率和手续费</div>
+
+
+          <div class="methodoption" tapmode onclick="choosemethod(0)">
+              <img src="../image/alipay.png" class="methodicon"/>
+              <div class="optionname">支付宝</div>
+          </div>
+
+          <div class="methodoption" tapmode onclick="choosemethod(1)">
+            <img src="../image/wechatpay.png" class="methodicon"/>
+            <div class="optionname">微信钱包</div>
+        </div>
+
+        <div class="methodoption" tapmode onclick="choosemethod(2)">
+            <img src="../image/uscard.png" class="methodicon"/>
+            <div class="optionname">国际信用卡(美元)</div>
+        </div>
+
+      </div>
+
+      <div id="submit" tapmode onclick="submit()">下单</div>
+
+   
+
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+
+
+      }; //end of apiready
+      var method;
+
+
+      function openrate(){
+        var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: 280,                     
+                h: 300 
+            },
+            texts: {
+                title: '手续费及汇率(不定时更新)',
+                content: '当前平台汇率: \n 人民币=0.1559美元 \n\n 当前充值手续费: \n 支付宝，微信:0%  \n 国际信用卡:2.9%+0.3USD \n Paypal:3.5%+0.49USD',
+                okBtnTitle: '关闭'
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 10,
+                title:{
+                    bg: 'white',
+                    h: 44,
+                    size: 14,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'left',
+                    size: 14
+                },
+                ok: {
+                    h: 50,
+                    bg: 'rgb(81, 162, 255)',
+                    titleColor: '#fff',
+                    titleSize: 20,
+                }
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    dialogName: 'scene'
+                })
+            }
+        })
+    }
+
+
+      function choosemethod(num){
+          var methodnum = $api.domAll('.methodoption');
+          for(i=0;i<=2;i++){
+            methodnum[i].style.borderColor = 'rgb(209,209,209)';
+          }
+          methodnum[num].style.borderColor = 'rgb(60,60,60)';
+          if(num==0){
+              method = 'alipay';
+          }
+          else if(num==1){
+              method = 'wechat';
+          }
+          else{
+              method = 'creditcard';
+          }
+      }
+
+      function submit(){
+          if(!method){alert('未选取方式')}
+          else{
+              alert(
+                  "方式:" + method
+              )
+          }
+      }
+
+
+      
+
+
+
+
+  </script>
+  </html>

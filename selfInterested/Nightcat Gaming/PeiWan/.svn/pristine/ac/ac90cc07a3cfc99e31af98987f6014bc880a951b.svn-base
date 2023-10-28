@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          *{padding:0;margin:0;font-size:0;}
+          body{background: #f1f7f7;padding-bottom: 80vw;}
+
+          header{
+              position: absolute;
+              z-index: 0;
+              width: 100%;
+              height: calc(20vw + 80px );
+              background-color: #AAE1DC;
+          }
+
+          #screen{
+              width: 100%;
+              height: 10%;
+              z-index: -999;
+              position: fixed;
+              background-color: #AAE1DC;
+
+          }
+
+          #curve{
+		    width: 100vw;
+		    height: 100px;
+		    position: absolute;
+            top: calc(20vw + 80px );
+            left: 0;
+		    z-index: 0;
+		    overflow: hidden;
+	      }
+
+	      #curve::after {
+		    content: '';
+		    width: 100vw;
+		    height: 20vw;
+		    position: absolute;
+		    top: 0;
+            left: 0;
+		    z-index: 0;
+		    border-radius: 0 0 60% 60%;
+		    background-color: #AAE1DC;
+	      }
+          #totalearn{
+            position: relative;
+            z-index: 9999;
+          }
+
+          #totalearn #totalearntitle{
+              font-size: 12px;
+              line-height: 30px;
+              color: #3636368f;
+              text-align: center;
+          }
+
+          #totalearn #totalearnamount{
+              font-size: 32px;
+              line-height: 60px;
+              font-weight: bold;
+              color: rgb(255, 255, 255);
+              text-align: center;
+          }
+
+          #data{
+              position: relative;
+              z-index: 9999;
+              margin-left: 5vw;
+              width: 90vw;
+              height: 60px;
+          }
+
+          .datadiv{
+              display: inline-block;
+            width: 30vw;
+            height: 60px;
+          }
+
+          .datatitle{
+              position: relative;
+              height: 28px;
+              font-size: 12px;
+              line-height: 28px;
+              color: #3636368f;
+              text-align: center;
+          }
+
+          .dataquestion{
+              position: absolute;
+              top:3.5px;
+              right:calc(15vw - 45px);
+              width: 20px;
+              height: 20px;
+          }
+
+          .dataamount{
+              height: 32px;
+              font-size: 20px;
+              font-weight: bold;
+              line-height: 32px;
+              color: white;
+              text-align: center;
+          }
+
+          #opt{
+            position: relative;
+            z-index: 9999;
+            display: inline-block;
+            width: 92vw;
+            height: auto;
+            border:none;
+            margin: 8px 4vw;
+            border-radius: 10px;
+            background: white;
+            overflow: hidden;
+            padding-bottom: 20px;
+        }
+
+        .optbtn{
+            z-index: 99;
+          display:inline-block;
+          height: auto;
+          width: 23vw;
+          margin-top:10px;
+          padding:none;
+          border:none;
+          overflow: hidden;
+          text-align: center;
+      }
+
+      .optbtn img{
+          width:8vw;
+          height:8vw;
+          padding:none;
+          border:none;
+          margin-top:15px;
+      }
+
+      .optbtn p{
+          font-size: 12px;
+          line-height: 12px;
+          margin-top: 8px;
+      }
+
+      .order{
+          display: inline-block;
+          width: 86vw;
+          height: auto;
+          background-color: white;
+          border-radius: 10px;
+          margin: 10px 7vw;
+      }
+
+      .ordertitle{
+          position: relative;
+          width: 100%;
+          height: 36px;
+          border-bottom: #c4c4c4 solid 1px;
+      }
+
+      .ordername{
+          float: left;
+          font-size: 18px;
+          color: #3a3a3a;
+          font-weight: bold;
+          line-height: 36px;
+          margin-left: 10px;
+      }
+
+      .ordertime{
+          float: right;
+          font-size: 12px;
+          color: #c4c4c4;
+          line-height: 36px;
+          margin-right: 10px;
+      }
+
+      .order_info{
+         float: left;
+          width: calc( 86vw - 80px);
+          height: auto;
+      }
+
+      .order_info_title{
+          float: left;
+          font-size: 16px;
+          color: #c4c4c4;
+          line-height: 24px;
+          margin-left: 10px;
+      }
+
+      .order_info_title{
+          float: left;
+          font-size: 16px;
+          color: #8a8a8a;
+          line-height: 30px;
+          margin-left: 10px;
+      }
+
+      .order_info_content{
+          float: left;
+          font-size: 16px;
+          color: #1f1f1f;
+          line-height: 30px;
+      }
+
+      .order_btn{
+        float: left;
+          width: 80px;
+          height: 100%;
+      }
+
+      .agree{
+          width: 50px;
+          height: 50px;
+          border-radius: 25px;
+          color: white;
+          font-size: 16px;
+          line-height: 50px;
+          background-color: rgb(148, 230, 25);
+          margin: 10px 15px;
+          text-align: center;
+      }
+
+      .done{
+          width: 50px;
+          height: 50px;
+          border-radius: 25px;
+          color: white;
+          font-size: 16px;
+          line-height: 50px;
+          background-color: rgb(65, 165, 247);
+          margin: 10px 15px;
+          text-align: center;
+      }
+
+      .earn{
+          width: 50px;
+          height: 50px;
+          border-radius: 25px;
+          color: white;
+          font-size: 12px;
+          line-height: 50px;
+          background-color: #ffdb0f;
+          margin: 10px 15px;
+          text-align: center;
+      }
+
+      .deny{
+        width: 39px;
+          height: 39px;
+          border-radius: 20px;
+          color: rgb(241, 90, 90);
+          font-size: 12px;
+          line-height: 39px;
+          margin: 10px 20px;
+          text-align: center;
+          border:rgb(241, 90, 90) solid 0.5px;
+      }
+
+
+
+          
+
+      </style>
+  </head>
+  <body>
+      <header id="header"></header>
+      <div id="curve"></div>
+      <div id="screen0"></div>
+      <div id="screen"></div>
+
+      <div id="totalearn">
+        <div id="totalearntitle">总收入(币)</div>
+        <div id="totalearnamount">1230.50</div>
+      </div>
+
+      <div id="data">
+        <div class="datadiv">
+            <div class="datatitle">陪玩等级<img src="../image/questionmark.png" class="dataquestion"/></div>
+            <div class="dataamount">1</div>
+        </div>
+        <div class="datadiv">
+            <div class="datatitle">可提现金额</div>
+            <div class="dataamount">999999.99</div>
+        </div>
+        <div class="datadiv">
+            <div class="datatitle">冻结金额<img src="../image/questionmark.png" class="dataquestion"/></div>
+            <div class="dataamount">200</div>
+        </div>
+      </div>
+      
+      <div id="opt">
+          <div class="optbtn" tapmode onclick="fnopenwithdraw()"><img src="../image/withdraw.png"/><p>提现</p></div>
+          <div class="optbtn" tapmode onclick="fnopenchangeprice()"><img src="../image/changeprice.png"/><p>修改价格</p></div>
+          <div class="optbtn" tapmode onclick="fnopenaddgame()"><img src="../image/addgame.png"/><p>增添资质</p></div>
+          <div class="optbtn" tapmode onclick="fnopenchangepwinfo()"><img src="../image/changeinfo.jpg"/><p>修改介绍</p></div>
+          <div class="optbtn" tapmode onclick="fnopenpworder()" ><img src="../image/orderhistory.png"/><p>接单记录</p></div>
+          <div class="optbtn" tapmode onclick="fnopennotice()"><img src="../image/notice.png"/><p>须知</p></div>
+          <div class="optbtn"><img style="visibility: hidden;"><p id="status">待接单</p></div>
+      </div>
+
+      <div class="order">
+          <div class="ordertitle">
+              <div class="ordername">海绵宝宝</div>
+              <div class="ordertime">2021-09-10 14:20:38</div>
+          </div>
+          <div class="order_info">
+            <div class="order_info_title">技&nbsp &nbsp &nbsp &nbsp能：</div>
+            <div class="order_info_content">英雄联盟</div><div class="clear"></div><br/>
+            <div class="order_info_title">数&nbsp &nbsp &nbsp &nbsp量：</div>
+            <div class="order_info_content">2</div><div class="clear"></div><br/>
+            <div class="order_info_title">预计收入：</div>
+            <div class="order_info_content">60.0</div><div class="clear"></div><br/>
+            <div class="order_info_title">状&nbsp &nbsp &nbsp &nbsp态：</div>
+            <div class="order_info_content">待接单</div><div class="clear"></div><br/>
+        </div>
+        <div class="order_btn">
+            <div class="agree" tapmode onclick="acceptorder(122)">接单</div>
+            <div class="deny" tapmode onclick="denyorder(122)">取消</div>
+        </div>
+      </div>
+
+      <div class="order">
+        <div class="ordertitle">
+            <div class="ordername">海绵宝宝</div>
+            <div class="ordertime">2021-09-10 14:20:38</div>
+        </div>
+        <div class="order_info">
+          <div class="order_info_title">技&nbsp &nbsp &nbsp &nbsp能：</div>
+          <div class="order_info_content">英雄联盟</div><div class="clear"></div><br/>
+          <div class="order_info_title">数&nbsp &nbsp &nbsp &nbsp量：</div>
+          <div class="order_info_content">2</div><div class="clear"></div><br/>
+          <div class="order_info_title">预计收入：</div>
+          <div class="order_info_content">60.0</div><div class="clear"></div><br/>
+          <div class="order_info_title">状&nbsp &nbsp &nbsp &nbsp态：</div>
+          <div class="order_info_content">已取消</div><div class="clear"></div><br/>
+      </div>
+      <div class="order_btn">
+          
+      </div>
+    </div>
+
+    <div class="order">
+        <div class="ordertitle">
+            <div class="ordername">海绵宝宝</div>
+            <div class="ordertime">2021-09-10 14:20:38</div>
+        </div>
+        <div class="order_info">
+          <div class="order_info_title">技&nbsp &nbsp &nbsp &nbsp能：</div>
+          <div class="order_info_content">英雄联盟</div><div class="clear"></div><br/>
+          <div class="order_info_title">数&nbsp &nbsp &nbsp &nbsp量：</div>
+          <div class="order_info_content">2</div><div class="clear"></div><br/>
+          <div class="order_info_title">预计收入：</div>
+          <div class="order_info_content">60.0</div><div class="clear"></div><br/>
+          <div class="order_info_title">状&nbsp &nbsp &nbsp &nbsp态：</div>
+          <div class="order_info_content">进行中</div><div class="clear"></div><br/>
+      </div>
+      <div class="order_btn">
+          <div class="done" tapmode onclick="orderdone(122)">完成</div>
+          <div class="deny" tapmode onclick="denyorder(122)">取消</div>
+      </div>
+    </div>
+
+    <div class="order">
+        <div class="ordertitle">
+            <div class="ordername">海绵宝宝</div>
+            <div class="ordertime">2021-09-10 14:20:38</div>
+        </div>
+        <div class="order_info">
+          <div class="order_info_title">技&nbsp &nbsp &nbsp &nbsp能：</div>
+          <div class="order_info_content">英雄联盟</div><div class="clear"></div><br/>
+          <div class="order_info_title">数&nbsp &nbsp &nbsp &nbsp量：</div>
+          <div class="order_info_content">2</div><div class="clear"></div><br/>
+          <div class="order_info_title">预计收入：</div>
+          <div class="order_info_content">60.0</div><div class="clear"></div><br/>
+          <div class="order_info_title">状&nbsp &nbsp &nbsp &nbsp态：</div>
+          <div class="order_info_content">完成中</div><div class="clear"></div><br/>
+      </div>
+      <div class="order_btn">
+          <div class="earn" tapmode onclick="earn(122)">获取收入</div>
+      </div>
+    </div>
+
+
+      
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript"> 
+    apiready = function(){
+        var UIloading = api.require('UILoading');
+        var switchBtn = api.require('UISwitchButton');
+
+        switchBtn.open({
+            id:'status',
+            state:false,
+            rect: {
+                x: api.winWidth * 0.555,
+                y: api.winWidth * 0.09+ 228,
+                w: api.winWidth * 0.12,
+                h: api.winWidth * 0.06
+            },
+            styles:{
+                bgCorner:api.winWidth * 0.03,
+                active:'rgb(243, 243, 243)' ,
+                inActive:'rgb(163, 163, 163)',
+                thumb:{                  
+                    active:'rgb(97, 255, 77)' , 
+                    inActive:'#ffffff' , 
+                    size:api.winWidth * 0.05,        
+                    corner:api.winWidth * 0.025
+                }
+            },
+            fixed:false,
+            fixedOn: 'proarea_frame',
+        }, function(ret) {
+            if(ret){
+                UIloading.keyFrame({
+                rect:{
+                    w: 80,
+                    h: 100
+                },
+                styles:{
+                    bg:'rgba(0,0,0,0.5)',
+                    corner: 5,
+                    interval: 50,
+                    frame: {
+                        w:80,
+                        h:80,
+                    }
+                },
+                });
+                alert(JSON.stringify(ret.state));
+            }
+        });
+
+      }; //end of apiready
+
+      function fnopenwithdraw(){
+          api.openWin({
+              name: 'withdraw_window',
+              url: '../html/withdraw_window.html',
+          })
+      }
+
+      function fnopenchangeprice(){
+          api.openWin({
+              name: 'changeprice_window',
+              url: '../html/changeprice_window.html',
+          })
+      }
+
+      function fnopenaddgame(){
+          api.openWin({
+              name: 'addapply_window',
+              url: '../html/addapply_window.html',
+          })
+      }
+
+      function fnopenchangepwinfo(){
+          api.openWin({
+              name: 'changepwinfo_window',
+              url: '../html/changepwinfo_window.html',
+          })
+      }
+
+      function fnopenpworder(){
+          api.openWin({
+              name: 'pworder_window',
+              url: '../html/pworder_window.html',
+          })
+        
+      }
+
+      function fnopennotice(){
+          api.openWin({
+              name: 'pwnotice_window',
+              url: '../html/pwnotice_window.html',
+          })
+
+      }
+
+      function acceptorder(orderid){
+        alert("已接受订单"+orderid);
+      };
+
+      function orderdone(orderid){
+        alert("已完成订单"+orderid);
+      };
+
+      function earn(orderid){
+        alert("已获取收益"+orderid);
+      };
+
+      function denyorder(orderid){
+        alert("已拒绝订单"+orderid);
+      };
+
+      
+
+
+      
+
+
+      
+  </script>
+  </html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: rgb(243, 243, 243);}
+          #setting{
+              width: 100%;
+              height: auto;
+              margin-top: 20px;
+              background-color: white;
+          }
+
+          .row{display: inline-block;
+              width: 100%;
+              height: auto;
+              background-color: white;
+          }
+
+          #setting .row .title{
+              float: left;
+              height: auto;
+              font-size: 14px;
+              text-indent: 12px;
+              line-height: 50px;
+              background-color: white;
+          }
+
+          .row img{
+              float: right;
+              height: 10px;
+              width: 5px;
+              margin: 20px 10px;
+          }
+
+          #setting .settingline{
+              position:relative;
+              left:4.5vw;
+              width: 95.5vw;
+              height: 0.5px;
+              border-bottom: #ececec 1px solid;
+          }
+
+          #phone{
+              float: right;
+              font-size: 12px;
+              line-height: 50px;
+              color: rgb(139, 139, 139);
+          }
+
+          #wechatbind{
+            float: right;
+            font-size: 12px;
+            line-height: 50px;
+            color: rgb(139, 139, 139);
+          }
+
+
+      </style>
+  </head>
+  <body>
+    <div id="setting">
+        <div class="row" tapmode onclick="changephone()">
+            <div class="title">手机号</div>
+            <img src="../image/next.png"/>
+            <div id="phone">18357233355</div>
+        </div><br>
+        <div class="settingline"></div>
+
+        
+        <div class="row"  tapmode onclick="changepassword()">
+            <div class="title">修改密码</div>
+            <img src="../image/next.png"/>
+        </div>
+        <div class="settingline"></div>
+
+        <div class="row">
+            <div class="title">绑定微信</div>
+            <img src="../image/next.png"/>
+            <div id="wechatbind">未绑定</div>
+        </div>
+        <div class="settingline"></div>
+
+        <div class="row" tapmode onclick="deleteaccount()">
+            <div class="title" style="color:red">永久注销账号(无法恢复,谨慎操作)</div>
+            <img src="../image/next.png"/>
+        </div>
+
+    </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        
+      };
+
+      function changephone(){
+          api.openWin({
+              name: 'setting_as_changephone_window',
+              url: '../html/setting_as_changephone_window.html',
+              bounces: false,
+          })
+      }
+
+      function changepassword(){
+          api.openWin({
+              name: 'setting_as_changepassword_window',
+              url: '../html/setting_as_changepassword_window.html',
+              bounces: false,
+          })
+      }
+
+      function deleteaccount(){
+          api.openWin({
+              name: 'setting_as_delete_window',
+              url: '../html/setting_as_delete_window.html',
+              bounces: false,
+          })
+      }
+  </script>
+  </html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          body{
+              background-color: white;}
+
+
+        .contact{
+            display: inline-block;
+            width: 100vw;
+            height: 64px;
+            border:rgba(255, 255, 255, 1) 1px solid;
+            font-size: 14px;
+        }
+
+        .conicon{
+            height: 64px;
+            width: 64px;
+            overflow: hidden;
+            float: left;
+        }
+
+        .row{
+            float: left;
+            width: calc(100vw - 64px);
+        }
+
+        .conicon img{
+            height: 50px;
+            width: 50px;
+            border-radius: 25px;
+            margin:7px;
+        }
+
+        .contact .name{
+            float: left;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 14px;
+        }
+
+        .contact .msg{
+            float: left;
+            margin-top: 10px;
+            font-weight: 100;
+            color: gray;
+            font-size: 12px;
+            line-height: 20px;
+        }
+
+        .time{
+            margin-right: 15px;
+            float: right;
+            font-size: 14px;
+            color: rgb(133, 133, 133);
+            margin-top: 10px;
+            font-size: 12px;
+            line-height: 14px;
+        }
+
+        .unread{
+            height: 16px;
+            padding: 0 3px 0 3px;
+            border-radius: 8px;
+            margin-right: 15px;
+            background-color: rgb(255, 28, 28);
+            float: right;
+            color: black;
+            margin-top: 10px;
+            color: rgb(255, 255, 255);
+            font-size: 10px;
+            line-height: 16px;
+            text-align: center;
+        }
+
+      </style>
+  </head>
+  <body>
+      <div id="contactwrap"></div>
+    
+    
+    
+    
+    
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript" src="../script/timeNodeConversion.js"></script>
+  <script type="text/javascript">
+  var rong;
+  var myuserid;
+      apiready = function(){
+        rong = api.require('UIRongCloud');
+        myuserid= api.getPrefs({sync:true,key:'userid'});
+
+        
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#fff',
+            dropColor:'rgba(122, 122, 122, 0.288)',
+        }, function() {
+            getconversationlist();
+        });
+
+rong.addAvatarListener(function(ret) {
+    var thisuserid = ret.userId;
+    api.ajax({
+            url:'https://a6170876450137-pd.apicloud-saas.com/api/requests/ispw',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    'userid':thisuserid
+                }
+            }
+          }, function(ret, err){
+            if(ret && ret.code==0){
+                openpwpage(thisuserid);
+            }
+            }
+          );
+    
+});
+
+rong.addNeedAvatarListener(function(ret){
+    getidicon(ret.userId);
+});
+
+
+setmyinfo();
+getconversationlist();
+
+setInterval(function(){getconversationlist()},1000);
+
+api.addEventListener({
+    name:'openmsg'
+}, function(ret){
+    getconversationlist();
+})
+      };//end of apiready
+
+function getconversationlist(){
+    startloading();
+    rong.getConversationList(function(ret, err) {
+        if(ret.status=='success'){
+            endloading();
+            var list = ret.result;
+            var nameicon = [];
+            for(var i=0;i<=list.length-1;i++){
+                nameicon.push(list[i].targetId);
+            }
+        getnameiconlist(nameicon,list);
+        }
+        if(err){
+            endloading();
+            api.refreshHeaderLoadDone();
+        }
+    })
+}
+
+
+      function getidicon(userid){
+        var rong = api.require('UIRongCloud');
+          api.ajax({
+            url:'https://a6170876450137-pd.apicloud-saas.com/api/requests/getidicon',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    'userid':userid
+                }
+            }
+          }, function(ret, err){
+            if(ret && ret.code==0){
+                var par = {
+                    userId : userid,
+                    nickName : ret.username,
+                    avatarUrl : ret.usericon
+                };
+                rong.setUserAvatar(par);
+            }  else if(err){
+                api.refreshHeaderLoadDone();
+            }
+            }
+          );
+      }
+
+      function openpwpage(userid){
+          if(userid!=myuserid){
+            api.openWin({
+              name: 'pwpage',
+              url: '../html/pwpage_window.html',
+              bgColor:'rgb(237, 239, 248)',
+              pageParam: {
+                  userid:userid
+              }
+          })
+          }
+
+          
+      }
+
+      function addblock(info,name,icon){
+        var content = '<div class="contact" tapmode onclick="openconversation(';
+        content += "'"+info.targetId+"','"+name+"'";
+        content += ')">'
+        content += '<div class="conicon"><img src='+icon+' /></div>';
+        content += '<div class="row">';
+        content += '<div class="name">'+name+'</div>';
+        content += '<div class="time">'+$timeNodeConversion.timeago(info.receivedTime)+'</div>';
+        content += '</div>';
+        content += '<div class="row">';
+        content += '<div class="msg">'+info.latestMessage.text+'</div>';
+        if(info.unreadMessageCount>0){
+            content += '<div class="unread">'+info.unreadMessageCount+'</div>';
+        }
+        content += '</div>';
+        content += '</div>';
+        $api.byId('contactwrap').innerHTML += content;
+      }
+
+      function openconversation(userid,username){
+        getidicon(userid);
+        rong.configChatButtons({pluginItems: ['image','camera']});
+        rong.openConversation({
+            conversationType: 'PRIVATE',
+            targetId: userid,
+            title: username,
+            navigationBar:{
+                bgColor:'#AAE1DC'
+            }
+        },function(ret){
+        });
+        getconversationlist();
+      }
+
+      function getnameiconlist(nameicon,list){
+        api.ajax({
+            url:'https://a6170876450137-pd.apicloud-saas.com/api/requests/getnameiconlist',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    useridlist:nameicon
+                }
+            }
+          }, function(ret, err){
+            if(ret && ret.code==0){
+                $api.byId('contactwrap').innerHTML = '';
+                var nameiconlist = ret.list;
+                var name;
+                var icon;
+                for(var i=0;i<=list.length-1;i++){
+                    name = eval("nameiconlist._"+list[i].targetId+".username");
+                    icon = eval("nameiconlist._"+list[i].targetId+".icon");
+                    if(name){
+                        addblock(list[i],name,icon);
+                    }
+                }
+                api.refreshHeaderLoadDone();
+            }  
+            else if(err){
+                api.refreshHeaderLoadDone();
+            }
+            }
+          );
+      }
+
+      function setmyinfo(){
+        api.ajax({
+            url:'https://a6170876450137-pd.apicloud-saas.com/api/requests/getmyinfo',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                },
+            }
+        }, function(ret, err){
+            if(ret){
+                if(ret.code==0){
+                    var par = {
+                    userId : ret.data.userid,
+                    nickName : ret.data.username,
+                    avatarUrl : ret.data.usericon
+                    };
+                    rong.setUserAvatar(par);
+                }else if(ret.code==1){
+                    alert('服务器发生错误');
+                }
+                else{
+                    alert('发生未知错误');
+                }
+
+            }
+            else if(err){
+                if(err  && err.code ==404){
+                    alert('服务器维护中');
+                }else if(err  && err.code ==0){
+                    alert('请检查网络设置');
+                }
+            }  
+        })
+      }
+    
+  </script>
+  </html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          body{
+            color:rgb(138, 138, 138);
+            padding:5px 5px 30px 5px;
+          }
+
+          
+      </style>
+  </head>
+  <body>
+      <div id='header'></div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+  var ipAddress;
+  var ip;
+  var wxPayPlus;
+  apiready = function(){
+    $api.fixStatusBar(
+            $api.byId("header")
+        );
+
+        var Apple = api.require('Apple');
+Apple.login(function(ret, err) {
+    if (ret.status) {
+        alert(JSON.stringify(ret));
+    } else {
+        alert(JSON.stringify(err));
+    }
+});
+ };
+     
+ var time;
+
+        
+    function a1(){
+        var userid = 'gl00';
+          var password = 'qwer';
+          var random = randomString(8)
+          var timestamp = rongTimeStamp();
+          var signature = 'jdjIqchj6RTm' + random + timestamp;
+          signature = sha1(signature);
+            api.ajax({
+            url:'https://api-cn.ronghub.com/user/checkOnline.json',
+            method: 'post',
+            headers: {
+                'App-Key': '25wehl3u21o4w',
+                'Nonce': random,
+                'Timestamp': timestamp,
+                'Signature': signature,
+                 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data:{
+                body:"userId=10001",
+            }
+                
+
+        }, function(ret, err){
+            alert(JSON.stringify( ret));
+            
+            
+        })
+    }
+    
+      
+  </script>
+  </html>

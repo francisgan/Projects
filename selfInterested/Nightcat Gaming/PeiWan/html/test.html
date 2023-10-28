@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          body{
+            color:rgb(138, 138, 138)
+          }
+          
+      </style>
+  </head>
+  <body>
+      <div id="sectionmy"></div>
+
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+  apiready = function(){
+      var rong = api.require()
+      var ok = api.getPrefs({
+          sync: true,
+          key:'rongtoken'
+      });
+      rong.connect({
+                    token: rongtoken
+                },function(ret, err) {
+                    if (ret.status != 'success'){
+                        alert('通讯服务器发生错误');
+                    };
+                });
+    alert(ok);
+
+
+ };
+     
+ var time;
+
+api.ajax({
+        url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/getmypworder',
+        method: 'post',
+        headers: {
+            'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+        },
+        data:{
+            values:{
+                uuid: api.getPrefs({sync:true,key:'uuid'}),
+            },
+        }
+    }, function(ret, err){
+        if(ret){
+            if(ret.code==0){
+                var list = ret.orderlist;
+                alert(JSON.stringify(list));
+                var time = new Date(list[0].time);
+                var timenow = new Date();
+                dif = timenow.getTime() - time.getTime();
+                alert(dif);
+            }
+            else{
+                alert('发生未知错误');
+            }
+        }
+        else if(err){
+            api.refreshHeaderLoadDone();
+            if(err.code==404){
+                alert('服务器维护中');
+            }else if(err.code==0){
+                alert('请检查网络设置');
+            }
+        }
+        
+        
+    })
+        
+    function a1(){
+        var userid = 'gl00';
+          var password = 'qwer';
+          var random = randomString(8)
+          var timestamp = rongTimeStamp();
+          var signature = 'jdjIqchj6RTm' + random + timestamp;
+          signature = sha1(signature);
+            api.ajax({
+            url:'https://api-cn.ronghub.com/user/checkOnline.json',
+            method: 'post',
+            headers: {
+                'App-Key': '25wehl3u21o4w',
+                'Nonce': random,
+                'Timestamp': timestamp,
+                'Signature': signature,
+                 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data:{
+                body:"userId=10001",
+            }
+                
+
+        }, function(ret, err){
+            alert(JSON.stringify( ret));
+            
+            
+        })
+    }
+    
+      
+  </script>
+  </html>

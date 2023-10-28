@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: rgb(243, 243, 243);}
+          #setting{
+              width: 100%;
+              height: auto;
+              margin-top: 20px;
+              background-color: white;
+          }
+
+          .row{display: inline-block;
+              width: 100%;
+              height: auto;
+              background-color: white;
+          }
+
+          #setting .row .title{
+              float: left;
+              height: auto;
+              font-size: 14px;
+              text-indent: 12px;
+              line-height: 50px;
+              background-color: white;
+          }
+
+          .row img{
+              float: right;
+              height: 10px;
+              width: 5px;
+              margin: 20px 10px;
+          }
+
+          #setting .settingline{
+              position:relative;
+              left:4.5vw;
+              width: 95.5vw;
+              height: 0.5px;
+              border-bottom: #ececec 1px solid;
+          }
+
+          .permission{
+              float: right;
+              font-size: 12px;
+              line-height: 50px;
+              color: rgb(40, 108, 255);
+          }
+
+          .btn{
+              float: right;
+              margin:10px;
+              height: 30px;
+              width: 65px;
+
+          }
+
+
+      </style>
+  </head>
+  <body>
+    <div id="setting">
+        <div class="row" tapmode onclick="api.requestPermission({list:['notification']})">
+            <div class="title">通知栏提醒</div>
+            <img src="../image/next.png"/>
+            <div class="permission" id="notificationpermission"></div>
+        </div>
+        <div class="settingline"></div>
+
+        <div class="row">
+            <div class="title">对话消息提醒</div>
+            <div class="btn" id="textbtn"></div>
+        </div>
+        <div class="settingline"></div>
+
+        <div class="row">
+            <div class="title">订单通知</div>
+            <div class="btn" id="orderbtn"></div>
+        </div>
+        <div class="settingline"></div>
+
+
+
+    </div>
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        var switchBtn = api.require('UISwitchButton');
+        var notificationpermission = api.hasPermission({list:['notification']});
+          
+        if(notificationpermission[0].granted){
+            $api.byId('notificationpermission').innerHTML = '已开启';
+        }else{
+            $api.byId('notificationpermission').innerHTML = '去开启';
+        }
+
+        var texton = api.getPrefs({
+            sync: true,
+            key:'textnotification'
+        });;
+        var orderon = api.getPrefs({
+            sync: true,
+            key:'ordernotification'
+        });;
+
+        var textbtnEl = $api.byId('textbtn');
+        var textbtnRect = $api.offset(textbtnEl);
+        switchBtn.open({
+            id:'1',
+            state:texton,
+            rect: {
+            x: textbtnRect.l,
+            y: textbtnRect.t,
+            w: textbtnRect.w,
+            h: textbtnRect.h
+            },
+            styles:{
+            bgCorner:15,
+            active:'rgb(243, 243, 243)' ,
+            inActive:'rgb(163, 163, 163)',
+            thumb:{                  
+                active:'rgb(97, 255, 77)' , 
+                inActive:'#ffffff' ,
+                size:30,        
+                corner:15
+            }
+            },
+            fixedOn: 'setting_notification_frame',
+            fixed: true
+        }, function(ret) {
+            api.setPrefs({
+                key: 'textnotification',
+                value: ret.state
+            });
+        });
+
+        var orderbtnEl = $api.byId('orderbtn');
+        var orderbtnRect = $api.offset(orderbtnEl);
+        switchBtn.open({
+            id:'1',
+            state:orderon,
+            rect: {
+            x: orderbtnRect.l,
+            y: orderbtnRect.t,
+            w: orderbtnRect.w,
+            h: orderbtnRect.h
+            },
+            styles:{
+            bgCorner:15,
+            active:'rgb(243, 243, 243)' ,
+            inActive:'rgb(163, 163, 163)',
+            thumb:{                  
+                active:'rgb(97, 255, 77)' , 
+                inActive:'#ffffff' ,
+                size:30,        
+                corner:15
+            }
+            },
+            fixedOn: 'setting_notification_frame',
+            fixed: true
+        }, function(ret) {
+            api.setPrefs({
+                key: 'ordernotification',
+                value: ret.state
+            });
+        });
+
+    
+        
+      };//end of apiready
+
+      
+  </script>
+  </html>

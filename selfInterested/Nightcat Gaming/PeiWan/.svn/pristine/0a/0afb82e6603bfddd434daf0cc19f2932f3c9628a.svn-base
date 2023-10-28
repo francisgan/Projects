@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      </style>
+  </head>
+  <body>
+
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        var rong = api.require('UIRongCloud');
+        var myid;
+      var myusername;
+      var myiconurl;
+
+
+        rong.init(function(ret, err) {
+            alert(JSON.stringify(ret));
+            alert(JSON.stringify(err));
+        });
+
+
+        rong.connect({
+            token: 'ThptTWyiPPPvZHvuSiuri82yq+hfEluLjZ78E1qo4hEVSFQNpqdoPu406urMWKN4Z3/olWR+v9JVLAwfOQoLrA=='},function(ret, err) {
+            if (ret.status == 'success') api.toast({ msg: ret.result.userId });
+        });
+
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/getmyinfo',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    useridentifyid: api.getPrefs({sync:true,key:'useridentifyid'})
+                },
+            }
+        }, function(ret, err){
+          if(ret){
+            myid = ret.data.userid;
+            myusername = ret.data.username;
+            myiconurl = ret.data.usericon;
+            alert(myid+myusername+myiconurl);
+            gettoken(myid,myusername,myiconurl);
+            connectrong();
+          }
+            
+        }); //end of ajax
+
+
+        
+
+
+
+
+
+
+
+
+
+
+      };
+
+      function gettoken(myid,myusername,myiconurl){
+
+        var random = randomString(6)
+          var timestamp = rongTimeStamp();
+          var signature = 'jdjIqchj6RTm' + random + timestamp;
+          signature = sha1(signature);
+          var rongtext = 'userId='+ myid +'&name='+myusername+'&portraitUri='+myiconurl;
+  api.ajax({
+            url:'https://api-cn.ronghub.com/user/getToken.json',
+            method: 'post',
+            headers: {
+                'App-Key': '25wehl3u21o4w',
+                'Nonce': random,
+                'Timestamp': timestamp,
+                'Signature': signature,
+                 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data:{
+                body:rongtext,
+            }
+                
+
+        }, function(ret, err){
+            api.setGlobalData({
+              key: 'rongtoken',
+              value: ret.token
+            })
+            alert(ret.token);
+            
+            
+        }) //end of ajax
+      }//end of function
+
+function connectrong(){
+    var rong = api.require('UIRongCloud');
+    rong.connect({
+    token:"ZV5l+sS3WyYPrzm4rSvYwkIYp64kw9yVYCsyR+awDZE=@0mq3.cn.rongnav.com;0mq3.cn.rongcfg.com" //api.getGlobalData({key:'rongtoken'})
+  },function(ret, err) {
+    if (ret){
+     alert(JSON.stringify(ret));
+    }
+    if(err){
+        alert(JSON.stringify(err));
+    }
+});
+}
+  </script>
+  </html>

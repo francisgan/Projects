@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          body,html{background: #f1f7f7;
+          padding-bottom:20px ;
+          }
+
+          #info{
+              width: 96vw;
+              margin: 10px 2vw;
+              background-color: white;
+              border-radius: 8px;
+          }
+
+          #icon{
+              float: left;
+              width: 50px;
+              height: 50px;
+              border-radius: 10px;
+              margin:3vw
+          }
+
+          #username{
+              float: left;
+              font-size: 16px;
+              color: black;
+              line-height: 50px;
+              margin-top: 3vw;
+          }
+
+          #orderinfo{
+              width: 96vw;
+              margin: 10px 2vw;
+              background-color: white;
+              border-radius: 8px;
+          }
+
+          .orderblock{
+              height: auto;
+              width: 90vw;
+              margin-left: 3vw;
+              border-bottom: rgb(199, 199, 199) 0.5px solid;
+          }
+
+          .ordertitle{
+              float: left;
+              line-height: 50px;
+              font-size: 14px;
+              color: black;
+          }
+
+          #skillname, #price{
+              float: right;
+              line-height: 50px;
+              font-size: 14px;
+              color: black;
+          }
+
+          .amountbtn{
+            float: right;
+            height: 50px;
+
+          }
+
+          #minus, #plus{
+              height: 20px;
+              width: 20px;
+              margin-top: 15px;
+
+          }
+
+
+          #amount{
+              margin: 9px 8px;
+              height: 32px;
+              float: right;
+              font-size: 16px;
+              color: black;
+              line-height: 32px;
+              border-left: grey 0.5px solid;
+              border-right: grey 0.5px solid;
+              padding: 0 8px;
+          }
+
+          #totalprice, #totalpricetitle{
+              float: right;
+              font-size: 16px;
+              line-height: 16px;
+              color: black;
+              margin: 3vw;
+          }
+
+          #submit{
+              margin: 0 10vw 20px 10vw;
+              width: 80vw;
+              height: 40px;
+              border-radius: 20px;
+              font-size: 16px;
+              line-height: 40px;
+              color: white;
+              text-align: center;
+              background-color: rgb(64, 185, 255);
+          }
+
+
+
+
+
+
+
+      </style>
+  </head>
+  <body>
+      <div id="info">
+          <img id="icon" src="../image/1.jpg" />
+          <div id="username">海绵宝宝</div>
+          <div class="clear"></div>
+      </div>
+      <div id="orderinfo">
+          <div class="orderblock">
+              <div class="ordertitle">技能:</div>
+              <div id="skillname"></div>
+              <div class="clear"></div>
+          </div>
+          <div class="orderblock">
+            <div class="ordertitle">单价:</div>
+            <div id="price"></div>
+            <div class="clear"></div>
+        </div>
+          <div class="orderblock">
+
+            <div class="ordertitle">数量:</div>
+
+            <div class="amountbtn" tapmode onclick="plus()">
+                <img src="../image/plus.png" id="plus"/>
+            </div>
+            <div id="amount"></div>
+
+            <div class="amountbtn" tapmode onclick="minus()">
+                <img src="../image/minus.png" id="minus"/>
+            </div>
+            
+            <div class="clear"></div>
+          </div>
+          <div id="totalprice"></div>
+          <div id="totalpricetitle">总计: </div>
+          <div class="clear"></div>
+      </div>
+      <div id="submit" tapmode onclick="submit()">提交订单</div>
+
+    
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+          var username = api.pageParam.username;
+          var gamename = api.pageParam.gamename;
+          var price = api.pageParam.price;
+          var amount = 1;
+          var total = price * amount;
+          
+          var usernameEl = $api.byId('username');
+          var gamenameEl = $api.byId('skillname');
+          var priceEl = $api.byId('price');
+          var amountEl = $api.byId('amount');
+          var totalpriceEl = $api.byId('totalprice');
+
+          usernameEl.innerHTML = username;
+          gamenameEl.innerHTML = gamename;
+          priceEl.innerHTML = price+ " 币/局";
+          amountEl.innerHTML = amount;
+          totalpriceEl.innerHTML = total + " 币";
+
+      };//end of apiready
+
+      var price;
+      var amount=1;
+      var total;
+      
+
+      function plus(){
+          price = api.pageParam.price;
+          amount += 1;
+          var amountEl = $api.byId('amount');
+          var totalpriceEl = $api.byId('totalprice');
+          amountEl.innerHTML = amount;
+          total = amount * price;
+          totalpriceEl.innerHTML = total + " 币";
+      }
+
+      function minus(){
+          if(amount==1){}
+          else{
+            amount -= 1;
+            var amountEl = $api.byId('amount');
+            var totalpriceEl = $api.byId('totalprice');
+            amountEl.innerHTML = amount;
+            total = amount * price;
+            totalpriceEl.innerHTML = total + " 币";
+          }
+      }
+
+      function submit(){
+          alert(
+              "用户id:"+ api.pageParam.userid + "\n" +
+              "技能:" + api.pageParam.game + "\n" +
+              "数量:" + amount
+          );
+      }
+
+
+
+  </script>
+  </html>

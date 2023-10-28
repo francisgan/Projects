@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          #botarea{
+              margin-bottom: 0px !important;
+          }
+
+        #submit{
+            display: inline-block;
+            margin-left: calc( 10vw - 0.5px );
+            width: 80vw;
+            height: 40px;
+            background-color: white;
+            border:0.5px rgb(81, 162, 255) solid;
+            border-radius: 20px;
+            font-size: 20px;
+            line-height: 40px;
+            text-align: center;
+            color:rgb(81, 162, 255);
+            margin-bottom: 50px;
+
+        }
+
+      body{background: white;}
+
+      .title{
+          float: left;
+          margin-left:10px;
+          font-size: 18px;
+          font-weight: bold;
+          color: black;
+          line-height: 38px;
+      }
+
+      .note{
+          float: left;
+          margin-left:10px;
+          font-size: 12px;
+          color: rgb(122, 122, 122);
+          line-height: 38px;
+      }
+
+      .area{
+          display: inline-block;
+          background-color: rgb(255, 255, 255);
+          width: 100%;
+          margin-bottom: 8px;
+      }
+
+      #gamelist{
+          float: right;
+          margin-top: 9px;
+          margin-right: 5px;
+          font-size: 14px;
+          line-height: 14px;
+          padding: 4px;
+          color: rgb(81, 162, 255);
+          border: 0.5px rgb(81, 162, 255) solid;
+          border-radius: 11px;
+
+      }
+
+      #gamename , #gamerank, #idname, #idnumber, #idyear, #region, #contact{
+        width: calc( 100vw - 15px);
+        margin-left: 10px;
+        margin-top:5px;
+        height: 35px;
+        line-height: 20px;
+        font-size: 16px;
+        background-color: #f6f7f9;
+        margin-bottom: 10px;
+    }
+
+    #uploadgameimg, #uploadid, #uploadregion{
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        width: calc( 100vw - 21px);
+        height: calc( (100vw - 20px) / 1.75 - 1px);
+        border: 0.5px dashed grey ;
+        border-radius: 10px;
+        
+    }
+
+    #rankuploadicon{
+        display: inline-block;
+        width: 20vw;
+        height: 20vw;
+        margin-left: calc( 40vw - 10.5px );
+        margin-top: 10vw;
+        z-index: -999;
+    }
+
+    .imgdescription{
+        font-size: 12px;
+        margin-top: 20px;
+        color: GREY;
+        text-align: center;
+        z-index: -999;
+    }
+
+    #rankimgdisplay, #idimgdisplay, #regionimgdisplay{
+        position: absolute;
+        top:0;
+        left:0;
+        width: calc( 100vw - 21px);
+        height: calc( (100vw - 20px) / 1.75 - 1px);
+        display: none;
+        z-index: 9999;
+    }
+
+    #introduction{
+        width: calc( 100vw - 15px);
+        margin-left: 10px;
+        margin-top:5px;
+        height: 135px;
+        line-height: 20px;
+        font-size: 16px;
+        background-color: #f6f7f9;
+        margin-bottom: 10px;
+    }
+
+    #time{
+        width: calc( 100vw - 15px);
+        margin-left: 10px;
+        margin-top:5px;
+        height: 50px;
+        line-height: 20px;
+        font-size: 16px;
+        background-color: #f6f7f9;
+        margin-bottom: 10px;
+    }
+
+    #price{
+        float: left;
+        width: 65px;
+        margin: 1.5px 10px 10px 10px;
+        height: 35px;
+        line-height: 20px;
+        font-size: 14px;
+        background-color: #f6f7f9;
+        text-align: center;
+    }
+
+    #per{
+        float: left;
+        font-size: 20px;
+        line-height: 38px;
+        color: black;
+        margin-right:10px;
+    }
+
+    
+
+    
+
+      
+
+
+      </style>
+  </head>
+  <body>
+
+    <div class="area">
+        <div class="title">游戏名称</div>
+        <div class="note">(首次申请只需填写一个)</div><br>
+        <div id="gamelist" tapmode onclick="opengamelist()">查看游戏列表</div><br>
+        <input type="text" id="gamename" placeholder="请输入游戏名称">
+    </div>
+
+    <div class="area">
+        <div class="title">段位</div><br>
+        <input type="text" id="gamerank" placeholder="请输入游戏段位或分数">
+    </div>
+
+    <div class="area">
+        <div class="title">上传游戏段位截图</div>
+        <div id="uploadgameimg" tapmode onclick="uploadrankimg()">
+            <img src="../image/upload.png" id="rankuploadicon" />
+            <div class="imgdescription">请上传当前赛季的游戏界面（包含游戏id和段位）的清晰完整截图</div>
+            <img id="rankimgdisplay" src=""/>
+        </div>
+    </div>
+
+    <div class="area">
+        <div class="title">陪玩介绍</div><br>
+        <textarea id="introduction" placeholder="介绍自己，如：个人特色，游戏技能等，不可包含违规内容。限100字以内"></textarea>
+    </div>
+
+    <div class="area">
+        <div class="title">接单时间</div><br>
+        <textarea id="time" placeholder="如:每日19:00-23:00,全天,不固定"></textarea>
+    </div>
+
+    <div class="area">
+        <div class="title">价格</div>
+        <div class="note">(平台基于此价格收取佣金,佣金比例为15%~8%)</div>
+        <div class="clear"></div><br>
+        <input type="text" id="price" placeholder="数字">
+        <div id="per">币/小时</div>
+    </div>
+
+    <div class="area" id="botarea">
+        <div class="title">实名认证&个人资料</div><br>
+        <div id="gamelist" tapmode onclick="openalert()">平台声明</div><br>
+        <input type="text" id="idname" placeholder="姓名(显示在证件上的姓名)">
+        <input type="text" id="idnumber" placeholder="证件ID">
+        <input type="text" id="idyear" placeholder="出生年份">
+        <input type="text" id="region" placeholder="地区(如：美国加利福尼亚州)">
+        <input type="text" id="contact" placeholder="微信号/邮箱(仅用于与平台联系)">
+
+        <div id="uploadid" tapmode onclick="uploadidimg()">
+            <img src="../image/upload.png" id="rankuploadicon" />
+            <div class="imgdescription">请上传您证件照片，可对具体地址进行遮盖。</div>
+            <img id="idimgdisplay" src=""/>
+        </div>
+
+        <div id="uploadgameimg" tapmode onclick="uploadregionimg()">
+            <img src="../image/upload.png" id="rankuploadicon" />
+            <div class="imgdescription">请上传任何可以证明您所在地区的文件。</div>
+            <img id="regionimgdisplay" src=""/>
+        </div>
+
+        <div id="submit" tapmode onclick="submit()">提交申请</div>
+    </div>
+
+
+    <div class="area" id="botarea">
+        
+    </div>
+
+    
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      var img1 = false;
+      var img2 = false;
+      var img3 = false;
+
+      var gamename;
+      var rank;
+      var introduction;
+      var time;
+      var price;
+      var idname;
+      var idnumber;
+      var idyear;
+      var region;
+      var contactway;
+      var rankimgpath;
+      var idimgpath;
+      var regionimgpath;
+      var rankurl;
+      var idurl;
+      var regionurl;
+
+      apiready = function(){
+        api.addEventListener({
+            name:'uploadimg'
+        }, function(ret){
+            if(img1 && img2 && img3){
+                uploadapply();
+                img1,img2,img3 = false;
+            }
+            
+        })
+
+        
+
+        
+
+      };
+
+      //自定义function
+    function getphotopermission(){
+        var permission = 'photos';
+        api.confirm({
+    msg: '去设置开启访问相册权限',
+    buttons: ['取消', '去设置']
+}, function(ret) {
+    if (ret.buttonIndex == 2) {
+        api.requestPermission({
+            list: [permission],
+        }, function(res) {
+            if (res.list[0].granted) {
+                // 已授权，可以继续下一步操作
+            }
+        });
+    }
+});
+        };
+
+    
+    //结束自定义function
+
+      function opengamelist(){
+        var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: 280,                     
+                h: 400 
+            },
+            texts: {
+                title: '游戏列表',
+                content: '首次申请时只需填写一个游戏，如需申请更多游戏资质可于审核通过后在大神专区添加游戏 \n\n 端游：英雄联盟，绝地求生，CS:GO, 云顶之奕，Dota，堡垒之夜，Apex Legend，Volarent, 守望先锋，Steam游戏 \n\n 手游：王者荣耀，LOL手游，和平精英，荒野乱斗，使命召唤手游 \n\n 服务类：心理咨询，唱歌，作业指导 \n\n您也可以填写不在列表上的游戏或服务，我们会按实际情况增添游戏及服务。',
+                okBtnTitle: '关闭'
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 10,
+                title:{
+                    bg: 'white',
+                    h: 44,
+                    size: 14,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'left',
+                    size: 14
+                },
+                ok: {
+                    h: 50,
+                    bg: 'rgb(81, 162, 255)',
+                    titleColor: '#fff',
+                    titleSize: 20,
+                }
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    dialogName: 'scene'
+                })
+            }
+        })
+    } //end of gamelist function
+
+    function openalert(){
+        var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: 280,                     
+                h: 300 
+            },
+            texts: {
+                title: '平台声明',
+                content: '1.平台不会主动泄露或贩卖您的个人信息，除非需要配合有关部门调查 \n\n2.证件照片仅用于实名认证，可对地址进行打码 \n\n3.微信号仅用于平台与您联系，不会显示在主页上 \n\n4.如经查实您提供虚假的实名认证信息，平台有权撤回您的陪玩资质',
+                okBtnTitle: '关闭'
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 10,
+                title:{
+                    bg: 'white',
+                    h: 44,
+                    size: 14,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'left',
+                    size: 12
+                },
+                ok: {
+                    h: 50,
+                    bg: 'rgb(81, 162, 255)',
+                    titleColor: '#fff',
+                    titleSize: 20,
+                }
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    dialogName: 'scene'
+                })
+            }
+        })
+    } //end of gamelist function
+
+    function uploadrankimg(){
+        var permission = api.hasPermission({
+            list:['photos']
+        });
+        var granted = permission[0].granted;
+        if(!granted){
+            getphotopermission();
+        }else{
+            api.getPicture({
+            sourceType:'album',
+            mediaValue: 'pic',
+            destinationType:'url',
+            targetWidth: 800,
+            targetHeight:457,
+        },
+        function(ret){
+            if(ret){
+            rankimgpath = ret.data;
+            var rankimg = $api.byId("rankimgdisplay");
+            rankimg.style.display = 'inline-block' ;
+            rankimg.src = ret.data;
+            }
+        })
+        }
+        
+        
+    }
+
+    function uploadidimg(){
+        var permission = api.hasPermission({
+            list:['photos']
+        });
+        var granted = permission[0].granted;
+        if(!granted){
+            getphotopermission();
+        }else{
+        api.getPicture({
+            sourceType:'album',
+            mediaValue: 'pic',
+            destinationType:'url',
+            targetWidth: 800,
+            targetHeight:457,
+        },
+        function(ret){
+            if(ret){
+            idimgpath = ret.data;
+            var idimg = $api.byId("idimgdisplay");
+            idimg.style.display = 'inline-block' ;
+            idimg.src = ret.data;
+            }
+        })
+        }
+    }
+
+    function uploadregionimg(){
+        var permission = api.hasPermission({
+            list:['photos']
+        });
+        var granted = permission[0].granted;
+        if(!granted){
+            getphotopermission();
+        }else{
+        api.getPicture({
+            sourceType:'album',
+            mediaValue: 'pic',
+            destinationType:'url',
+            targetWidth: 1200,
+            targetHeight:685,
+        },
+        function(ret){
+            if(ret){
+            regionimgpath = ret.data;
+            var regionimg = $api.byId("regionimgdisplay");
+            regionimg.style.display = 'inline-block' ;
+            regionimg.src = ret.data;
+            }
+        })
+        }
+    }
+
+    function submit(){
+        gamename = $api.byId('gamename').value;
+        rank = $api.byId('gamerank').value;
+        introduction = $api.byId('introduction').value;
+        time = $api.byId('time').value;
+        price = $api.byId('price').value;
+        idname = $api.byId('idname').value;
+        idnumber = $api.byId('idnumber').value;
+        idyear = $api.byId('idyear').value;
+        region = $api.byId('region').value;
+        contactway = $api.byId('contact').value;
+        if(!gamename)
+        {alert('未填写游戏名称')}
+        else if(!rank)
+        {alert('未填写段位')}
+        else if(typeof rankimgpath=="undefined")
+        {alert('未选择段位截图')}
+        else if(!introduction)
+        {alert('未填写陪玩介绍')}
+        else if(introduction.length > 5)
+        {alert('陪玩介绍超出100字')}
+        else if(!time)
+        {alert('未填写接单时间')}
+        else if(!price)
+        {alert('未填写价格')}
+        else if(!idname)
+        {alert('未填写姓名')}
+        else if(!idnumber)
+        {alert('未填写证件号')}
+        else if(!idyear)
+        {alert('未填写出生年份')}
+        else if(!region)
+        {alert('未填写所在地区')}
+        else if(!contactway)
+        {alert('未填写联系方式')}
+        else if(typeof idimgpath=="undefined")
+        {alert('未选择证件照')}
+        else if(typeof regionimgpath=="undefined")
+        {alert('未选择所在地区证明')}
+        else{
+            startloading();
+            var qiniu = api.require('qiniuUpfile');
+            qiniu.upfile({
+            file: rankimgpath,
+            },function(ret,err){
+                if(ret.oper=="complete"){
+                    rankurl = 'http://qiniu.zjrongshun.com/' + ret.info.hash;
+                    img1 = true;
+                    api.sendEvent({
+                        name:'uploadimg'
+                    })
+                }
+            });//img1
+            qiniu.upfile({
+            file: idimgpath,
+            },function(ret,err){
+                if(ret.oper=="complete"){
+                    idurl = 'http://qiniu.zjrongshun.com/' + ret.info.hash;
+                    img2 = true;
+                    api.sendEvent({
+                        name:'uploadimg'
+                    })
+                }
+            });//img2
+            qiniu.upfile({
+            file: regionimgpath,
+            },function(ret,err){
+                if(ret.oper=="complete"){
+                    regionurl = 'http://qiniu.zjrongshun.com/' + ret.info.hash;
+                    img3 = true;
+                    api.sendEvent({
+                        name:'uploadimg'
+                    })
+                }
+            });//img3
+
+       
+        }
+    }
+
+    function uploadapply(){
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/uploadapply',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    gamename: gamename,
+	                rank: rank,
+	                introduction: introduction,
+	                time:time,
+	                price: price,
+                    idname: idname,	  
+  	                idnumber: idnumber,
+	                idyear:idyear,
+  	                region:region,
+  	                contact: contactway,
+                    img1:rankurl,
+  	                img2:idurl,
+  	                img3:regionurl,
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                },
+            }
+        }, function(ret, err){
+            if(ret && ret.code==0){
+                endloading();
+                success();
+                setTimeout(api.closeWin(),1000);
+
+            }else{
+                endloading();
+                if(err  && err.code ==404){
+                    alert('服务器维护中');
+                }else if(err  && err.code ==0){
+                    alert('请检查网络设置');
+                }
+            }
+            
+        })
+    }
+
+var loadingid;
+  function startloading(){
+  var UILoading = api.require('UILoading');
+    UILoading.flower({
+    center: {
+        x: api.winWidth/2.0,
+        y: api.winHeight/2.0
+    },
+    size: 40,
+    fixed: true
+}, function(ret) {
+      loadingid = ret.id;
+});
+}
+
+function endloading(){
+var uiloading = api.require('UILoading');
+uiloading.closeFlower({
+    id: loadingid,
+    isGradual:false
+});
+}
+
+function success(){
+    var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: api.winWidth*0.6,                     
+                h: 100 
+            },
+            texts: {
+                title: '',
+                content: '提交成功,平台将尽快审核',
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 20,
+                title:{
+                    bg: 'white',
+                    h: 30,
+                    size: 14,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'center',
+                    size: 16
+                },
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    icon: '',
+                    dialogName: 'scene'
+                })
+            }
+        })
+  }
+
+  </script>
+  </html>

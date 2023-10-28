@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          body,html{background: #f1f7f7;
+          padding-bottom:20px ;
+          }
+
+          #info{
+              width: 96vw;
+              margin: 10px 2vw;
+              background-color: white;
+              border-radius: 8px;
+          }
+
+          #icon{
+              float: left;
+              width: 50px;
+              height: 50px;
+              border-radius: 10px;
+              margin:3vw
+          }
+
+          #username{
+              float: left;
+              font-size: 16px;
+              color: black;
+              line-height: 50px;
+              margin-top: 3vw;
+          }
+
+          #orderinfo{
+              width: 96vw;
+              margin: 10px 2vw;
+              background-color: white;
+              border-radius: 8px;
+          }
+
+          .orderblock{
+              height: auto;
+              width: 90vw;
+              margin-left: 3vw;
+              border-bottom: rgb(199, 199, 199) 0.5px solid;
+          }
+
+          .ordertitle{
+              float: left;
+              line-height: 50px;
+              font-size: 14px;
+              color: black;
+          }
+
+          #skillname, #price{
+              float: right;
+              line-height: 50px;
+              font-size: 14px;
+              color: black;
+          }
+
+          .amountbtn{
+            float: right;
+            height: 50px;
+
+          }
+
+          #minus, #plus{
+              height: 20px;
+              width: 20px;
+              margin-top: 15px;
+
+          }
+
+
+          #amount{
+              margin: 9px 8px;
+              height: 32px;
+              float: right;
+              font-size: 16px;
+              color: black;
+              line-height: 32px;
+              border-left: grey 0.5px solid;
+              border-right: grey 0.5px solid;
+              padding: 0 8px;
+          }
+
+          #totalprice, #totalpricetitle{
+              float: right;
+              font-size: 16px;
+              line-height: 16px;
+              color: black;
+              margin: 3vw;
+          }
+
+          #submit{
+              margin: 0 10vw 20px 10vw;
+              width: 80vw;
+              height: 40px;
+              border-radius: 20px;
+              font-size: 16px;
+              line-height: 40px;
+              color: white;
+              text-align: center;
+              background-color: rgb(64, 185, 255);
+          }
+
+
+
+
+
+
+
+      </style>
+  </head>
+  <body>
+      <div id="info">
+          <img id="icon" src="" />
+          <div id="username"></div>
+          <div class="clear"></div>
+      </div>
+      <div id="orderinfo">
+          <div class="orderblock">
+              <div class="ordertitle">技能:</div>
+              <div id="skillname"></div>
+              <div class="clear"></div>
+          </div>
+          <div class="orderblock">
+            <div class="ordertitle">单价:</div>
+            <div id="price"></div>
+            <div class="clear"></div>
+        </div>
+          <div class="orderblock">
+
+            <div class="ordertitle">数量:</div>
+
+            <div class="amountbtn" tapmode onclick="plus()">
+                <img src="../image/plus.png" id="plus"/>
+            </div>
+            <div id="amount"></div>
+
+            <div class="amountbtn" tapmode onclick="minus()">
+                <img src="../image/minus.png" id="minus"/>
+            </div>
+            
+            <div class="clear"></div>
+          </div>
+          <div id="totalprice"></div>
+          <div id="totalpricetitle">总计: </div>
+          <div class="clear"></div>
+      </div>
+      <div id="submit" tapmode onclick="presubmit()">提交订单</div>
+
+    
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+          var username = api.pageParam.username;
+          var gamename = api.pageParam.gamename;
+          var price = api.pageParam.price;
+          var iconurl = api.getGlobalData({
+              key:'placeordericonurl'
+          });
+          var amount = 1;
+          var total = price * amount;
+          
+          var usernameEl = $api.byId('username');
+          var gamenameEl = $api.byId('skillname');
+          var priceEl = $api.byId('price');
+          var amountEl = $api.byId('amount');
+          var totalpriceEl = $api.byId('totalprice');
+          var icon = $api.byId('icon');
+
+          icon.src = iconurl;
+          usernameEl.innerHTML = username;
+          gamenameEl.innerHTML = gamename;
+          priceEl.innerHTML = price+ " 币/局";
+          amountEl.innerHTML = amount;
+          totalpriceEl.innerHTML = total + " 币";
+      };//end of apiready
+
+      var price;
+      var amount=1;
+      var total;
+      
+
+      function plus(){
+          price = api.pageParam.price;
+          amount += 1;
+          var amountEl = $api.byId('amount');
+          var totalpriceEl = $api.byId('totalprice');
+          amountEl.innerHTML = amount;
+          total = amount * price;
+          totalpriceEl.innerHTML = total + " 币";
+      }
+
+      function minus(){
+          if(amount==1){}
+          else{
+            amount -= 1;
+            var amountEl = $api.byId('amount');
+            var totalpriceEl = $api.byId('totalprice');
+            amountEl.innerHTML = amount;
+            total = amount * price;
+            totalpriceEl.innerHTML = total + " 币";
+          }
+      }
+
+      function presubmit(){
+        if(loginstatus()==true){
+            submit();
+        }else{
+            alert('未登入');
+        }
+        
+      }
+
+      function submit(){
+          startloading();
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/placepworder',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data: {
+                values:{
+                    userid: api.pageParam.userid,
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                    gamecode: api.pageParam.game,
+                    amount: amount,
+                },
+            },
+        }, function(ret, err){
+            if(ret){
+                endloading();
+                if(ret.code==0){
+                    success();
+                    api.sendEvent({
+                        name:'refreshbalence'
+                    })
+                    api.closeWin();
+                }else if(ret.code==1){
+                    notenough();
+                }
+            }
+            else if(err){
+                if(err.code==404){
+                    alert('服务器维护中');
+                }else if(err.code==0){
+                    alert('请检查网络设置');
+                }
+            }
+            
+        })
+      };
+
+      function notenough(){
+        var dialogBox = api.require('dialogBox');
+        dialogBox.alert({
+            texts: {
+                title: '',
+                content: '抱歉，您的余额不足',
+                leftBtnTitle: '取消',
+                rightBtnTitle: '前往充值',
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 20,
+                content:{
+                    color: '#000',
+                    alignment: 'center',
+                    size: 16
+                },
+                left: {
+                    marginB: 7,
+                    marginL: 20,
+                    w: 130,
+                    h: 35,
+                    corner: 5,
+                    bg: '#rbg(230,230,230)',
+                    size: 14
+                },
+                right: {
+                    marginB: 7,
+                    marginL: 10,
+                    w: 130,
+                    h: 35,
+                    corner: 17.5,
+                    bg: '#AAE1DC',
+                    color: '#fff',
+                    size: 14
+                }                  
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                if(ret.eventType=='right'){
+                    dialogBox.close({
+                        icon: '',
+                        dialogName: 'alert'
+                    })
+                    api.openWin({
+                        name: 'charge',
+                        url: '../html/charge_window.html',
+                        bgColor:'#fcfcfc'
+                    })
+                }else if(ret.eventType=='left'){
+                    dialogBox.close({
+                        icon: '',
+                        dialogName: 'alert'
+                    })
+                };
+                
+            }
+        })
+      }
+
+      function success(){
+    var dialogBox = api.require('dialogBox');
+        dialogBox.scene({
+            rect: {
+                w: api.winWidth*0.6,                     
+                h: 100 
+            },
+            texts: {
+                title: '',
+                content: '下单成功！',
+            },
+            styles: {
+                bg: 'white',
+                maskBg:'rgba(100, 100, 100, 0.5)',
+                corner: 20,
+                title:{
+                    bg: 'white',
+                    h: 30,
+                    size: 14,
+                    color: '#000'
+                },
+                content:{
+                    color: '#000',
+                    alignment: 'center',
+                    size: 16
+                },
+            },
+            tapClose:true,   
+        }, function(ret, err) {
+            if (ret) {
+                dialogBox.close({
+                    icon: '',
+                    dialogName: 'scene'
+                })
+            }
+        })
+  }
+
+
+
+
+  </script>
+  </html>

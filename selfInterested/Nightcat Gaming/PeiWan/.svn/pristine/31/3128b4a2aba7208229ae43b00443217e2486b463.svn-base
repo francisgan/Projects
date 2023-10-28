@@ -1,0 +1,66 @@
+<widget id="A6170876450137" version="0.0.1">
+
+	<name>PeiWan</name>
+
+	<description>Example For APICloud.</description>
+
+	<author email="developer@apicloud.com" href="http://www.apicloud.com">Developer</author>
+
+	<content src="index.html"/>
+
+	<access origin="*"/>
+
+	<preference name="pageBounce" value="true"/>
+
+	<preference name="appBackground" value="rgba(0,0,0,0.0)"/>
+
+	<preference name="windowBackground" value="rgba(0,0,0,0.0)"/>
+
+	<preference name="frameBackgroundColor" value="rgba(0,0,0,0.0)"/>
+
+	<preference name="hScrollBarEnabled" value="false"/>
+
+	<preference name="vScrollBarEnabled" value="false"/>
+
+	<preference name="autoLaunch" value="true"/>
+
+	<preference name="fullScreen" value="false"/>
+
+	<preference name="autoUpdate" value="true"/>
+
+	<preference name="smartUpdate" value="false"/>
+
+	<preference name="debug" value="true"/>
+
+	<preference name="statusBarAppearance" value="true"/>
+
+	<preference name="iOS7StatusBarAppearance" value="true"/>
+
+	<preference name="useWKWebView" value="true"/>
+
+	<permission name="readPhoneState"/>
+
+	<permission name="camera"/>
+
+	<permission name="record"/>
+
+	<permission name="location"/>
+
+	<permission name="fileSystem"/>
+
+	<permission name="internet"/>
+
+	<permission name="bootCompleted"/>
+
+	<permission name="hardware"/>
+
+	<feature name="UIRongCloud">
+	
+    <param name="83766F2D-C542-CE9C-A5D3-FC0A7FB42B24" value="25wehl3u21o4w" />
+    <!-- 通知通道名称，适配 Android 8.0+ 通知机制，该字段仅对Android有效 -->
+    <param name="notificationChannelName" value="" />
+    <!-- 通知通道ID，适配 Android 8.0+ 通知机制，该字段仅对Android有效-->
+    <param name="notificationChannelId" value=""/>
+</feature>
+
+</widget>

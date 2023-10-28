@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          body{
+            color:rgb(163, 163, 163)
+          }
+          
+      </style>
+  </head>
+  <body>
+      <div id="sectionmy"></div>
+
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript">
+      apiready = function  () {
+        var rong = api.require('UIRongCloud');
+
+rong.openConversation({
+    conversationType: 'PRIVATE',
+    targetId: '9527',
+    title: '9527'
+},function(ret){
+   api.alert({msg:JSON.stringify(ret)});
+});
+          var userid = 'gl00';
+          var password = 'qwer';
+
+        api.getPicture({
+            sourceType: 'album',
+            encodingType: 'png',
+            mediaValue: 'pic',
+            destinationType: 'url',
+            allowEdit: true,
+            quality: 50,
+            targetWidth: 100,
+            targetHeight: 100,
+            saveToPhotoAlbum: false
+        },function(ret, err){
+
+            api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/testusers/uploadicon',
+            method: 'post',
+                
+            data:{
+                values:{
+                    userid:'10000'
+                },
+
+                files:{
+                    icon: ret.data
+                }
+            }
+
+        }, function(ret, err){
+            alert(JSON.stringify( ret ));
+            
+            
+        })
+            
+        })
+        
+        
+    }
+
+  </script>
+  </html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="./css/api.css" />
+    <style type="text/css">
+        
+    </style>
+</head>
+
+<body class="wrap">
+    
+</body>
+<script type="text/javascript" src="./script/api.js"></script>
+<script type="text/javascript" src="./script/custom.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.setPrefs({
+                key: 'deviceid',
+                value: api.deviceId
+            });
+        var firstopen = api.getPrefs({
+            sync: true,
+            key:'firstopen'
+        });
+
+        if(firstopen!='not'){
+            //首次打开软件初始化
+            alert('第一次');
+            api.setPrefs({
+                key: 'firstopen',
+                value: 'not'
+            });
+            api.setPrefs({
+                key: 'textnotification',
+                value: true
+            });
+            api.setPrefs({
+                key: 'ordernotification',
+                value: true
+            });
+            api.setPrefs({
+                key: 'loginstatus',
+                value: false
+            });
+            api.setPrefs({
+                key: 'useridentifyid',
+                value: ''
+            });
+            api.setPrefs({
+                key: 'pro',
+                value: false
+            });
+            api.requestPermission({list:['notification'],});
+            //初始化结束
+        }else{
+            
+            
+        }
+        
+        var rong = api.require('UIRongCloud');
+        rong.init(function(ret, err) {
+            if (ret.status == 'error')
+            api.toast({ msg: err.code });
+        });
+        rong.connect({
+            token: 'ThptTWyiPPPvZHvuSiuri82yq+hfEluLjZ78E1qo4hEVSFQNpqdoPu406urMWKN4Z3/olWR+v9JVLAwfOQoLrA=='},function(ret, err) {
+            if (ret.status == 'success') api.toast({ msg: ret.result.userId });
+        });
+
+        $api.setStorage('rong',rong);
+
+
+        api.openWin({
+              name: 'main',
+              url: './html/main.html',
+              slidBackEnabled: false
+          });
+
+
+          
+
+        
+
+
+          
+
+
+
+    };
+
+</script>
+
+</html>

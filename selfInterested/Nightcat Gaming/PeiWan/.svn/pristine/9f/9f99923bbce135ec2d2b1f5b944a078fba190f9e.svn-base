@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: rgb(243, 243, 243);}
+          #setting{
+              width: 100%;
+              height: auto;
+              margin-top: 20px;
+              background-color: white;
+          }
+
+          .row{display: inline-block;
+              width: 100%;
+              height: auto;
+              background-color: white;
+          }
+
+          #setting .row .title{
+              float: left;
+              height: auto;
+              font-size: 14px;
+              text-indent: 12px;
+              line-height: 50px;
+              background-color: white;
+          }
+
+          .row img{
+              float: right;
+              height: 10px;
+              width: 5px;
+              margin: 20px 10px;
+          }
+
+          #setting .settingline{
+              position:relative;
+              left:4.5vw;
+              width: 95.5vw;
+              height: 0.5px;
+              border-bottom: #ececec 1px solid;
+          }
+
+          .permission{
+              float: right;
+              font-size: 12px;
+              line-height: 50px;
+              color: rgb(40, 108, 255);
+          }
+
+
+      </style>
+  </head>
+  <body>
+    <div id="setting">
+        <div class="row" tapmode onclick="api.requestPermission({list:['photos']})">
+            <div class="title">允许访问相册</div>
+            <img src="../image/next.png"/>
+            <div class="permission" id="photopermission"></div>
+        </div><br>
+        <div class="settingline"></div>
+
+        
+        <div class="row" tapmode onclick="api.requestPermission({list:['notification']})">
+            <div class="title">通知栏提醒</div>
+            <img src="../image/next.png"/>
+            <div class="permission" id="notificationpermission"></div>
+        </div>
+        <div class="settingline"></div>
+
+
+
+    </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+          var photospermission = api.hasPermission({list:['photos']});
+          var notificationpermission = api.hasPermission({list:['notification']});
+          if(photospermission[0].granted){
+              $api.byId('photopermission').innerHTML = '已开启';
+          }else{
+              $api.byId('photopermission').innerHTML = '去开启';
+          }
+
+          if(notificationpermission[0].granted){
+              $api.byId('notificationpermission').innerHTML = '已开启';
+          }else{
+              $api.byId('notificationpermission').innerHTML = '去开启';
+          }
+
+    
+        
+      };
+
+      
+  </script>
+  </html>

@@ -1,0 +1,11 @@
+/* Copyright.
+
+ */
+function loginstatus(){
+    return(
+        api.getPrefs({
+        sync: true,
+        key:'loginstatus'
+    }));
+}
+

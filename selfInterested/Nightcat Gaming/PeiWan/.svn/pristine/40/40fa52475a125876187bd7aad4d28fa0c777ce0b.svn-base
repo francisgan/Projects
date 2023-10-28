@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          *{padding:0;margin:0;font-size:0;}
+          body{background: transparent;}
+
+          header{
+              position: absolute;
+              z-index: -1;
+              width: 100%;
+              height: calc(20vw + 80px );
+              background-color: #AAE1DC;
+          }
+
+          #screen{
+              width: 100%;
+              height: 100%;
+              z-index: -999;
+              position: absolute;
+              background-color: #f1f7f7;
+
+          }
+
+          #curve{
+		    width: 100vw;
+		    height: 100px;
+		    position: absolute;
+            top: calc(20vw + 80px );
+            left: 0;
+		    z-index: -1;
+		    overflow: hidden;
+	      }
+
+	      #curve::after {
+		    content: '';
+		    width: 100vw;
+		    height: 20vw;
+		    position: absolute;
+		    top: 0;
+            left: 0;
+		    z-index: -1;
+		    border-radius: 0 0 60% 60%;
+		    background-color: #AAE1DC;
+	      }
+
+          #totalearn #totalearntitle{
+              font-size: 12px;
+              line-height: 30px;
+              color: #3636368f;
+              text-align: center;
+          }
+
+          #totalearn #totalearnamount{
+              font-size: 32px;
+              line-height: 60px;
+              font-weight: bold;
+              color: rgb(255, 255, 255);
+              text-align: center;
+          }
+
+          #data{
+              margin-left: 5vw;
+              width: 90vw;
+              height: 60px;
+          }
+
+          .datadiv{
+              display: inline-block;
+            width: 30vw;
+            height: 60px;
+          }
+
+          .datatitle{
+              position: relative;
+              height: 28px;
+              font-size: 12px;
+              line-height: 28px;
+              color: #3636368f;
+              text-align: center;
+          }
+
+          .dataquestion{
+              position: absolute;
+              top:3.5px;
+              right:calc(15vw - 45px);
+              width: 20px;
+              height: 20px;
+          }
+
+          .dataamount{
+              height: 32px;
+              font-size: 20px;
+              font-weight: bold;
+              line-height: 32px;
+              color: white;
+              text-align: center;
+          }
+
+          #opt{
+            display: inline-block;
+            width: 92vw;
+            height: auto;
+            border:none;
+            margin: 8px 4vw;
+            border-radius: 10px;
+            background: white;
+            overflow: hidden;
+            padding-bottom: 20px;
+        }
+
+        .personopt{
+          display:inline-block;
+          height: auto;
+          width: 23vw;
+          margin-top:10px;
+          padding:none;
+          border:none;
+          overflow: hidden;
+          text-align: center;
+      }
+
+      .personopt img{
+          width:8vw;
+          height:8vw;
+          padding:none;
+          border:none;
+          margin-top:15px;
+      }
+
+      .personopt p{
+          font-size: 12px;
+          line-height: 12px;
+          margin-top: 8px;
+      }
+
+          
+
+      </style>
+  </head>
+  <body>
+      <header id="header"></header>
+      <div id="curve"></div>
+      <div id="screen"></div>
+
+      <div id="totalearn">
+        <div id="totalearntitle">总收入(币)</div>
+        <div id="totalearnamount">1230.50</div>
+      </div>
+
+      <div id="data">
+        <div class="datadiv">
+            <div class="datatitle">陪玩等级<img src="../image/questionmark.png" class="dataquestion"/></div>
+            <div class="dataamount">1</div>
+        </div>
+        <div class="datadiv">
+            <div class="datatitle">可提现金额</div>
+            <div class="dataamount">999999.99</div>
+        </div>
+        <div class="datadiv">
+            <div class="datatitle">冻结金额<img src="../image/questionmark.png" class="dataquestion"/></div>
+            <div class="dataamount">200</div>
+        </div>
+      </div>
+      
+      <div id="opt">
+          <div class="personopt"><img src="../image/withdraw.png" tapmode onclick="fnopenorder()"/><p>提现</p></div>
+          <div class="personopt"><img src="../image/changeprice.png" tapmode onclick="fnopenapply()" /><p>修改价格</p></div>
+          <div class="personopt"><img src="../image/addgame.png" /><p>增添资质</p></div>
+          <div class="personopt"><img src="../image/changeinfo.jpg" /><p>修改介绍</p></div>
+          <div class="personopt"><img src="../image/orderhistory.png" /><p>接单记录</p></div>
+          <div class="personopt"><img src="../image/notice.png" /><p>须知</p></div>
+          <div class="personopt"><img/ style="visibility: hidden;"><p id="status">待接单</p></div>
+      </div>
+
+      
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript"> 
+    apiready = function(){
+        var switchBtn = api.require('UISwitchButton');
+        switchBtn.open({
+    id:'status',
+    state:false,
+    rect: {
+      x: api.winWidth * 0.555,
+      y: api.winWidth * 0.09+ 228,
+      w: api.winWidth * 0.12,
+      h: api.winWidth * 0.06
+    },
+    styles:{
+       bgCorner:api.winWidth * 0.03,
+       active:'rgb(243, 243, 243)' ,
+       inActive:'rgb(163, 163, 163)',
+       thumb:{                  
+          active:'rgb(97, 255, 77)' , 
+          inActive:'#ffffff' , 
+          size:api.winWidth * 0.05,        
+          corner:api.winWidth * 0.025
+       }
+    },
+    fixed:false,
+    fixedOn: 'proarea_frame',
+}, function(ret) {
+    if(ret){
+        alert(JSON.stringify(ret.state));
+    }
+    
+});
+
+        
+
+      };
+
+      
+
+
+      
+
+
+      
+  </script>
+  </html>

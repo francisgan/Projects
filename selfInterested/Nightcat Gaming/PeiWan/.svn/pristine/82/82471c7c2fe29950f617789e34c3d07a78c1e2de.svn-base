@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background-color: #f1f7f7;}
+
+          .block{
+              display: inline-block;
+              margin: 20px 3vw 0 3vw;
+              width: 94vw;
+              height: auto;
+              border-radius: 20px;
+              background-color: white;
+          }
+
+          .game{
+              display: inline-block;
+              width: 33.33%;
+              text-align: left;
+              text-indent: 10px;
+              margin: 10px 0 10px 0;
+              display: inline-block;
+              font-size: 16px;
+              line-height: 16px;
+              color: black;
+          }
+
+          .currentprice{
+              display: inline-block;
+              width: 33.34%;
+              text-align: center;
+              margin: 10px 0 10px 0;
+              display: inline-block;
+              font-size: 16px;
+              line-height: 16px;
+              color: black;
+          }
+
+          .price{
+              display: inline-block;
+              width: 33.33%;
+              text-align: center;
+              margin: 10px 0 10px 0;
+              display: inline-block;
+              font-size: 16px;
+              line-height: 16px;
+              color: black;
+          }
+
+          .inputblock{
+              display: inline-block;
+              width: 33.33%;
+              height: 100%;
+              margin: 15px 0 15px 0;
+              }
+
+          .input{
+              display: inline-block;
+              height: 25px;
+              width: 20vw;
+              margin-left: 5.67vw;
+              font-size: 16px;
+              line-height: 25px;
+              text-align: center;
+              color: rgb(255, 66, 66);
+              font-weight: bold;
+              background-color: rgb(241, 241, 241);
+              
+          }
+
+          #submit{
+              width: 80vw;
+              height: 40px;
+              margin:20px 0 20vh 10vw;
+              border-radius: 20px;
+              font-size: 18px;
+              line-height: 40px;
+              text-align: center;
+              color: white;
+              background-color: rgb(30, 173, 255);
+          }
+
+
+
+
+
+
+
+
+
+          
+          
+      </style>
+  </head>
+  <body>
+      
+    <div class="block">
+        <div class="game">游戏名</div>
+        <div class="currentprice">当前价格</div>
+        <div class="price">修改价格</div>
+    </div>
+
+    <div class="block">
+        <div class="game">英雄联盟</div>
+        <div class="currentprice">30</div>
+        <div class="inputblock"><input type="text" class="input" id="lolprice" onchange="checknumber('lolprice')" value=30></div>
+    </div>
+
+    <div class="block">
+        <div class="game">绝地求生</div>
+        <div class="currentprice">30</div>
+        <div class="inputblock"><input type="text" class="input" id="pubgprice" onchange="checknumber('pubgprice')" value=30></div>
+    </div>
+
+    <div class="block">
+        <div class="game">王者荣耀</div>
+        <div class="currentprice">30</div>
+        <div class="inputblock"><input type="text" class="input" id="wzryprice" onchange="checknumber('wzryprice')" value=30></div>
+    </div>
+
+    <div class="block">
+        <div class="game">Steam专区</div>
+        <div class="currentprice">30</div>
+        <div class="inputblock"><input type="text" class="input" id="steamprice" onchange="checknumber('steamprice')" value=30></div>
+    </div>
+
+      <div id="submit" tapmode onclick="submit()">修改</div>
+
+   
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+
+        
+      }; //end of apiready
+
+      function checknumber(id){
+              var amountnum = $api.byId(id);
+              var a = amountnum.value;
+              if(isNaN(a)){
+                  alert("只能填写数字");
+                  amountnum.value="";
+              }
+              else if(a>1000){
+                alert("超过提现金额");
+                  amountnum.value="";
+              }
+              else if(a.indexOf('.')>=0){
+                alert("请填写整数");
+                  amountnum.value="";
+              }
+              else if(a<=0){
+                alert("不可为0或负数");
+                  amountnum.value="";
+              }
+      }
+
+      function submit(){
+          var name = new Array();
+          var price = new Array();
+          var text = "";
+          var all = $api.domAll('.input');
+          for(i=0;i<=all.length-1;i++){
+              name[i] = all[i].id;
+              price[i] = all[i].value;
+              text += name[i] + ":" +price[i] +"\n"
+          }
+          alert(text);
+
+      }
+
+
+
+      
+
+
+
+
+  </script>
+  </html>

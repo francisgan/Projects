@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          html,body{background: #f1f7f7;
+          padding-bottom:20px ;
+          }
+
+        body .orderinfo{
+            position: relative;
+            display: inline-block;
+            height: auto ;
+            width: 96vw ;
+            margin: 10px 2vw 0 2vw;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow:0 0 9px #F0F0F0;
+            padding: 10px 0;
+        }
+        .buyername, .game, .time, .orderid{
+            font-size: 12px;
+            color: #707070;
+            margin-left: 5px;
+            line-height: 16px;
+        }
+
+        .earn{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: rgb(48, 221, 91);
+            line-height: 64px;
+            vertical-align:text-bottom;
+        }
+      </style>
+  </head>
+  <body>
+
+    <div id="orderwrap"></div>
+
+    
+
+
+    
+
+  </body>
+   <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/custom.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        getorderlist()
+      };
+
+
+      function getorderlist(){
+        api.ajax({
+            url:'https://a6170876450137-dev.apicloud-saas.com/api/requests/getmyproorder',
+            method: 'post',
+            headers: {
+                'x-apicloud-mcm-key': api.loadSecureValue({sync:true,key:'mcmkey'}),
+            },
+            data:{
+                values:{
+                    uuid: api.getPrefs({sync:true,key:'uuid'}),
+                },
+            }
+        }, function(ret, err){
+            if(ret){
+                if(ret.code==0){
+                    var list = ret.orderlist;
+                    $api.byId('orderwrap').innerHTML = '';
+                    for(var i=0;i<=list.length-1;i++){
+                        if(list[i].status==4){
+                            addorder(list[i]);
+                        }
+                    }
+                }
+                else{
+                    alert('发生未知错误');
+                }
+            }
+            else if(err){
+                api.refreshHeaderLoadDone();
+                if(err  && err.code ==404){
+                    alert('服务器维护中');
+                }else if(err  && err.code ==0){
+                    alert('请检查网络设置');
+                }
+            } 
+        })
+      };
+
+      function addorder(order){
+        var time = new Date(order.time);
+        var content = '<div class="orderinfo">';
+        content += '<div class="buyername">用户名:'+order.buyername+'</div>';
+        content += '<div class="game">游戏: '+getgamename(order.gamecode)+'</div><br/>';
+        content += '<div class="time"> 时间: '+dateFormat(time, "yyyy-MM-dd HH:mm:ss")+' </div><br/>';
+        content += '<div class="orderid">订单号: '+order.id+'</div><br/>';
+        content += '<div class="earn">+'+order.afterrate+'</div>';
+        content += '</div>';
+        $api.byId('orderwrap').innerHTML += content;
+
+    }//end
+
+      function dateFormat(date, format) {
+  const _date = date || new Date();
+  const _format = format || "yyyy-MM-dd HH:mm:ss";
+
+  const yyyy = _date.getFullYear();
+  let MM = _date.getMonth() + 1;
+  let dd = _date.getDate();
+  let HH = _date.getHours();
+  let mm = _date.getMinutes();
+  let ss = _date.getSeconds();
+
+  if (MM >= 1 && MM <= 9) {
+    MM = "0" + MM;
+  }
+  if (dd >= 0 && dd <= 9) {
+    dd = "0" + dd;
+  }
+  if (HH >= 1 && HH <= 9) {
+    HH = "0" + HH;
+  }
+  if (mm >= 0 && mm <= 9) {
+    mm = "0" + mm;
+  }
+  if (ss >= 0 && ss <= 9) {
+    ss = "0" + ss;
+  }
+
+  return _format
+    .replace(/yyyy/g, yyyy)
+    .replace(/MM/g, MM)
+    .replace(/dd/g, dd)
+    .replace(/HH/g, HH)
+    .replace(/mm/g, mm)
+    .replace(/ss/g, ss);
+}
+  </script>
+  </html>
