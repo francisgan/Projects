@@ -1,0 +1,13 @@
+batch-size: 16, learning-rate: 0.0001, hidden-dim: 300, drop-rate: 0.6, embed-dim: 768, adam-epsilon: 1e-08, n-epochs: 2, max-len: 20
+
+validation acc: 0.009837678307919331 | dataset split validation size: 2033
+test acc: 0.014458641560188298 | dataset split test size: 2974
+
+epoch: 0, losses: 2.4742312520742415
+train acc: 0.8615598401945458, train avg loss: 0.08089723348079175 | dataset split train size: 11514
+validation acc: 0.836694540088539, validation avg loss: 0.08603362707568693 | dataset split validation size: 2033
+
+epoch: 1, losses: 1.3839657775229879
+train acc: 0.9331248914365121, train avg loss: 0.05355682663667403 | dataset split train size: 11514
+validation acc: 0.8696507624200689, validation avg loss: 0.06744742850863282 | dataset split validation size: 2033
+test acc: 0.8708809683927371, test avg loss: 0.06723948610694759 | dataset split test size: 2974

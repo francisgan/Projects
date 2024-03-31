@@ -1,0 +1,2 @@
+batch-size: 32, learning-rate: 0.0001, hidden-dim: 150, drop-rate: 0.2, embed-dim: 768, adam-epsilon: 0.0001, n-epochs: 10, max-len: 20
+

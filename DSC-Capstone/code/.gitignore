@@ -1,0 +1,25 @@
+# .gitignore content
+
+# Ignore files in /data/Optional/ and /data/Protocol/, but keep the directories
+/data/Optional/*
+!/data/Optional/.gitkeep
+/data/Protocol/*
+!/data/Protocol/.gitkeep
+/models/*
+!/models/.gitkeep
+
+# Ignore specific files
+baseline.py
+test.ipynb
+model_test.ipynb
+feature
+t.ipynb
+
+# Keep .gitkeep files to preserve empty directories
+!.gitkeep
+!/data/Optional/file_list.txt
+!/data/Protocol/file_list.txt
+!/models/Put_pth_here.txt
+!/models/LSTM.pth
+!/models/cnn.pth
+!/models/transformer.pth

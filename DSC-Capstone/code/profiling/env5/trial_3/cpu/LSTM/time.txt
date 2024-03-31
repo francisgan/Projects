@@ -1,0 +1,36 @@
+-----------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                         Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg       CPU Mem  Self CPU Mem    # of Calls  
+-----------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+              model_inference         8.61%      11.283ms       100.00%     130.996ms     130.996ms      12.12 Mb    -109.15 Mb             1  
+                   aten::lstm         0.32%     414.000us        90.50%     118.557ms      11.856ms     120.64 Mb           0 b            10  
+       aten::mkldnn_rnn_layer        89.52%     117.265ms        89.72%     117.534ms       5.877ms     120.60 Mb       5.68 Mb            20  
+                 aten::linear         0.04%      57.000us         0.34%     449.000us      44.900us        1000 b           0 b            10  
+                  aten::addmm         0.19%     247.000us         0.25%     333.000us      33.300us        1000 b        1000 b            10  
+                    aten::max         0.13%     176.000us         0.22%     284.000us      28.400us         120 b         120 b            10  
+                  aten::stack         0.13%     164.000us         0.21%     277.000us      13.850us      39.06 Kb       1.95 Kb            20  
+                 aten::select         0.18%     239.000us         0.20%     268.000us       5.360us           0 b           0 b            50  
+                  aten::empty         0.15%     196.000us         0.15%     196.000us       1.782us     115.48 Mb     115.48 Mb           110  
+              aten::transpose         0.09%     123.000us         0.11%     148.000us       4.933us           0 b           0 b            30  
+                    aten::add         0.11%     143.000us         0.11%     143.000us       7.150us      78.12 Kb      78.12 Kb            20  
+                  aten::slice         0.09%     123.000us         0.09%     123.000us       6.150us           0 b           0 b            20  
+                  aten::zeros         0.05%      70.000us         0.08%     106.000us       5.300us      39.06 Kb       5.86 Kb            20  
+                    aten::cat         0.08%      99.000us         0.08%      99.000us       4.950us      37.11 Kb      37.11 Kb            20  
+                 aten::detach         0.02%      32.000us         0.05%      68.000us       3.400us           0 b           0 b            20  
+             aten::unsqueeze_         0.03%      45.000us         0.05%      66.000us       3.300us           0 b           0 b            20  
+                  aten::copy_         0.05%      60.000us         0.05%      60.000us       6.000us           0 b           0 b            10  
+                      aten::t         0.03%      36.000us         0.05%      59.000us       5.900us           0 b           0 b            10  
+             aten::as_strided         0.04%      55.000us         0.04%      55.000us       0.500us           0 b           0 b           110  
+               aten::squeeze_         0.03%      40.000us         0.03%      40.000us       2.000us           0 b           0 b            20  
+                       detach         0.03%      36.000us         0.03%      36.000us       1.800us           0 b           0 b            20  
+                 aten::expand         0.02%      26.000us         0.02%      26.000us       2.600us           0 b           0 b            10  
+                   aten::item         0.01%      16.000us         0.02%      26.000us       2.600us           0 b           0 b            10  
+            aten::as_strided_         0.02%      23.000us         0.02%      23.000us       0.575us           0 b           0 b            40  
+                   aten::view         0.01%      14.000us         0.01%      14.000us       0.700us           0 b           0 b            20  
+    aten::_local_scalar_dense         0.01%      11.000us         0.01%      11.000us       1.100us           0 b           0 b            10  
+                  aten::zero_         0.00%       2.000us         0.00%       2.000us       0.100us           0 b           0 b            20  
+    aten::cudnn_is_acceptable         0.00%       1.000us         0.00%       1.000us       0.100us           0 b           0 b            10  
+                     aten::to         0.00%       0.000us         0.00%       0.000us       0.000us           0 b           0 b            40  
+             aten::lift_fresh         0.00%       0.000us         0.00%       0.000us       0.000us           0 b           0 b            10  
+           aten::resolve_conj         0.00%       0.000us         0.00%       0.000us       0.000us           0 b           0 b            20  
+-----------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 130.996ms

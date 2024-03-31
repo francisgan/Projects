@@ -1,0 +1,23 @@
+batch-size: 128, learning-rate: 0.0001, hidden-dim: 300, drop-rate: 0.6, embed-dim: 768, adam-epsilon: 1e-08, n-epochs: 10, max-len: 20
+
+validation avg loss: 4.125920104980469 avg acc: 0.010416666666666666
+test avg loss: 4.1262685734292734 avg acc: 0.014605978260869566
+
+epoch: 0, losses: 3.844869271914164
+train avg loss: 2.946463156282232 avg acc: 0.47366573033707865
+validation avg loss: 2.9670260429382322 avg acc: 0.45
+
+epoch: 1, losses: 2.6188900099860297
+train avg loss: 1.9394571834735657 avg acc: 0.7633426966292135
+validation avg loss: 1.9867460568745932 avg acc: 0.7427083333333333
+
+epoch: 2, losses: 2.0559645533561706
+train avg loss: 1.532463679152928 avg acc: 0.8494557584269663
+validation avg loss: 1.6211718797683716 avg acc: 0.8145833333333333
+
+epoch: 3, losses: 1.7627376476923624
+train avg loss: 1.299981732047006 avg acc: 0.8946629213483146
+validation avg loss: 1.4349515438079834 avg acc: 0.8515625
+
+epoch: 4, losses: 1.574456446700626
+train avg loss: 1.1474979030952026 avg acc: 0.9211727528089888

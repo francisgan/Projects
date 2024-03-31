@@ -1,0 +1,6 @@
+batch-size: 16, learning-rate: 0.0001, hidden-dim: 300, drop-rate: 0.6, embed-dim: 768, adam-epsilon: 1e-08, n-epochs: 10, max-len: 20
+
+validation acc: 0.009837678307919331 | dataset split validation size: 2033
+test acc: 0.014458641560188298 | dataset split test size: 2974
+
+epoch: 0, losses: 2.4742312520742415

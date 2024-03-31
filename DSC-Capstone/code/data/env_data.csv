@@ -1,0 +1,27 @@
+,Environment,Instance,vcpu,cpu_mem (GiB),cpu_type,gpu,gpu_mem (GiB),gpu_type
+0,env1,c7a.medium,1,2.0,AMD EPYC Gen4,0,,
+1,env2,c7a.large,2,4.0,AMD EPYC Gen4,0,,
+2,env3,c7a.xlarge,4,8.0,AMD EPYC Gen4,0,,
+3,env4,c7a.2xlarge,8,16.0,AMD EPYC Gen4,0,,
+4,env5,c6i.xlarge,4,8.0,Intel Xeon 8375C (Ice Lake),0,,
+5,env6,m6i.xlarge,4,16.0,Intel Xeon 8375C (Ice Lake),0,,
+6,env7,r6i.xlarge,4,32.0,Intel Xeon 8375C (Ice Lake),0,,
+7,env8,r6i.large,2,16.0,Intel Xeon 8375C (Ice Lake),0,,
+8,env9,m6i.xlarge,4,16.0,Intel Xeon 8375C (Ice Lake),0,,
+9,env10,c6i.2xlarge,8,16.0,Intel Xeon 8375C (Ice Lake),0,,
+10,env11,g3s.xlarge,4,30.5,Intel Xeon E5 2686 v4,1,8.0,NVIDIA Tesla M60
+11,env12,g4dn.xlarge,4,16.0,Intel Cascade Lake,1,16.0,NVIDIA T4
+12,env13,g5.xlarge,4,16.0,AMD EPYC Gen2,1,24.0,NVIDIA A10G
+13,env14,g3.4xlarge,16,122.0,Intel Xeon E5 2686 v4,1,8.0,NVIDIA Tesla M60
+14,env15,g4dn.4xlarge,16,64.0,Intel Cascade Lake,1,16.0,NVIDIA T4
+15,env16,g5.4xlarge,16,64.0,AMD EPYC Gen2,1,24.0,NVIDIA A10G
+16,datahub1,,1,32.0,Intel(R) Xeon(R) Gold 5218,1,,2080ti
+17,datahub2,,2,32.0,Intel(R) Xeon(R) Gold 5218,1,,2080ti
+18,datahub3,,4,32.0,Intel(R) Xeon(R) Gold 5218,1,,2080ti
+19,datahub4,,8,32.0,Intel(R) Xeon(R) Gold 5218,1,,2080ti
+20,datahub5,,12,32.0,Intel(R) Xeon(R) Gold 5218,1,,2080ti
+21,datahub6,,1,32.0,AMD EPYC 7543P,1,,a5000
+22,datahub7,,2,32.0,AMD EPYC 7543P,1,,a5000
+23,datahub8,,4,32.0,AMD EPYC 7543P,1,,a5000
+24,datahub9,,8,32.0,AMD EPYC 7543P,1,,a5000
+25,datahub10,,12,32.0,AMD EPYC 7543P,1,,a5000

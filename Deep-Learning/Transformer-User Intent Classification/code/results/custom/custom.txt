@@ -1,0 +1,12 @@
+batch-size: 128, learning-rate: 0.0001, hidden-dim: 50, drop-rate: 0.8, embed-dim: 768, adam-epsilon: 1e-08, n-epochs: 10, max-len: 20
+
+validation avg loss: 4.138852087656657 avg acc: 0.028645833333333332
+test avg loss: 4.143204149992569 avg acc: 0.028192934782608696
+
+epoch: 0, losses: 4.1832890563540985
+train avg loss: 4.1414341658688665 avg acc: 0.0331811797752809
+validation avg loss: 4.138852087656657 avg acc: 0.028645833333333332
+
+epoch: 1, losses: 4.156043582492405
+train avg loss: 4.092321867353461 avg acc: 0.05012289325842697
+validation avg loss: 4.094222323099772 avg acc: 0.03697916666666667

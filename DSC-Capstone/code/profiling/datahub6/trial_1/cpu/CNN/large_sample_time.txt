@@ -1,0 +1,5 @@
+50 samples, run time: 4.197719334857538
+100 samples, run time: 4.225121702067554
+500 samples, run time: 4.562838327838108
+1000 samples, run time: 4.579212317010388
+5000 samples, run time: 6.123511160956696

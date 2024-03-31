@@ -1,0 +1,33 @@
+batch-size: 16, learning-rate: 0.0001, hidden-dim: 300, drop-rate: 0.6, embed-dim: 768, adam-epsilon: 1e-08, n-epochs: 10, max-len: 20
+
+validation acc: 0.009837678307919331 | dataset split validation size: 2033
+test acc: 0.014458641560188298 | dataset split test size: 2974
+
+epoch: 0, losses: 2.8189945942825743
+train acc: 0.8274274795900642, train avg loss: 1.6147552154130407 | dataset split train size: 11514
+validation acc: 0.8121003443187408, validation avg loss: 1.6607185946777463 | dataset split validation size: 2033
+
+epoch: 1, losses: 1.6857751263512506
+train acc: 0.9123675525447281, train avg loss: 1.111285152948565 | dataset split train size: 11514
+validation acc: 0.8622725036891293, validation avg loss: 1.2615972571074963 | dataset split validation size: 2033
+
+epoch: 2, losses: 1.32426362004545
+train acc: 0.9456314052457877, train avg loss: 0.86559205626448 | dataset split train size: 11514
+validation acc: 0.8760452533202164, validation avg loss: 1.0832936698570848 | dataset split validation size: 2033
+
+epoch: 3, losses: 1.1083878870639536
+train acc: 0.9630884141045684, train avg loss: 0.7053468104865815 | dataset split train size: 11514
+validation acc: 0.8878504672897196, validation avg loss: 0.9856853345409036 | dataset split validation size: 2033
+
+epoch: 4, losses: 0.9607037012775739
+train acc: 0.9714260899774187, train avg loss: 0.6009084280994204 | dataset split train size: 11514
+validation acc: 0.8839153959665519, validation avg loss: 0.9435972243081778 | dataset split validation size: 2033
+
+epoch: 5, losses: 0.837374599940247
+train acc: 0.9784610039951364, train avg loss: 0.5125110446165005 | dataset split train size: 11514
+validation acc: 0.8858829316281358, validation avg loss: 0.8835314107127488 | dataset split validation size: 2033
+
+epoch: 6, losses: 0.74835790793101
+train acc: 0.982803543512246, train avg loss: 0.4436117555946112 | dataset split train size: 11514
+validation acc: 0.8878504672897196, validation avg loss: 0.8515175492502749 | dataset split validation size: 2033
+test acc: 0.8826496301277741, test avg loss: 0.877510136333845 | dataset split test size: 2974

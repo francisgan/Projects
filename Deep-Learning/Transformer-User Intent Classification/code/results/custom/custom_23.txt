@@ -1,0 +1,32 @@
+batch-size: 16, learning-rate: 0.0001, hidden-dim: 300, drop-rate: 0.7, embed-dim: 768, adam-epsilon: 1e-08, n-epochs: 10, max-len: 20
+
+validation acc: 0.009837678307919331 | dataset split validation size: 2033
+test acc: 0.014458641560188298 | dataset split test size: 2974
+
+epoch: 0, losses: 2.0191277608689333
+train acc: 0.8643390654854959, train avg loss: 0.6373534514154825 | dataset split train size: 11514
+validation acc: 0.8332513526807673, validation avg loss: 0.7266933685168624 | dataset split validation size: 2033
+
+epoch: 1, losses: 0.6240226088712613
+train acc: 0.9336459961785653, train avg loss: 0.29739949484097045 | dataset split train size: 11514
+validation acc: 0.8603049680275455, validation avg loss: 0.5722634492558427 | dataset split validation size: 2033
+
+epoch: 2, losses: 0.3515232493790487
+train acc: 0.9589195761681432, train avg loss: 0.16766602779583384 | dataset split train size: 11514
+validation acc: 0.8726020659124447, validation avg loss: 0.5449005060072523 | dataset split validation size: 2033
+
+epoch: 3, losses: 0.22062346457451995
+train acc: 0.9704707312836547, train avg loss: 0.11763114924865982 | dataset split train size: 11514
+validation acc: 0.8765371372356124, validation avg loss: 0.5928416778842802 | dataset split validation size: 2033
+
+epoch: 4, losses: 0.16844440254434528
+train acc: 0.9685600138961264, train avg loss: 0.1257739183473556 | dataset split train size: 11514
+validation acc: 0.8622725036891293, validation avg loss: 0.6624093326081493 | dataset split validation size: 2033
+
+epoch: 5, losses: 0.13687802415612774
+train acc: 0.9681257599444155, train avg loss: 0.11923889949814313 | dataset split train size: 11514
+validation acc: 0.8563698967043778, validation avg loss: 0.716300329344449 | dataset split validation size: 2033
+
+epoch: 6, losses: 0.12136120914235815
+train acc: 0.9882751433038041, train avg loss: 0.04965922399327004 | dataset split train size: 11514
+validation acc: 0.8760452533202164, validation avg loss: 0.6152375193632906 | dataset split validation size: 2033

@@ -1,0 +1,4 @@
+50 samples, run time: 0.004962477018125355
+100 samples, run time: 0.003481946012470871
+500 samples, run time: 0.19519527204101905
+1000 samples: failed
